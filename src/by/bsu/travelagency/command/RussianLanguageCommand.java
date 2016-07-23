@@ -24,6 +24,9 @@ public class RussianLanguageCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        TestCommit
+
         String page = null;
         Locale rus = new Locale(LOCALE_VALUE, LOCALE_VALUE.toUpperCase());
         Locale.setDefault(rus);
