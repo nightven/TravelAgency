@@ -5,10 +5,6 @@ import by.bsu.travelagency.dao.UserDAO;
 import by.bsu.travelagency.entity.User;
 import by.bsu.travelagency.logic.LoginLogic;
 import by.bsu.travelagency.resource.ConfigurationManager;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
