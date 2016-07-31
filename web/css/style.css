@@ -11,13 +11,12 @@ header{
     position: fixed;
     width: 100%;
     height: 80px;
-    padding: 0 10% 0 10%;
+    /*padding: 0 10% 0 10%;*/
     z-index: 1000;
 }
 nav{
-    margin: 0;
-    float: left;
-    height: 80px;
+    background: #fff!important;
+    border: 0px!important;
 }
 section{
     position: absolute;
@@ -41,12 +40,20 @@ footer{
 div{
     margin: 0;
 }
-.header-logo{
+.nav-menu{
     margin: 0;
+    float: left;
+    height: 80px;
+}
+.header-content{
+    display: block;
+    max-width: 1248px;
+    margin: 0 auto;
+}
+.header-logo{
     width: 170px;
     height: 80px;
     float: left;
-    padding: 14px 0 18px 0;
 }
 .logo{
     height: 38px;
@@ -523,8 +530,8 @@ figure.effect-milo:hover p {
 }
 
 .short-description .bottom-column{
-     clear: both;
-     width: 100%;
+    clear: both;
+    width: 100%;
 }
 
 .short-description .bottom-column p{
@@ -631,4 +638,45 @@ figure.effect-milo:hover p {
 
 /*---------------------------*/
 /*****    admin-item     *****/
+/*---------------------------*/
+
+
+/*---------------------------*/
+/*****  create-vacation  *****/
+/*---------------------------*/
+
+.control-buttons{
+    text-align: center;
+}
+
+.del-button{
+    width: 100%;
+    margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.pre-image{
+    display: block;
+    margin: 0 auto;
+}
+
+.form-button{
+    margin: 0 4px;
+}
+
+.form-checkbox{
+    margin: 0!important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: none!important;
+    transition: none!important;
+}
+
+.form-checkbox:focus{
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+}
+/*---------------------------*/
+/*****  create-vacation  *****/
 /*---------------------------*/

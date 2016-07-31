@@ -46,8 +46,8 @@ public class ForwardCommand implements ActionCommand {
             case "admin_panel":
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
                 break;
-            case "upload":
-                page = "/jsp/upload.jsp";
+            case "create_vacation":
+                page = ConfigurationManager.getProperty("path.page.admin.create.vacation");
                 break;
             default:
                 page = ConfigurationManager.getProperty("path.page.login");

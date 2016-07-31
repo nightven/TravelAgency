@@ -66,9 +66,9 @@ public enum CommandEnum {
             this.command = new TourListCommand();
         }
     },
-    UPLOAD {
+    CREATE_VACATION {
         {
-            this.command = new UploadCommand();
+            this.command = new CreateVacationCommand();
         }
     },
     FORWARD {
