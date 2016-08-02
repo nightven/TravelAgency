@@ -78,7 +78,7 @@ public abstract class Tour extends Entity {
         this.price = price;
     }
 
-    public boolean isLastMinute() {
+    public boolean getLastMinute() {
         return lastMinute;
     }
 

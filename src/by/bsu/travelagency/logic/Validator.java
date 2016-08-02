@@ -16,6 +16,13 @@ public class Validator {
     final static String REGEX_EMAIL = "([A-za-z0-9_\\.-]+)@([A-za-z0-9_\\.-]+)\\.([A-za-z\\.]{2,6})";
     final static String REGEX_NAME = "([A-Za-zА-Яа-я]){2,25}";
     final static String REGEX_SURNAME = "([A-Za-zА-Яа-я]){2,25}";
+    final static String REGEX_NAME_VACATION = "(.){1,45}";
+    final static String REGEX_SUMMARY = "(.){1,255}";
+    final static String REGEX_PRICE = "([0-9]){1,45}";
+    final static String REGEX_HOTEL = "(.){1,100}";
+    final static String REGEX_DESTINATION_COUNTRY = "(.){1,50}";
+    final static String REGEX_DESTINATION_CITY = "(.){1,50}";
+
 
     public static boolean validateLogin(String enterLogin) {
         boolean flag = false;
@@ -67,6 +74,72 @@ public class Validator {
         Matcher mSurname = pSurname.matcher(enterSurname);
         LOG.debug("Validate Surname: " + mSurname.matches());
         if (mSurname.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validateNameVacation(String enterNameVacation) {
+        boolean flag = false;
+        Pattern pNameVacation = Pattern.compile(REGEX_NAME_VACATION);
+        Matcher mNameVacation = pNameVacation.matcher(enterNameVacation);
+        LOG.debug("Validate NameVacation: " + mNameVacation.matches());
+        if (mNameVacation.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validateSummary(String enterSummary) {
+        boolean flag = false;
+        Pattern pSummary = Pattern.compile(REGEX_SUMMARY);
+        Matcher mSummary = pSummary.matcher(enterSummary);
+        LOG.debug("Validate Summary: " + mSummary.matches());
+        if (mSummary.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validatePrice(String enterPrice) {
+        boolean flag = false;
+        Pattern pPrice = Pattern.compile(REGEX_PRICE);
+        Matcher mPrice = pPrice.matcher(enterPrice);
+        LOG.debug("Validate Price: " + mPrice.matches());
+        if (mPrice.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validateHotel(String enterHotel) {
+        boolean flag = false;
+        Pattern pHotel = Pattern.compile(REGEX_HOTEL);
+        Matcher mHotel = pHotel.matcher(enterHotel);
+        LOG.debug("Validate Hotel: " + mHotel.matches());
+        if (mHotel.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validateDestinationCountry(String enterDestinationCountry) {
+        boolean flag = false;
+        Pattern pDestinationCountry = Pattern.compile(REGEX_DESTINATION_COUNTRY);
+        Matcher mDestinationCountry = pDestinationCountry.matcher(enterDestinationCountry);
+        LOG.debug("Validate DestinationCountry: " + mDestinationCountry.matches());
+        if (mDestinationCountry.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public static boolean validateDestinationCity(String enterDestinationCity) {
+        boolean flag = false;
+        Pattern pDestinationCity = Pattern.compile(REGEX_DESTINATION_CITY);
+        Matcher mDestinationCity = pDestinationCity.matcher(enterDestinationCity);
+        LOG.debug("Validate DestinationCity: " + mDestinationCity.matches());
+        if (mDestinationCity.matches()){
             flag = true;
         }
         return flag;

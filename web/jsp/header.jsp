@@ -10,7 +10,7 @@
             <div class="header-content">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
+                        <span class="sr-only"><fmt:message key="label.toggle-nav" bundle="${ rb }" /></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -35,7 +35,7 @@
                                 <li class="menu-item"><a href="travel?command=vacation_list" class="menu-link"><fmt:message key="menu.item2" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=trip_list" class="menu-link"><fmt:message key="menu.item3" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=shopping_list" class="menu-link"><fmt:message key="menu.item4" bundle="${ rb }" /></a></li>
-                                <li class="menu-item"><a href="travel?command=forward&page=create_vacation" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>
+                                <li class="menu-item"><a href="travel?command=forward&page=create_trip" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>
                             </ul>
                         </div>
                         <div class="header-utility">
@@ -53,10 +53,15 @@
                                 <c:when test="${ not empty user }">
                                     <a data-toggle="dropdown" href="#" class="user-link"><div class="username">${user}</div></a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li class="usermenu-item"><a class="usermenu-link" style="background: #fff;">Пользователь</a></li>
+                                        <li class="usermenu-item"><a class="usermenu-link" style="background: #fff;">
+                                            <c:choose>
+                                            <c:when test="${ role==1 }"><fmt:message key="label.user.menu.admin" bundle="${ rb }" /></c:when>
+                                            <c:otherwise><fmt:message key="label.user.menu.user" bundle="${ rb }" /></c:otherwise>
+                                            </c:choose>
+                                        </a></li>
                                         <li class="usermenu-item divider"></li>
-                                        <c:if test="${ role==1 }"><li class="usermenu-item"><a href="travel?command=forward&page=admin_panel" class="usermenu-link">Администрирование</a></li></c:if>
-                                        <li class="usermenu-item"><a href="#" class="usermenu-link">Изменить пароль</a></li>
+                                        <c:if test="${ role==1 }"><li class="usermenu-item"><a href="travel?command=forward&page=admin_panel" class="usermenu-link"><fmt:message key="label.user.menu.administration" bundle="${ rb }" /></a></li></c:if>
+                                        <li class="usermenu-item"><a href="#" class="usermenu-link"><fmt:message key="label.user.menu.change-pass" bundle="${ rb }" /></a></li>
                                     </ul>
                                     <div class="log-action"><a class="menu-link" href="travel?command=logout"><fmt:message key="action.logout" bundle="${ rb }" /></a></div>
                                 </c:when>

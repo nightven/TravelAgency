@@ -19,6 +19,8 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
     private static final String SQL_SELECT_ALL_VACATIONS = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations";
     private static final String SQL_SELECT_VACATION_BY_ID = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations WHERE idvacation=?";
     private static final String SQL_SELECT_LAST_VACATIONS = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations ORDER BY idvacation DESC LIMIT 6";
+    private static final String SQL_SELECT_LAST_VACATION_ID = "SELECT idvacation FROM vacations ORDER BY idvacation DESC LIMIT 1";
+    private static final String SQL_INSERT_VACATION = "INSERT INTO vacations(name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     public List<Vacation> findAllVacations() {
         List<Vacation> vacations = new ArrayList<>();
@@ -57,6 +59,65 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
 // код возвращения экземпляра Connection в пул
         }
         return vacations;
+    }
+
+    public Long findLastVacationId() {
+        Long id = 0L;
+        Connection cn = null;
+        Statement st = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            st = cn.createStatement();
+            ResultSet resultSet =
+                    st.executeQuery(SQL_SELECT_LAST_VACATION_ID);
+            while (resultSet.next()) {
+                id = resultSet.getLong("idvacation");
+                LOG.debug("Last vacation id: " + resultSet.getLong("idvacation"));
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(st);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return id;
+    }
+
+    public boolean insertVacation(Vacation vacation) {
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_INSERT_VACATION);
+            ps.setString(1,vacation.getName());
+            ps.setString(2,vacation.getSummary());
+            ps.setString(3,vacation.getDescription());
+            ps.setDate(4,new java.sql.Date(vacation.getDepartureDate().getTime()));
+            ps.setDate(5,new java.sql.Date(vacation.getArrivalDate().getTime()));
+            ps.setLong(6,vacation.getPrice());
+            ps.setInt(7,(vacation.getLastMinute()) ? 1 : 0);
+            ps.setString(8,vacation.getHotel());
+            ps.setString(9,vacation.getDestinationCity());
+            ps.setString(10,vacation.getDestinationCountry());
+            ps.setString(11,vacation.getTransport().toString());
+            ps.setString(12,vacation.getServices());
+            ps.setString(13,vacation.getPathImage());
+            ps.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
     }
 
     public List<Vacation> selectLastVacations() {

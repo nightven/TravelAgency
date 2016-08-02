@@ -1,5 +1,7 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.controller.TravelController;
+import by.bsu.travelagency.logic.CreateVacationLogic;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Михаил on 2/16/2016.
@@ -34,30 +37,43 @@ public class CreateVacationCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
 
-//        String name = request.getParameter(PARAM_NAME_LOGIN);
-//        String pass = request.getParameter(PARAM_NAME_PASSWORD);
+        String name = request.getParameter(PARAM_NAME_NAME);
+        String summary = request.getParameter(PARAM_NAME_SUMMARY);
+        String departureDate = request.getParameter(PARAM_NAME_DEPARTURE_DATE);
+        String arrivalDate = request.getParameter(PARAM_NAME_ARRIVAL_DATE);
+        String destinationCountry = request.getParameter(PARAM_NAME_DESTINATION_COUNTRY);
+        String destinationCity = request.getParameter(PARAM_NAME_DESTINATION_CITY);
+        String hotel = request.getParameter(PARAM_NAME_HOTEL);
+        String lastMinute = request.getParameter(PARAM_NAME_LAST_MINUTE);
+        LOG.debug("Last minute test: " + request.getParameter(PARAM_NAME_LAST_MINUTE));
+        String price = request.getParameter(PARAM_NAME_PRICE);
+        String transport = request.getParameter(PARAM_NAME_TRANSPORT);
+        String services = request.getParameter(PARAM_NAME_SERVICES);
+        String description = request.getParameter(PARAM_NAME_DESCRIPTION);
 
-        String SAVE_DIR = "images";
+        String SAVE_DIR = "images" + File.separator + "vacations";
         String appPath = request.getServletContext().getRealPath("");
         String savePath = appPath + SAVE_DIR;
 
         LOG.debug("Save Path = " + savePath);
         Part filePart = null;
         try {
-            filePart = request.getPart("fileUpload");
+            filePart = request.getPart("img");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {
             e.printStackTrace();
         }
-        String fileName = filePart.getSubmittedFileName();
-        try {
-            filePart.write(savePath + File.separator + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if (CreateVacationLogic.checkCreateVacation(name, summary, departureDate, arrivalDate, destinationCountry, destinationCity, hotel, lastMinute, price, transport, services, description, filePart, savePath)) {
+            page = ConfigurationManager.getProperty("path.page.admin.panel");
+        }
+        else {
+            request.setAttribute("errorCreateVacationPassMessage",
+                    TravelController.messageManager.getProperty("message.createvacationerror"));
+            page = ConfigurationManager.getProperty("path.page.admin.create.vacation");
         }
 
-        page = ConfigurationManager.getProperty("path.page.main");
         return page;
     }
 
