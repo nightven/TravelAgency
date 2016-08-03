@@ -16,7 +16,7 @@ public class Validator {
     final static String REGEX_EMAIL = "([A-za-z0-9_\\.-]+)@([A-za-z0-9_\\.-]+)\\.([A-za-z\\.]{2,6})";
     final static String REGEX_NAME = "([A-Za-zА-Яа-я]){2,25}";
     final static String REGEX_SURNAME = "([A-Za-zА-Яа-я]){2,25}";
-    final static String REGEX_NAME_VACATION = "(.){1,45}";
+    final static String REGEX_NAME_TOUR = "(.){1,45}";
     final static String REGEX_SUMMARY = "(.){1,255}";
     final static String REGEX_PRICE = "([0-9]){1,45}";
     final static String REGEX_HOTEL = "(.){1,100}";
@@ -79,11 +79,11 @@ public class Validator {
         return flag;
     }
 
-    public static boolean validateNameVacation(String enterNameVacation) {
+    public static boolean validateNameTour(String enterNameTour) {
         boolean flag = false;
-        Pattern pNameVacation = Pattern.compile(REGEX_NAME_VACATION);
-        Matcher mNameVacation = pNameVacation.matcher(enterNameVacation);
-        LOG.debug("Validate NameVacation: " + mNameVacation.matches());
+        Pattern pNameVacation = Pattern.compile(REGEX_NAME_TOUR);
+        Matcher mNameVacation = pNameVacation.matcher(enterNameTour);
+        LOG.debug("Validate NameTour: " + mNameVacation.matches());
         if (mNameVacation.matches()){
             flag = true;
         }

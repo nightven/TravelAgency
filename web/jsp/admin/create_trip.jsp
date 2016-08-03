@@ -111,18 +111,6 @@
                     <input type="number" class="form-control" id="price" name="price" required>
                 </div>
             </div>
-            <%--<div class="row">--%>
-                <%--<div class="form-group col-sm-6 col-sm-offset-3">--%>
-                    <%--<label for="cities"><fmt:message key="label.admin.create-tour.trip.cities" bundle="${ rb }" /></label>--%>
-                    <%--<textarea class="form-control" rows="2" id="cities" name="cities"></textarea>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="row">--%>
-                <%--<div class="form-group col-sm-6 col-sm-offset-3">--%>
-                    <%--<label for="attractions"><fmt:message key="label.admin.create-tour.trip.attractions" bundle="${ rb }" /></label>--%>
-                    <%--<textarea class="form-control" rows="2" id="attractions" name="attractions"></textarea>--%>
-                <%--</div>--%>
-            <%--</div>--%>
             <div class="row">
                 <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="services"><fmt:message key="label.admin.create-tour.tour.services" bundle="${ rb }" /></label>
@@ -138,9 +126,9 @@
             <div class="row">
                 <div class="col-sm-2 col-sm-offset-5">
                     <c:choose>
-                        <c:when test="${ not empty errorCreateVacationPassMessage }">
+                        <c:when test="${ not empty errorCreateTripPassMessage }">
                             <br/>
-                            <span style="color: #ff0000;">${errorCreateVacationPassMessage}</span>
+                            <span style="color: #ff0000;">${errorCreateTripPassMessage}</span>
                             <br/>
                             <br/>
                         </c:when>

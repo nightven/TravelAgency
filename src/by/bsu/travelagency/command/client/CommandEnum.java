@@ -71,6 +71,16 @@ public enum CommandEnum {
             this.command = new CreateVacationCommand();
         }
     },
+    CREATE_TRIP {
+        {
+            this.command = new CreateTripCommand();
+        }
+    },
+    CREATE_SHOPPING {
+        {
+            this.command = new CreateShoppingCommand();
+        }
+    },
     FORWARD {
         {
             this.command = new ForwardCommand();

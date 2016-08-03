@@ -11,7 +11,7 @@
 <fmt:setBundle basename="resources.text" var="rb" />
 <html>
 <head>
-    <title><fmt:message key="title.admin.create-vacation" bundle="${ rb }" /></title>
+    <title><fmt:message key="title.admin.create-shopping" bundle="${ rb }" /></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,12 +34,12 @@
 <%@ include file="/jsp/header.jsp"%>
 <section>
     <div class="container-fluid">
-        <span style="text-align: center;"><h1><fmt:message key="label.admin.create-tour.vacation.create" bundle="${ rb }" /></h1></span>
+        <span style="text-align: center;"><h1><fmt:message key="label.admin.create-tour.shopping.create" bundle="${ rb }" /></h1></span>
         <div class="before-grid">
             <hr>
         </div>
-        <form id="create-vacation-form" method="post" action="travel" enctype="multipart/form-data" accept-charset="utf-8">
-            <input type="hidden" name="command" value="create_vacation" />
+        <form id="create-shopping-form" method="post" action="travel" enctype="multipart/form-data" accept-charset="utf-8">
+            <input type="hidden" name="command" value="create_shopping" />
             <div class="row">
                 <div class="col-sm-3 col-sm-offset-3">
                     <div class="row">
@@ -92,20 +92,6 @@
             </div>
             <div class="row">
                 <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="hotel"><fmt:message key="label.admin.create-tour.vacation.hotel" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="hotel" name="hotel" required>
-                </div>
-                <div class="form-group col-sm-3">
-                    <label for="last-minute"><fmt:message key="label.admin.create-tour.tour.last-minute" bundle="${ rb }" /></label>
-                    <input type="checkbox" class="form-control form-checkbox" id="last-minute" name="last-minute">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="price"><fmt:message key="label.admin.create-tour.tour.price" bundle="${ rb }" /></label>
-                    <input type="number" class="form-control" id="price" name="price" required>
-                </div>
-                <div class="form-group col-sm-3">
                     <label for="transport"><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></label>
                     <select class="form-control" id="transport" name="transport">
                         <option value="PLANE"><fmt:message key="label.transport.plane" bundle="${ rb }" /></option>
@@ -113,6 +99,22 @@
                         <option value="TRAIN"><fmt:message key="label.transport.train" bundle="${ rb }" /></option>
                         <option value="BUS"><fmt:message key="label.transport.bus" bundle="${ rb }" /></option>
                     </select>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="last-minute"><fmt:message key="label.admin.create-tour.tour.last-minute" bundle="${ rb }" /></label>
+                    <input type="checkbox" class="form-control form-checkbox" id="last-minute" name="last-minute">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label for="price"><fmt:message key="label.admin.create-tour.tour.price" bundle="${ rb }" /></label>
+                    <input type="number" class="form-control" id="price" name="price" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label for="shops"><fmt:message key="label.admin.create-tour.shopping.shops" bundle="${ rb }" /></label>
+                    <textarea class="form-control" rows="5" id="shops" name="shops"></textarea>
                 </div>
             </div>
             <div class="row">
@@ -130,9 +132,9 @@
             <div class="row">
                 <div class="col-sm-2 col-sm-offset-5">
                     <c:choose>
-                        <c:when test="${ not empty errorCreateVacationPassMessage }">
+                        <c:when test="${ not empty errorCreateShoppingPassMessage }">
                             <br/>
-                            <span style="color: #ff0000;">${errorCreateVacationPassMessage}</span>
+                            <span style="color: #ff0000;">${errorCreateShoppingPassMessage}</span>
                             <br/>
                             <br/>
                         </c:when>

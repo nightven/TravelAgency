@@ -35,7 +35,7 @@
                                 <li class="menu-item"><a href="travel?command=vacation_list" class="menu-link"><fmt:message key="menu.item2" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=trip_list" class="menu-link"><fmt:message key="menu.item3" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=shopping_list" class="menu-link"><fmt:message key="menu.item4" bundle="${ rb }" /></a></li>
-                                <li class="menu-item"><a href="travel?command=forward&page=create_trip" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>
+                                <li class="menu-item"><a href="travel?command=forward&page=create_shopping" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>
                             </ul>
                         </div>
                         <div class="header-utility">

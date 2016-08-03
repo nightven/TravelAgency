@@ -52,6 +52,9 @@ public class ForwardCommand implements ActionCommand {
             case "create_trip":
                 page = ConfigurationManager.getProperty("path.page.admin.create.trip");
                 break;
+            case "create_shopping":
+                page = ConfigurationManager.getProperty("path.page.admin.create.shopping");
+                break;
             default:
                 page = ConfigurationManager.getProperty("path.page.login");
                 break;

@@ -44,8 +44,8 @@
                 <img tabindex="0" class="pict" src="/images/create-icon.png" alt="Sry =(">
                 <ul class="menu">
                     <a href="travel?command=forward&page=create_vacation" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.vacation" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.trip" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.shopping" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=forward&page=create_trip" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.trip" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=forward&page=create_shopping" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.shopping" bundle="${ rb }" /></li></a>
                 </ul>
             </div>
         </div>
