@@ -81,6 +81,51 @@ public enum CommandEnum {
             this.command = new CreateShoppingCommand();
         }
     },
+    VACATION_ADMIN_LIST {
+        {
+            this.command = new VacationAdminListCommand();
+        }
+    },
+    TRIP_ADMIN_LIST {
+        {
+            this.command = new TripAdminListCommand();
+        }
+    },
+    SHOPPING_ADMIN_LIST {
+        {
+            this.command = new ShoppingAdminListCommand();
+        }
+    },
+    EDIT_VACATION_PAGE {
+        {
+            this.command = new EditVacationPageCommand();
+        }
+    },
+    EDIT_VACATION{
+        {
+            this.command = new EditVacationCommand();
+        }
+    },
+    EDIT_TRIP_PAGE {
+        {
+            this.command = new EditTripPageCommand();
+        }
+    },
+    EDIT_TRIP{
+        {
+            this.command = new EditTripCommand();
+        }
+    },
+    EDIT_SHOPPING_PAGE {
+        {
+            this.command = new EditShoppingPageCommand();
+        }
+    },
+    EDIT_SHOPPING{
+        {
+            this.command = new EditShoppingCommand();
+        }
+    },
     FORWARD {
         {
             this.command = new ForwardCommand();

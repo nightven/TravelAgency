@@ -20,7 +20,9 @@ public class ShoppingDAO extends AbstractDAO<Long, Shopping> {
     private static final String SQL_SELECT_SHOPPING_BY_ID = "SELECT idshopping,name,summary,description,departure_date,arrival_date,price,last_minute,shops,destination_city,destination_country,transport,services,path_image FROM shoppings WHERE idshopping=?";
     private static final String SQL_SELECT_LAST_SHOPPINGS = "SELECT idshopping,name,summary,description,departure_date,arrival_date,price,last_minute,shops,destination_city,destination_country,transport,services,path_image FROM shoppings ORDER BY idshopping DESC LIMIT 6";
     private static final String SQL_SELECT_LAST_SHOPPING_ID = "SELECT idshopping FROM shoppings ORDER BY idshopping DESC LIMIT 1";
+    private static final String SQL_SELECT_PATH_IMAGE_SHOPPING_BY_ID = "SELECT path_image FROM shoppings WHERE idshopping=?";
     private static final String SQL_INSERT_SHOPPING = "INSERT INTO shoppings(name,summary,description,departure_date,arrival_date,price,last_minute,shops,destination_city,destination_country,transport,services,path_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_UPDATE_SHOPPING = "UPDATE shoppings SET name=?,summary=?,description=?,departure_date=?,arrival_date=?,price=?,last_minute=?,shops=?,destination_city=?,destination_country=?,transport=?,services=?,path_image=? WHERE idshopping=?";
 
     public List<Shopping> findAllShoppings() {
         List<Shopping> shoppings = new ArrayList<>();
@@ -86,6 +88,30 @@ public class ShoppingDAO extends AbstractDAO<Long, Shopping> {
         return id;
     }
 
+    public String findPathImageShoppingById(Long id) {
+        String pathImage = null;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_SELECT_PATH_IMAGE_SHOPPING_BY_ID);
+            ps.setLong(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                pathImage = resultSet.getString("path_image");
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return pathImage;
+    }
+
     public boolean insertShopping(Shopping shopping) {
         boolean flag = false;
         Connection cn = null;
@@ -106,6 +132,41 @@ public class ShoppingDAO extends AbstractDAO<Long, Shopping> {
             ps.setString(11,shopping.getTransport().toString());
             ps.setString(12,shopping.getServices());
             ps.setString(13,shopping.getPathImage());
+            ps.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
+    }
+
+    public boolean updateShopping(Shopping shopping) {
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_UPDATE_SHOPPING);
+            ps.setString(1,shopping.getName());
+            ps.setString(2,shopping.getSummary());
+            ps.setString(3,shopping.getDescription());
+            ps.setDate(4,new java.sql.Date(shopping.getDepartureDate().getTime()));
+            ps.setDate(5,new java.sql.Date(shopping.getArrivalDate().getTime()));
+            ps.setLong(6,shopping.getPrice());
+            ps.setInt(7,(shopping.getLastMinute()) ? 1 : 0);
+            ps.setString(8,shopping.getShops());
+            ps.setString(9,shopping.getDestinationCity());
+            ps.setString(10,shopping.getDestinationCountry());
+            ps.setString(11,shopping.getTransport().toString());
+            ps.setString(12,shopping.getServices());
+            ps.setString(13,shopping.getPathImage());
+            ps.setLong(14,shopping.getId());
             ps.executeUpdate();
             flag = true;
         } catch (SQLException e) {

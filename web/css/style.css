@@ -680,3 +680,27 @@ figure.effect-milo:hover p {
 /*---------------------------*/
 /*****  create-tour  *****/
 /*---------------------------*/
+
+
+/*---------------------------*/
+/*****  admin-list  *****/
+/*---------------------------*/
+
+.admin-table-list > tr > td,th{
+    text-align: center;
+}
+
+.admin-table-list > tr > th{
+    text-transform: uppercase;
+}
+.admin-table-list > tr{
+    cursor: pointer;
+}
+
+.button-back{
+    text-align: center;
+}
+
+/*---------------------------*/
+/*****  admin-list  *****/
+/*---------------------------*/

@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label for="img"><fmt:message key="label.admin.create-tour.tour.image" bundle="${ rb }" /></label>
-                            <input type="file" class="form-control" id="img" accept="image/*" name="img" required>
+                            <input type="file" class="form-control" id="img" accept="image/jpeg" name="img" required>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                     </c:choose>
                     <div class="control-buttons">
                         <button type="submit" class="btn btn-success form-button"><fmt:message key="action.create-vacation" bundle="${ rb }" /></button>
-                        <button type="button" class="btn btn-default form-button"><fmt:message key="action.cancel" bundle="${ rb }" /></button>
+                        <button type="button" class="btn btn-default form-button" onclick="history.back()"><fmt:message key="action.cancel" bundle="${ rb }" /></button>
                     </div>
                 </div>
             </div>

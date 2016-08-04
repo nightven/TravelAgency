@@ -40,14 +40,14 @@
     <hr>
     </div>
     <div class="grid">
-        <c:forEach var="vacation" items="${vacations}" varStatus="status">
+        <c:forEach var="trip" items="${vacations}" varStatus="status">
         <figure class="effect-milo">
-            <img src="${vacation.pathImage}" alt="img"/>
+            <img src="${trip.pathImage}" alt="img"/>
             <figcaption>
-                <h2><c:out value="${ vacation.destinationCity }" />, <span><c:out value="${ vacation.destinationCountry }" /></span></h2>
-                <h3><c:out value="${ vacation.price }" />$</h3>
-                <p><c:out value="${ vacation.summary }" /></p>
-                <a href="travel?command=vacation_full&id=<c:out value="${ vacation.id }" />"></a>
+                <h2><c:out value="${ trip.destinationCity }" />, <span><c:out value="${ trip.destinationCountry }" /></span></h2>
+                <h3><c:out value="${ trip.price }" />$</h3>
+                <p><c:out value="${ trip.summary }" /></p>
+                <a href="travel?command=vacation_full&id=<c:out value="${ trip.id }" />"></a>
             </figcaption>
         </figure>
             </c:forEach>

@@ -57,9 +57,9 @@
             <div class="picture" tibindex="0">
                 <img tabindex="0" class="pict" src="/images/edit-icon.png" alt="Sry =(">
                 <ul class="menu">
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.vacation" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.trip" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.shopping" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=vacation_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.vacation" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=trip_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.trip" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=shopping_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.edit-tour.shopping" bundle="${ rb }" /></li></a>
                 </ul>
             </div>
         </div>

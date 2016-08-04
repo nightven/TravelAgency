@@ -20,7 +20,9 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
     private static final String SQL_SELECT_TRIP_BY_ID = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips WHERE idtrip=?";
     private static final String SQL_SELECT_LAST_TRIPS = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips ORDER BY idtrip DESC LIMIT 6";
     private static final String SQL_SELECT_LAST_TRIP_ID = "SELECT idtrip FROM trips ORDER BY idtrip DESC LIMIT 1";
+    private static final String SQL_SELECT_PATH_IMAGE_TRIP_BY_ID = "SELECT path_image FROM trips WHERE idtrip=?";
     private static final String SQL_INSERT_TRIP = "INSERT INTO trips(name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_UPDATE_TRIP = "UPDATE trips SET name=?,summary=?,description=?,departure_date=?,arrival_date=?,price=?,last_minute=?,cities=?,attractions=?,transport=?,services=?,path_image=? WHERE idtrip=?";
 
     public List<Trip> findAllTrips() {
         List<Trip> trips = new ArrayList<>();
@@ -85,6 +87,30 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
         return id;
     }
 
+    public String findPathImageTripById(Long id) {
+        String pathImage = null;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_SELECT_PATH_IMAGE_TRIP_BY_ID);
+            ps.setLong(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                pathImage = resultSet.getString("path_image");
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return pathImage;
+    }
+
     public boolean insertTrip(Trip trip) {
         boolean flag = false;
         Connection cn = null;
@@ -104,6 +130,40 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
             ps.setString(10,trip.getTransport().toString());
             ps.setString(11,trip.getServices());
             ps.setString(12,trip.getPathImage());
+            ps.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
+    }
+
+    public boolean updateTrip(Trip trip) {
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_UPDATE_TRIP);
+            ps.setString(1,trip.getName());
+            ps.setString(2,trip.getSummary());
+            ps.setString(3,trip.getDescription());
+            ps.setDate(4,new java.sql.Date(trip.getDepartureDate().getTime()));
+            ps.setDate(5,new java.sql.Date(trip.getArrivalDate().getTime()));
+            ps.setLong(6,trip.getPrice());
+            ps.setInt(7,(trip.getLastMinute()) ? 1 : 0);
+            ps.setString(8,trip.getCities());
+            ps.setString(9,trip.getAttractions());
+            ps.setString(10,trip.getTransport().toString());
+            ps.setString(11,trip.getServices());
+            ps.setString(12,trip.getPathImage());
+            ps.setLong(13,trip.getId());
             ps.executeUpdate();
             flag = true;
         } catch (SQLException e) {
