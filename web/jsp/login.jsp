@@ -69,6 +69,17 @@
             </c:otherwise>
         </c:choose>
         <c:choose>
+            <c:when test="${ not empty errorNotAuthorizedMessage }">
+                <br/>
+                <span style="color: #ff0000;">${errorNotAuthorizedMessage}</span>
+                <br/>
+                <br/>
+            </c:when>
+            <c:otherwise>
+                <br/>
+            </c:otherwise>
+        </c:choose>
+        <c:choose>
             <c:when test="${ not empty wrongAction }">
                 <br/>
                 ${wrongAction}

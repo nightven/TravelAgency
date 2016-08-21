@@ -58,6 +58,9 @@ public class ForwardCommand implements ActionCommand {
             case "list_vacation":
                 page = ConfigurationManager.getProperty("path.page.admin.edit.list.vacation");
                 break;
+            case "orders":
+                page = ConfigurationManager.getProperty("path.page.orders");
+                break;
             default:
                 page = ConfigurationManager.getProperty("path.page.login");
                 break;

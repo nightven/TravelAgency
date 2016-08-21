@@ -2,31 +2,29 @@ package by.bsu.travelagency.command;
 
 import by.bsu.travelagency.dao.ShoppingDAO;
 import by.bsu.travelagency.dao.VacationDAO;
-import by.bsu.travelagency.entity.Shopping;
-import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Михаил on 2/16/2016.
  */
-public class ShoppingListCommand implements ActionCommand {
+public class DeleteShoppingCommand implements ActionCommand {
 
-    private final static Logger LOG = Logger.getLogger(ShoppingListCommand.class);
+    private final static Logger LOG = Logger.getLogger(DeleteShoppingCommand.class);
+
+    private static final String PARAM_NAME_ID = "id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
-        Date nowDate = new Date();
+        Long id = Long.parseLong(request.getParameter(PARAM_NAME_ID));
         ShoppingDAO shoppingDAO = new ShoppingDAO();
-        List<Shopping> shoppings = shoppingDAO.findAllShoppingsAfterNow(new java.sql.Date(nowDate.getTime()));
-        request.setAttribute("shoppings", shoppings);
-        page = ConfigurationManager.getProperty("path.page.shopping.list");
+        shoppingDAO.delete(id);
+        page = ConfigurationManager.getProperty("path.page.admin.panel");
         return page;
     }
+
 }

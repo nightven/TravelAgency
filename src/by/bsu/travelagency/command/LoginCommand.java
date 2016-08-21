@@ -39,11 +39,14 @@ public class LoginCommand implements ActionCommand {
             UserDAO userDAO = new UserDAO();
             User user = userDAO.findUserByName(login);
             HttpSession session = request.getSession(true);
+            if (session.getAttribute("user") == null) {
+                session.setAttribute("user", user.getLogin());
+            }
             if (session.getAttribute("role") == null) {
                 session.setAttribute("role", user.getRole());
             }
-            if (session.getAttribute("user") == null) {
-                session.setAttribute("user", user.getLogin());
+            if (session.getAttribute("iduser") == null) {
+                session.setAttribute("iduser", user.getId());
             }
 //            request.setAttribute("user", login);
 //            определение пути к main.jsp

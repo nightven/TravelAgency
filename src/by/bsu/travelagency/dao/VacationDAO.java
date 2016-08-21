@@ -17,12 +17,14 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
 
     private final static Logger LOG = Logger.getLogger(VacationDAO.class);
     private static final String SQL_SELECT_ALL_VACATIONS = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations";
+    private static final String SQL_SELECT_ALL_VACATIONS_AFTER_NOW = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations WHERE departure_date>?";
     private static final String SQL_SELECT_VACATION_BY_ID = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations WHERE idvacation=?";
-    private static final String SQL_SELECT_LAST_VACATIONS = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations ORDER BY idvacation DESC LIMIT 6";
+    private static final String SQL_SELECT_LAST_VACATIONS = "SELECT idvacation,name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image FROM vacations WHERE departure_date>? ORDER BY idvacation DESC LIMIT 6";
     private static final String SQL_SELECT_LAST_VACATION_ID = "SELECT idvacation FROM vacations ORDER BY idvacation DESC LIMIT 1";
     private static final String SQL_SELECT_PATH_IMAGE_VACATION_BY_ID = "SELECT path_image FROM vacations WHERE idvacation=?";
     private static final String SQL_INSERT_VACATION = "INSERT INTO vacations(name,summary,description,departure_date,arrival_date,price,last_minute,hotel,destination_city,destination_country,transport,services,path_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_VACATION = "UPDATE vacations SET name=?,summary=?,description=?,departure_date=?,arrival_date=?,price=?,last_minute=?,hotel=?,destination_city=?,destination_country=?,transport=?,services=?,path_image=? WHERE idvacation=?";
+    private static final String SQL_DELETE_VACATION = "DELETE FROM vacations WHERE idvacation=?";
 
     public List<Vacation> findAllVacations() {
         List<Vacation> vacations = new ArrayList<>();
@@ -57,6 +59,46 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
             LOG.error(e.getMessage());
         } finally {
             closeStatement(st);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return vacations;
+    }
+
+    public List<Vacation> findAllVacationsAfterNow(Date nowDate) {
+        List<Vacation> vacations = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_SELECT_ALL_VACATIONS_AFTER_NOW);
+            ps.setDate(1,nowDate);
+            ResultSet resultSet =
+                    ps.executeQuery();
+            while (resultSet.next()) {
+                Vacation vacation = new Vacation();
+                vacation.setId(resultSet.getLong("idvacation"));
+                vacation.setName(resultSet.getString("name"));
+                vacation.setSummary(resultSet.getString("summary"));
+                vacation.setDescription(resultSet.getString("description"));
+                vacation.setDepartureDate(resultSet.getDate("departure_date"));
+                vacation.setArrivalDate(resultSet.getDate("arrival_date"));
+                vacation.setPrice(resultSet.getInt("price"));
+                vacation.setLastMinute(resultSet.getBoolean("last_minute"));
+                vacation.setHotel(resultSet.getString("hotel"));
+                vacation.setDestinationCity(resultSet.getString("destination_city"));
+                vacation.setDestinationCountry(resultSet.getString("destination_country"));
+                vacation.setTransport(Transport.valueOf(resultSet.getString("transport")));
+                vacation.setServices(resultSet.getString("services"));
+                vacation.setPathImage(resultSet.getString("path_image"));
+                vacations.add(vacation);
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
             closeConnection(cn);
 // код возвращения экземпляра Connection в пул
         }
@@ -181,15 +223,16 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
         return flag;
     }
 
-    public List<Vacation> selectLastVacations() {
+    public List<Vacation> selectLastVacations(Date nowDate) {
         List<Vacation> vacations = new ArrayList<>();
         Connection cn = null;
-        Statement st = null;
+        PreparedStatement ps = null;
         try {
             cn = TravelController.connectionPool.getConnection();
-            st = cn.createStatement();
+            ps = cn.prepareStatement(SQL_SELECT_LAST_VACATIONS);
+            ps.setDate(1,nowDate);
             ResultSet resultSet =
-                    st.executeQuery(SQL_SELECT_LAST_VACATIONS);
+                    ps.executeQuery();
             while (resultSet.next()) {
                 Vacation vacation = new Vacation();
                 vacation.setId(resultSet.getLong("idvacation"));
@@ -213,7 +256,7 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
         } catch (InterruptedException e) {
             LOG.error(e.getMessage());
         } finally {
-            closeStatement(st);
+            closeStatement(ps);
             closeConnection(cn);
 // код возвращения экземпляра Connection в пул
         }
@@ -280,7 +323,25 @@ public class VacationDAO extends AbstractDAO<Long, Vacation> {
 
     @Override
     public boolean delete(Long id) {
-        throw new UnsupportedOperationException();
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_DELETE_VACATION);
+            ps.setLong(1,id);
+            ps.execute();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
     }
 
     @Override

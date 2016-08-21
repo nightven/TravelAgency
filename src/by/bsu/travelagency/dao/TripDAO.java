@@ -17,12 +17,14 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
 
     private final static Logger LOG = Logger.getLogger(TripDAO.class);
     private static final String SQL_SELECT_ALL_TRIPS = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips";
+    private static final String SQL_SELECT_ALL_TRIPS_AFTER_NOW = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips WHERE departure_date>?";
     private static final String SQL_SELECT_TRIP_BY_ID = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips WHERE idtrip=?";
-    private static final String SQL_SELECT_LAST_TRIPS = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips ORDER BY idtrip DESC LIMIT 6";
+    private static final String SQL_SELECT_LAST_TRIPS = "SELECT idtrip,name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image FROM trips WHERE departure_date>? ORDER BY idtrip DESC LIMIT 6";
     private static final String SQL_SELECT_LAST_TRIP_ID = "SELECT idtrip FROM trips ORDER BY idtrip DESC LIMIT 1";
     private static final String SQL_SELECT_PATH_IMAGE_TRIP_BY_ID = "SELECT path_image FROM trips WHERE idtrip=?";
     private static final String SQL_INSERT_TRIP = "INSERT INTO trips(name,summary,description,departure_date,arrival_date,price,last_minute,cities,attractions,transport,services,path_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_TRIP = "UPDATE trips SET name=?,summary=?,description=?,departure_date=?,arrival_date=?,price=?,last_minute=?,cities=?,attractions=?,transport=?,services=?,path_image=? WHERE idtrip=?";
+    private static final String SQL_DELETE_TRIP = "DELETE FROM trips WHERE idtrip=?";
 
     public List<Trip> findAllTrips() {
         List<Trip> trips = new ArrayList<>();
@@ -56,6 +58,45 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
             LOG.error(e.getMessage());
         } finally {
             closeStatement(st);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return trips;
+    }
+
+    public List<Trip> findAllTripsAfterNow(Date nowDate) {
+        List<Trip> trips = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_SELECT_ALL_TRIPS_AFTER_NOW);
+            ps.setDate(1,nowDate);
+            ResultSet resultSet =
+                    ps.executeQuery();
+            while (resultSet.next()) {
+                Trip trip = new Trip();
+                trip.setId(resultSet.getLong("idtrip"));
+                trip.setName(resultSet.getString("name"));
+                trip.setSummary(resultSet.getString("summary"));
+                trip.setDescription(resultSet.getString("description"));
+                trip.setDepartureDate(resultSet.getDate("departure_date"));
+                trip.setArrivalDate(resultSet.getDate("arrival_date"));
+                trip.setPrice(resultSet.getInt("price"));
+                trip.setLastMinute(resultSet.getBoolean("last_minute"));
+                trip.setCities(resultSet.getString("cities"));
+                trip.setAttractions(resultSet.getString("attractions"));
+                trip.setTransport(Transport.valueOf(resultSet.getString("transport")));
+                trip.setServices(resultSet.getString("services"));
+                trip.setPathImage(resultSet.getString("path_image"));
+                trips.add(trip);
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
             closeConnection(cn);
 // код возвращения экземпляра Connection в пул
         }
@@ -178,15 +219,16 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
         return flag;
     }
 
-    public List<Trip> selectLastTrips() {
+    public List<Trip> selectLastTrips(Date nowDate) {
         List<Trip> trips = new ArrayList<>();
         Connection cn = null;
-        Statement st = null;
+        PreparedStatement ps = null;
         try {
             cn = TravelController.connectionPool.getConnection();
-            st = cn.createStatement();
+            ps = cn.prepareStatement(SQL_SELECT_LAST_TRIPS);
+            ps.setDate(1,nowDate);
             ResultSet resultSet =
-                    st.executeQuery(SQL_SELECT_LAST_TRIPS);
+                    ps.executeQuery();
             while (resultSet.next()) {
                 Trip trip = new Trip();
                 trip.setId(resultSet.getLong("idtrip"));
@@ -209,7 +251,7 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
         } catch (InterruptedException e) {
             LOG.error(e.getMessage());
         } finally {
-            closeStatement(st);
+            closeStatement(ps);
             closeConnection(cn);
 // код возвращения экземпляра Connection в пул
         }
@@ -275,7 +317,25 @@ public class TripDAO extends AbstractDAO<Long, Trip> {
 
     @Override
     public boolean delete(Long id) {
-        throw new UnsupportedOperationException();
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_DELETE_TRIP);
+            ps.setLong(1,id);
+            ps.execute();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
     }
 
     @Override

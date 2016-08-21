@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,8 +25,9 @@ public class VacationListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
+        Date nowDate = new Date();
         VacationDAO vacationDAO = new VacationDAO();
-        List<Vacation> vacations = vacationDAO.findAllVacations();
+        List<Vacation> vacations = vacationDAO.findAllVacationsAfterNow(new java.sql.Date(nowDate.getTime()));
         request.setAttribute("vacations", vacations);
         page = ConfigurationManager.getProperty("path.page.vacation.list");
         return page;

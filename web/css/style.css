@@ -1,8 +1,8 @@
 body{
     position: initial;
 }
-header,section{
-    font-family: 'Oswald',helvetica,sans-serif,arial;
+header{
+    font-family: 'Oswald', Helvetica, sans-serif;
 }
 header{
     -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,0.15);
@@ -23,6 +23,7 @@ section{
     width: 100%;
     padding-top: 80px;
     padding-bottom: 55px;
+    font-family: Helvetica, sans-serif;
 }
 footer{
     position: fixed;
@@ -288,9 +289,10 @@ a.user-link:hover{
 }
 .copyright{
     position: absolute;
-    left: 40%;
     padding-top: 17px;
-    display: table-cell;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 .homepage-banner{
     width: 100%;
@@ -301,6 +303,7 @@ a.user-link:hover{
 }
 pre{
     white-space: pre-line;
+    font-family: Helvetica, sans-serif, Arial;
 }
 .form-group.warning input.form-control {
     border-color: #fa6d81;
@@ -546,7 +549,7 @@ figure.effect-milo:hover p {
 }
 
 .full-description ul{
-    width: 184px;
+    width: 195px;
     margin-left: 45%;
 }
 
@@ -556,7 +559,7 @@ figure.effect-milo:hover p {
 }
 
 .tour-controls{
-    margin-left: 70%;
+    margin-left: 80%;
     margin-bottom: 50px;
 }
 
@@ -703,4 +706,98 @@ figure.effect-milo:hover p {
 
 /*---------------------------*/
 /*****  admin-list  *****/
+/*---------------------------*/
+
+
+/*---------------------------*/
+/*****       order       *****/
+/*---------------------------*/
+
+.paragraph-static{
+    /*padding: 0!important;*/
+}
+
+.order-info{
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.order-information-title{
+    text-align: center;
+}
+
+.calculate-price{
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 25px;
+}
+
+.form-horizontal-control-label{
+    text-align: left!important;
+}
+
+
+.order-row{
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    margin-bottom: 15px;
+    height: 215px;
+    border-radius: 10px;
+}
+
+.order-img{
+    margin-top: 4px;
+}
+
+.order-info-text{
+    margin-top: 37px;
+    font-size: 16px;
+}
+
+.order-buttons-block{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.order-buttons{
+    width: 200px;
+    height: 45px;
+}
+
+.order-button-first{
+    margin-top: 55px;
+    margin-bottom: 10px;
+}
+
+.empty-orders{
+    height: 30em;
+    line-height: 30em;
+    text-align: center;
+}
+
+.empty-orders > span{
+    font-size: 40px;
+    font-weight: 900;
+    color: rgba(54, 54, 54, 0.26);
+}
+
+
+/*---------------------------*/
+/*****       order       *****/
+/*---------------------------*/
+
+/*---------------------------*/
+/*****      balance      *****/
+/*---------------------------*/
+
+.balance-page{
+    font-size: 18px;
+}
+
+.balance-text-center{
+    text-align: center;
+}
+
+/*---------------------------*/
+/*****      balance      *****/
 /*---------------------------*/

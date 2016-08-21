@@ -16,6 +16,8 @@ public class RegisterLogic {
 
     final static int USER_ID_FOR_INSERT = 0;
     final static int USER_DEFAULT_ROLE = 0;
+    final static double USER_DEFAULT_DISCOUNT = 0;
+    final static int USER_DEFAULT_MONEY = 0;
 
     public static boolean checkRegister(String enterLogin, String enterPass, String enterEmail, String enterName, String enterSurname) {
         boolean flag = false;
@@ -28,6 +30,8 @@ public class RegisterLogic {
             user.setEmail(enterEmail);
             user.setName(enterName);
             user.setSurname(enterSurname);
+            user.setDiscount(USER_DEFAULT_DISCOUNT);
+            user.setMoney(USER_DEFAULT_MONEY);
 
             UserDAO userDAO = new UserDAO();
             if (userDAO.insertUser(user)){

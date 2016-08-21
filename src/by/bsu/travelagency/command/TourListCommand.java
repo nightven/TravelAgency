@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,14 +24,15 @@ public class TourListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
+        Date nowDate = new Date();
         VacationDAO vacationDAO = new VacationDAO();
-        List<Vacation> vacations = vacationDAO.selectLastVacations();
+        List<Vacation> vacations = vacationDAO.selectLastVacations(new java.sql.Date(nowDate.getTime()));
         request.setAttribute("vacations", vacations);
         TripDAO tripDAO = new TripDAO();
-        List<Trip> trips = tripDAO.selectLastTrips();
+        List<Trip> trips = tripDAO.selectLastTrips(new java.sql.Date(nowDate.getTime()));
         request.setAttribute("trips", trips);
         ShoppingDAO shoppingDAO = new ShoppingDAO();
-        List<Shopping> shoppings = shoppingDAO.selectLastShoppings();
+        List<Shopping> shoppings = shoppingDAO.selectLastShoppings(new java.sql.Date(nowDate.getTime()));
         request.setAttribute("shoppings", shoppings);
         page = ConfigurationManager.getProperty("path.page.main");
         return page;

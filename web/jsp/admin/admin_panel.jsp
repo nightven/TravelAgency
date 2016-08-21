@@ -71,9 +71,9 @@
             <div class="picture" tibindex="0">
                 <img tabindex="0" class="pict" src="/images/delete-icon.png" alt="Sry =(">
                 <ul class="menu">
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.vacation" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.trip" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.shopping" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=vacation_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.vacation" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=trip_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.trip" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=shopping_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.delete-tour.shopping" bundle="${ rb }" /></li></a>
                 </ul>
             </div>
         </div>

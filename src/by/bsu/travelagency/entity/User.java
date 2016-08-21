@@ -11,6 +11,8 @@ public class User extends Entity {
     private String email;
     private String name;
     private String surname;
+    private double discount;
+    private int money;
 
     public User() {
     }
@@ -69,5 +71,21 @@ public class User extends Entity {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 }

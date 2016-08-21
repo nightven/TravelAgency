@@ -2,6 +2,7 @@ package by.bsu.travelagency.logic;
 
 import org.apache.log4j.Logger;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +23,10 @@ public class Validator {
     final static String REGEX_HOTEL = "(.){1,100}";
     final static String REGEX_DESTINATION_COUNTRY = "(.){1,50}";
     final static String REGEX_DESTINATION_CITY = "(.){1,50}";
+    final static int ORDER_MIN_QUANTITY = 1;
+    final static int ORDER_MAX_QUANTITY = 100;
+    final static int BALANCE_MIN_MONEY_TO_ADD = 1;
+    final static int BALANCE_MAX_MONEY_TO_ADD = 10000;
 
 
     public static boolean validateLogin(String enterLogin) {
@@ -142,6 +147,34 @@ public class Validator {
         if (mDestinationCity.matches()){
             flag = true;
         }
+        return flag;
+    }
+
+    public static boolean validateQuantity(int quantity) {
+        boolean flag = false;
+        if (quantity >= ORDER_MIN_QUANTITY && quantity <= ORDER_MAX_QUANTITY){
+            flag = true;
+        }
+        LOG.debug("Validate quantity: " + flag);
+        return flag;
+    }
+
+    public static boolean validateOrderDate(Date departureDate) {
+        boolean flag = false;
+        Date nowDate = new Date();
+        if (nowDate.before(departureDate)){
+            flag = true;
+        }
+        LOG.debug("Validate order date: " + flag);
+        return flag;
+    }
+
+    public static boolean validateBalanceToAdd(int money) {
+        boolean flag = false;
+        if (money >= BALANCE_MIN_MONEY_TO_ADD && money <= BALANCE_MAX_MONEY_TO_ADD){
+            flag = true;
+        }
+        LOG.debug("Validate money to add: " + flag);
         return flag;
     }
 }

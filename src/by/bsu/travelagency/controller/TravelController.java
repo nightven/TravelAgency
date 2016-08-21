@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Михаил on 04.01.2016.
@@ -42,6 +43,8 @@ public class TravelController extends HttpServlet {
     public static ConnectionPool connectionPool;
     public static ResourceManager resourceManager = ResourceManager.INSTANCE;
     public static MessageManager messageManager = MessageManager.INSTANCE;
+    public final static String LOCALE_RU = "ru_RU";
+    public final static String LOCALE_RU_VALUE = "ru";
 
     @Override
     public void init() throws ServletException {
@@ -74,6 +77,13 @@ public class TravelController extends HttpServlet {
         for (Cookie cookie : cookies) {
             if ("locale".equals(cookie.getName())){
                 request.setAttribute("lang", cookie.getValue());
+                if (LOCALE_RU.equals(cookie.getValue())) {
+                    TravelController.messageManager.changeResource(new Locale(LOCALE_RU_VALUE, LOCALE_RU_VALUE.toUpperCase()));
+                    TravelController.resourceManager.changeResource(new Locale(LOCALE_RU_VALUE, LOCALE_RU_VALUE.toUpperCase()));
+                } else {
+                    TravelController.messageManager.changeResource(Locale.US);
+                    TravelController.resourceManager.changeResource(Locale.US);
+                }
             }
         }
         String page = null;

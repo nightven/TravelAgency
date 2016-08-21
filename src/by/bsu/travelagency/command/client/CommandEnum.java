@@ -126,6 +126,71 @@ public enum CommandEnum {
             this.command = new EditShoppingCommand();
         }
     },
+    VACATION_DELETE_ADMIN_LIST{
+        {
+            this.command = new VacationDeleteAdminListCommand();
+        }
+    },
+    TRIP_DELETE_ADMIN_LIST{
+        {
+            this.command = new TripDeleteAdminListCommand();
+        }
+    },
+    SHOPPING_DELETE_ADMIN_LIST{
+        {
+            this.command = new ShoppingDeleteAdminListCommand();
+        }
+    },
+    DELETE_VACATION{
+        {
+            this.command = new DeleteVacationCommand();
+        }
+    },
+    DELETE_TRIP{
+        {
+            this.command = new DeleteTripCommand();
+        }
+    },
+    DELETE_SHOPPING{
+        {
+            this.command = new DeleteShoppingCommand();
+        }
+    },
+    ORDER_VACATION{
+        {
+            this.command = new OrderVacationCommand();
+        }
+    },
+    ORDER_TRIP{
+        {
+            this.command = new OrderTripCommand();
+        }
+    },
+    ORDER_SHOPPING{
+        {
+            this.command = new OrderShoppingCommand();
+        }
+    },
+    ORDER_LIST{
+        {
+            this.command = new OrderListCommand();
+        }
+    },
+    DELETE_ORDER{
+        {
+            this.command = new DeleteOrderCommand();
+        }
+    },
+    BALANCE{
+        {
+            this.command = new BalancePageCommand();
+        }
+    },
+    BALANCE_ADD{
+        {
+            this.command = new BalanceAddCommand();
+        }
+    },
     FORWARD {
         {
             this.command = new ForwardCommand();
