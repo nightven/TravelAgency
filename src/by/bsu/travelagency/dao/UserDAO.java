@@ -2,6 +2,7 @@ package by.bsu.travelagency.dao;
 
 import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.entity.User;
+import by.bsu.travelagency.entity.UserOrderNumber;
 import by.bsu.travelagency.pool.ConnectionPool;
 import org.apache.log4j.Logger;
 
@@ -16,14 +17,17 @@ public class UserDAO extends AbstractDAO<Long, User> {
 
     private final static Logger LOG = Logger.getLogger(UserDAO.class);
     private static final String SQL_SELECT_ALL_USERS = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users";
+    private static final String SQL_SELECT_ALL_USERS_WITH_ORDER_COUNT = "SELECT users.iduser,users.login,users.password,users.role,users.email,users.name,users.surname,users.discount,users.money,COUNT(DISTINCT orders.idorder) AS orders FROM users LEFT JOIN orders ON users.iduser=orders.iduser GROUP BY users.iduser;";
     private static final String SQL_SELECT_USER_BY_NAME = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users WHERE login=?";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users WHERE iduser=?";
     private static final String SQL_SELECT_USER_PASSWORD_BY_ID = "SELECT password FROM users WHERE iduser=?";
     private static final String SQL_UPDATE_USER_PASSWORD_BY_ID = "UPDATE users SET password=? WHERE iduser=?";
     private static final String SQL_SELECT_MONEY_BY_USER_ID = "SELECT money FROM users WHERE iduser=?";
     private static final String SQL_INSERT_USER = "INSERT INTO users(login,password,role,email,name,surname,discount,money) VALUES(?,?,?,?,?,?,?,?)";
+    private static final String SQL_UPDATE_USER = "UPDATE users SET login=?,password=?,role=?,email=?,name=?,surname=?,discount=?,money=? WHERE iduser=?";
     private static final String SQL_UPDATE_USER_BALANCE = "UPDATE users SET money=? WHERE iduser=?";
     private static final String SQL_UPDATE_USER_BALANCE_ADDITION = "UPDATE users SET money=money + ? WHERE iduser=?";
+    private static final String SQL_DELETE_USER = "DELETE FROM users WHERE iduser=?";
 
 
     public List<User> findAllUsers() {
@@ -47,6 +51,41 @@ public class UserDAO extends AbstractDAO<Long, User> {
                 user.setDiscount(resultSet.getDouble("discount"));
                 user.setMoney(resultSet.getInt("money"));
                 users.add(user);
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(st);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return users;
+    }
+
+    public List<UserOrderNumber> findAllUsersWithOrderCount() {
+        List<UserOrderNumber> users = new ArrayList<>();
+        Connection cn = null;
+        Statement st = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            st = cn.createStatement();
+            ResultSet resultSet =
+                    st.executeQuery(SQL_SELECT_ALL_USERS_WITH_ORDER_COUNT);
+            while (resultSet.next()) {
+                UserOrderNumber userOrderNumber = new UserOrderNumber();
+                userOrderNumber.setId(resultSet.getLong("iduser"));
+                userOrderNumber.setLogin(resultSet.getString("login"));
+                userOrderNumber.setPassword(resultSet.getString("password"));
+                userOrderNumber.setRole(resultSet.getInt("role"));
+                userOrderNumber.setEmail(resultSet.getString("email"));
+                userOrderNumber.setName(resultSet.getString("name"));
+                userOrderNumber.setSurname(resultSet.getString("surname"));
+                userOrderNumber.setDiscount(resultSet.getDouble("discount"));
+                userOrderNumber.setMoney(resultSet.getInt("money"));
+                userOrderNumber.setOrderNumber(resultSet.getInt("orders"));
+                users.add(userOrderNumber);
             }
         } catch (SQLException e) {
             LOG.error("SQL exception (request or table failed): " + e);
@@ -194,6 +233,36 @@ public class UserDAO extends AbstractDAO<Long, User> {
         return flag;
     }
 
+    public boolean updateUser(User user) {
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_UPDATE_USER);
+            ps.setString(1,user.getLogin());
+            ps.setString(2,user.getPassword());
+            ps.setInt(3,user.getRole());
+            ps.setString(4,user.getEmail());
+            ps.setString(5,user.getName());
+            ps.setString(6,user.getSurname());
+            ps.setDouble(7,user.getDiscount());
+            ps.setInt(8,user.getMoney());
+            ps.setLong(9,user.getId());
+            ps.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
+    }
+
     public boolean updateUserBalance(Long id, int money) {
         boolean flag = false;
         Connection cn = null;
@@ -295,7 +364,25 @@ public class UserDAO extends AbstractDAO<Long, User> {
 
     @Override
     public boolean delete(Long id) {
-        throw new UnsupportedOperationException();
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_DELETE_USER);
+            ps.setLong(1,id);
+            ps.execute();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
     }
 
     @Override

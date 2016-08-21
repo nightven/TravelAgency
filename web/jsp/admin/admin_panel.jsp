@@ -85,9 +85,9 @@
             <div class="picture" tibindex="0">
                 <img tabindex="0" class="pict" src="/images/users-icon.png" alt="Sry =(">
                 <ul class="menu">
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.users.create" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.users.edit" bundle="${ rb }" /></li></a>
-                    <a href="#" class="item-link"><li class="item"><fmt:message key="label.admin.users.delete" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=forward&page=create_user" class="item-link"><li class="item"><fmt:message key="label.admin.users.create" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=user_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.edit" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=user_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.delete" bundle="${ rb }" /></li></a>
                 </ul>
             </div>
         </div>

@@ -64,6 +64,9 @@ public class ForwardCommand implements ActionCommand {
             case "change_password":
                 page = ConfigurationManager.getProperty("path.page.change.password");
                 break;
+            case "create_user":
+                page = ConfigurationManager.getProperty("path.page.admin.create.user");
+                break;
             default:
                 page = ConfigurationManager.getProperty("path.page.login");
                 break;

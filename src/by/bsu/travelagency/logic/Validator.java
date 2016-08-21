@@ -27,6 +27,10 @@ public class Validator {
     final static int ORDER_MAX_QUANTITY = 100;
     final static int BALANCE_MIN_MONEY_TO_ADD = 1;
     final static int BALANCE_MAX_MONEY_TO_ADD = 10000;
+    final static int USER_MIN_MONEY_CREATE_USER = 0;
+    final static int USER_MAX_MONEY_CREATE_USER = 100000;
+    final static int USER_MIN_DISCOUNT = 0;
+    final static int USER_MAX_DISCOUNT = 1;
 
 
     public static boolean validateLogin(String enterLogin) {
@@ -175,6 +179,24 @@ public class Validator {
             flag = true;
         }
         LOG.debug("Validate money to add: " + flag);
+        return flag;
+    }
+
+    public static boolean validateUserCreateMoney(int money) {
+        boolean flag = false;
+        if (money >= USER_MIN_MONEY_CREATE_USER && money <= USER_MAX_MONEY_CREATE_USER){
+            flag = true;
+        }
+        LOG.debug("Validate money create user: " + flag);
+        return flag;
+    }
+
+    public static boolean validateUserCreateDiscount(double discount) {
+        boolean flag = false;
+        if (discount >= USER_MIN_DISCOUNT && discount <= USER_MAX_DISCOUNT){
+            flag = true;
+        }
+        LOG.debug("Validate discount create user: " + flag);
         return flag;
     }
 }

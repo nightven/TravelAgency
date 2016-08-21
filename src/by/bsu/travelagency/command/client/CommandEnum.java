@@ -196,6 +196,36 @@ public enum CommandEnum {
             this.command = new ChangePasswordCommand();
         }
     },
+    CREATE_USER{
+        {
+            this.command = new CreateUserCommand();
+        }
+    },
+    USER_ADMIN_LIST{
+        {
+            this.command = new UserAdminListCommand();
+        }
+    },
+    EDIT_USER_PAGE{
+        {
+            this.command = new EditUserPageCommand();
+        }
+    },
+    EDIT_USER{
+        {
+            this.command = new EditUserCommand();
+        }
+    },
+    USER_DELETE_ADMIN_LIST{
+        {
+            this.command = new UserDeleteAdminListCommand();
+        }
+    },
+    DELETE_USER{
+        {
+            this.command = new DeleteUserCommand();
+        }
+    },
     FORWARD {
         {
             this.command = new ForwardCommand();
