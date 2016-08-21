@@ -64,7 +64,7 @@
                                         <li class="usermenu-item"><a href="travel?command=order_list" class="usermenu-link"><fmt:message key="label.user.menu.orders" bundle="${ rb }" /></a></li>
                                         <li class="usermenu-item"><a href="travel?command=balance" class="usermenu-link"><fmt:message key="label.user.menu.balance" bundle="${ rb }" /></a></li>
                                         <li class="usermenu-item divider"></li>
-                                        <li class="usermenu-item"><a href="#" class="usermenu-link"><fmt:message key="label.user.menu.change-pass" bundle="${ rb }" /></a></li>
+                                        <li class="usermenu-item"><a href="travel?command=forward&page=change_password" class="usermenu-link"><fmt:message key="label.user.menu.change-pass" bundle="${ rb }" /></a></li>
                                     </ul>
                                     <div class="log-action"><a class="menu-link" href="travel?command=logout"><fmt:message key="action.logout" bundle="${ rb }" /></a></div>
                                 </c:when>

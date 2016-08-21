@@ -18,6 +18,8 @@ public class UserDAO extends AbstractDAO<Long, User> {
     private static final String SQL_SELECT_ALL_USERS = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users";
     private static final String SQL_SELECT_USER_BY_NAME = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users WHERE login=?";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT iduser,login,password,role,email,name,surname,discount,money FROM users WHERE iduser=?";
+    private static final String SQL_SELECT_USER_PASSWORD_BY_ID = "SELECT password FROM users WHERE iduser=?";
+    private static final String SQL_UPDATE_USER_PASSWORD_BY_ID = "UPDATE users SET password=? WHERE iduser=?";
     private static final String SQL_SELECT_MONEY_BY_USER_ID = "SELECT money FROM users WHERE iduser=?";
     private static final String SQL_INSERT_USER = "INSERT INTO users(login,password,role,email,name,surname,discount,money) VALUES(?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_USER_BALANCE = "UPDATE users SET money=? WHERE iduser=?";
@@ -114,6 +116,53 @@ public class UserDAO extends AbstractDAO<Long, User> {
 // код возвращения экземпляра Connection в пул
         }
         return money;
+    }
+
+    public String findPasswordByUserId(Long id) {
+        String password = null;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_SELECT_USER_PASSWORD_BY_ID);
+            ps.setLong(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                password = resultSet.getString("password");
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return password;
+    }
+
+    public boolean updatePasswordByUserId(Long id, String password) {
+        boolean flag = false;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        try {
+            cn = TravelController.connectionPool.getConnection();
+            ps = cn.prepareStatement(SQL_UPDATE_USER_PASSWORD_BY_ID);
+            ps.setString(1,password);
+            ps.setLong(2,id);
+            ps.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            LOG.error("SQL exception (request or table failed): " + e);
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        } finally {
+            closeStatement(ps);
+            closeConnection(cn);
+// код возвращения экземпляра Connection в пул
+        }
+        return flag;
     }
 
     public boolean insertUser(User user) {

@@ -191,6 +191,11 @@ public enum CommandEnum {
             this.command = new BalanceAddCommand();
         }
     },
+    CHANGE_PASSWORD{
+        {
+            this.command = new ChangePasswordCommand();
+        }
+    },
     FORWARD {
         {
             this.command = new ForwardCommand();
