@@ -1,8 +1,10 @@
 package by.bsu.travelagency.controller;
 
 import by.bsu.travelagency.command.ActionCommand;
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.command.factory.ActionFactory;
 import by.bsu.travelagency.pool.ConnectionPool;
+import by.bsu.travelagency.pool.exceptions.ConnectionPoolException;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.resource.MessageManager;
 import by.bsu.travelagency.resource.ResourceManager;
@@ -11,19 +13,15 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.*;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.WebInitParam;
-import java.io.File;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -39,13 +37,29 @@ import java.util.Locale;
 )
 public class TravelController extends HttpServlet {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(TravelController.class);
+    
+    /** The connection pool. */
     public static ConnectionPool connectionPool;
+    
+    /** The resource manager. */
     public static ResourceManager resourceManager = ResourceManager.INSTANCE;
+    
+    /** The message manager. */
     public static MessageManager messageManager = MessageManager.INSTANCE;
+    
+    /** The Constant LOCALE_RU. */
     public final static String LOCALE_RU = "ru_RU";
+    
+    /** The Constant LOCALE_RU_VALUE. */
     public final static String LOCALE_RU_VALUE = "ru";
 
+    /**
+     * Inits the.
+     *
+     * @throws ServletException the servlet exception
+     */
     @Override
     public void init() throws ServletException {
         String prefix = getServletContext().getRealPath("/");
@@ -55,21 +69,58 @@ public class TravelController extends HttpServlet {
         }
         try {
             connectionPool = new ConnectionPool(20);
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException e) {
             LOG.error(e.getMessage());
         }
     }
 
+    /**
+     * Destroy.
+     */
+    @Override
+    public void destroy() {
+        try {
+            connectionPool.closeAllConnections();
+            super.destroy();
+        } catch (ConnectionPoolException e) {
+            LOG.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Do get.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Do post.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Process request.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void processRequest(HttpServletRequest request,
                                 HttpServletResponse response)
             throws ServletException, IOException {
@@ -89,7 +140,12 @@ public class TravelController extends HttpServlet {
         String page = null;
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request, response);
-        page = command.execute(request, response);
+        try {
+            page = command.execute(request, response);
+        } catch (CommandException e) {
+            LOG.error(e);
+            e.printStackTrace();
+        }
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);

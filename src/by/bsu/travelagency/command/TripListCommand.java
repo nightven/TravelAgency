@@ -1,9 +1,9 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.dao.TripDAO;
-import by.bsu.travelagency.dao.VacationDAO;
+import by.bsu.travelagency.dao.exceptions.DAOException;
 import by.bsu.travelagency.entity.Trip;
-import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
@@ -17,14 +17,23 @@ import java.util.List;
  */
 public class TripListCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(TripListCommand.class);
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         Date nowDate = new Date();
         TripDAO tripDAO = new TripDAO();
-        List<Trip> trips = tripDAO.findAllTripsAfterNow(new java.sql.Date(nowDate.getTime()));
+        List<Trip> trips = null;
+        try {
+            trips = tripDAO.findAllTripsAfterNow(new java.sql.Date(nowDate.getTime()));
+        } catch (DAOException e) {
+            throw new CommandException(e);
+        }
         request.setAttribute("trips", trips);
         page = ConfigurationManager.getProperty("path.page.trip.list");
         return page;

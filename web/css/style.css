@@ -314,20 +314,49 @@ pre{
     position: static;!important;
 }
 .before-grid{
+    text-align: center;
     clear: both;
 }
 .after-grid{
     clear: both;
 }
 
+.empty-list{
+    height: 30em;
+    line-height: 30em;
+    text-align: center;
+}
+
+.empty-list > span{
+    font-size: 40px;
+    font-weight: 900;
+    color: rgba(54, 54, 54, 0.26);
+}
+
 /*--------------------*/
 /***** TourImages *****/
 /*--------------------*/
+.effect-tour{
+    width: 424px;
+    height: 265px;
+    position: relative;
+    float: left;
+    margin: 10px 1%;
+    text-align: center;
+    z-index: 901;
+}
+
+.hot-tour-img{
+    display: block;
+    position: absolute;
+    z-index: 1;
+}
+
 .grid {
     position: relative;
     margin: 0 auto;
     padding: 1em 0 4em;
-    max-width: 1350px;
+    max-width: 1370px;
     list-style: none;
     text-align: center;
 }
@@ -335,10 +364,9 @@ pre{
 /* Common style */
 .grid figure {
     position: relative;
-    float: left;
     overflow: hidden;
-    margin: 10px 1%;
-    min-width: 320px;
+    margin: 4px 0;
+    min-width: 420px;
     max-width: 420px;
     max-height: 260px;
     width: 48%;
@@ -447,8 +475,8 @@ figure.effect-milo h3 {
     position: absolute;
     right: 0;
     top: 0;
-    padding-right: 1.2em;
-    padding-top: 1em;
+    padding-right: 2em;
+    padding-top: 1.5em;
 }
 
 figure.effect-milo p {
@@ -803,7 +831,7 @@ figure.effect-milo:hover p {
 /*---------------------------*/
 
 /*---------------------------*/
-/*****      balance      *****/
+/*****    change-pass    *****/
 /*---------------------------*/
 
 .change-password-page{
@@ -815,5 +843,96 @@ figure.effect-milo:hover p {
 }
 
 /*---------------------------*/
-/*****      balance      *****/
+/*****    change-pass    *****/
+/*---------------------------*/
+
+/*---------------------------*/
+/*****     search-box    *****/
+/*---------------------------*/
+
+#search-box{
+    display: none;
+}
+
+.slide-panel {
+    position: fixed;
+    z-index: 25;
+}
+
+.bottom {
+    bottom: 0;
+}
+
+.top {
+    top: 80px;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 10;
+    overflow: hidden;
+    text-align: left;
+    background-color: #464547;
+    height: 0;
+    width: 100%;
+    color: #fff;
+}
+
+.slide-button {
+    cursor: pointer;
+}
+
+.search-form {
+    height: 126px;
+    padding-top: 25px;
+}
+
+.search-form > .row > button{
+    margin-top: 25px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.search-form > .row > .form-group > .input-group{
+    width: 100%;
+}
+
+#search_text{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+#search_text_select{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+/*---------------------------*/
+/*****     search-box    *****/
+/*---------------------------*/
+
+/*---------------------------*/
+/*****      sorting      *****/
+/*---------------------------*/
+
+.cd-select{
+    width: 200px;
+    float: right;
+}
+
+.sort-box{
+    width: 312px;
+    margin: 0 auto;
+}
+
+.sort-box > label{
+    margin-top: 6px;
+}
+
+/*---------------------------*/
+/*****      sorting      *****/
 /*---------------------------*/

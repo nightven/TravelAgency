@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags"%>
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="resources.text" var="rb" />
 <html>
@@ -35,43 +36,37 @@
 <section>
     <div class="container-fluid">
         <span style="text-align: center;"><h1><fmt:message key="label.admin.vacation-list" bundle="${ rb }" /></h1></span>
-        <div class="before-grid">
-            <hr>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-condensed table-hover">
-                <thead class="admin-table-list">
-                <tr>
-                    <th><fmt:message key="label.admin.tour-id" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.name" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.vacation.hotel" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.departure-date" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.arrival-date" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.create-tour.tour.last-minute" bundle="${ rb }" /></th>
-                    <th><fmt:message key="label.admin.tour-image-path" bundle="${ rb }" /></th>
-                </tr>
-                </thead>
-                <tbody class="admin-table-list">
-                <c:forEach var="vacation" items="${vacations}">
-                        <tr onclick="window.location.href='travel?command=edit_vacation_page&id=<c:out value="${ vacation.id }" />'; return false">
-                            <td><c:out value="${ vacation.id }" /></td>
-                            <td><c:out value="${ vacation.name }" /></td>
-                            <td><c:out value="${ vacation.hotel }" /></td>
-                            <td><c:out value="${ vacation.departureDate }" /></td>
-                            <td><c:out value="${ vacation.arrivalDate }" /></td>
-                            <td><c:out value="${ vacation.destinationCity }" /></td>
-                            <td><c:out value="${ vacation.destinationCountry }" /></td>
-                            <td><c:out value="${ vacation.transport }" /></td>
-                            <td><c:choose><c:when test="${ vacation.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>
-                            <td><c:out value="${ vacation.pathImage }" /></td>
-                        </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+        <ctg:before-grid />
+        <ctg:vacation-table>
+        <tr>
+            <th><fmt:message key="label.admin.tour-id" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.name" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.vacation.hotel" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.departure-date" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.arrival-date" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.last-minute" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.tour-image-path" bundle="${ rb }" /></th>
+        </tr>
+        </thead>
+        <tbody class="admin-table-list">
+        <c:forEach var="vacation" items="${vacations}">
+        <tr onclick="window.location.href='travel?command=edit_vacation_page&id=<c:out value="${ vacation.id }" />'; return false">
+            <td><c:out value="${ vacation.id }" /></td>
+            <td><c:out value="${ vacation.name }" /></td>
+            <td><c:out value="${ vacation.hotel }" /></td>
+            <td><c:out value="${ vacation.departureDate }" /></td>
+            <td><c:out value="${ vacation.arrivalDate }" /></td>
+            <td><c:out value="${ vacation.destinationCity }" /></td>
+            <td><c:out value="${ vacation.destinationCountry }" /></td>
+            <td><c:out value="${ vacation.transport }" /></td>
+            <td><c:choose><c:when test="${ vacation.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>
+            <td><c:out value="${ vacation.pathImage }" /></td>
+        </tr>
+        </c:forEach>
+        </ctg:vacation-table>
         <div class="after-grid">
             <hr>
         </div>
@@ -81,11 +76,12 @@
     </div>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+
+<%@ include file="/jsp/footer.jsp"%>
+
 </body></html>
 

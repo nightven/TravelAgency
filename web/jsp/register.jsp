@@ -104,8 +104,6 @@
     <hr>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -114,6 +112,7 @@
 <script>
     $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
 </script>
-<%--<script src="/js/epamtravel.js"></script>--%>
+
+<%@ include file="/jsp/footer.jsp"%>
 
 </body></html>

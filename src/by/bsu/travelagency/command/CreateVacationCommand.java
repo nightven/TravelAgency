@@ -1,7 +1,9 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.logic.CreateVacationLogic;
+import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
@@ -11,30 +13,56 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Михаил on 2/16/2016.
  */
 public class CreateVacationCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateVacationCommand.class);
 
+    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
+    
+    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
+    
+    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
+    
+    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
+    
+    /** The Constant PARAM_NAME_DESTINATION_COUNTRY. */
     private static final String PARAM_NAME_DESTINATION_COUNTRY = "destination-country";
+    
+    /** The Constant PARAM_NAME_DESTINATION_CITY. */
     private static final String PARAM_NAME_DESTINATION_CITY = "destination-city";
+    
+    /** The Constant PARAM_NAME_HOTEL. */
     private static final String PARAM_NAME_HOTEL = "hotel";
+    
+    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
+    
+    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
+    
+    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
+    
+    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
+    
+    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
 
         String name = request.getParameter(PARAM_NAME_NAME);
@@ -59,19 +87,21 @@ public class CreateVacationCommand implements ActionCommand {
         Part filePart = null;
         try {
             filePart = request.getPart("img");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            e.printStackTrace();
+        } catch (IOException | ServletException e) {
+            throw new CommandException("Failed to get parts from request.",e);
         }
 
-        if (CreateVacationLogic.checkCreateVacation(name, summary, departureDate, arrivalDate, destinationCountry, destinationCity, hotel, lastMinute, price, transport, services, description, filePart, savePath)) {
-            page = ConfigurationManager.getProperty("path.page.admin.panel");
-        }
-        else {
-            request.setAttribute("errorCreateVacationPassMessage",
-                    TravelController.messageManager.getProperty("message.createvacationerror"));
-            page = ConfigurationManager.getProperty("path.page.admin.create.vacation");
+        try {
+            if (CreateVacationLogic.checkCreateVacation(name, summary, departureDate, arrivalDate, destinationCountry, destinationCity, hotel, lastMinute, price, transport, services, description, filePart, savePath)) {
+                page = ConfigurationManager.getProperty("path.page.admin.panel");
+            }
+            else {
+                request.setAttribute("errorCreateVacationPassMessage",
+                        TravelController.messageManager.getProperty("message.createvacationerror"));
+                page = ConfigurationManager.getProperty("path.page.admin.create.vacation");
+            }
+        } catch (BusinessLogicException e) {
+            throw new CommandException(e);
         }
 
         return page;

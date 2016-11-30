@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="resources.text" var="rb" />
 <html>
@@ -35,9 +36,7 @@
 <section>
     <div class="container-fluid">
         <span style="text-align: center;"><h1><fmt:message key="title.admin.edit-user" bundle="${ rb }" /></h1></span>
-        <div class="before-grid">
-            <hr>
-        </div>
+        <ctg:before-grid />
         <form id="edit-user-form" method="post" action="travel" accept-charset="utf-8">
             <input type="hidden" name="command" value="edit_user" />
             <input type="hidden" name="id" value="<c:out value="${ userProfile.id }" />" />
@@ -136,12 +135,12 @@
     </div>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+
+<%@ include file="/jsp/footer.jsp"%>
 
 </body></html>
 

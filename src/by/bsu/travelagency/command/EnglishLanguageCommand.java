@@ -1,19 +1,13 @@
 package by.bsu.travelagency.command;
 
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.LoginLogic;
 import by.bsu.travelagency.resource.ConfigurationManager;
-import by.bsu.travelagency.resource.MessageManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Locale;
 
 /**
@@ -21,12 +15,21 @@ import java.util.Locale;
  */
 public class EnglishLanguageCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EnglishLanguageCommand.class);
 
+    /** The Constant COOKIE_NAME. */
     final static String COOKIE_NAME = "locale";
+    
+    /** The Constant COOKIE_VALUE. */
     final static String COOKIE_VALUE = "en_US";
+    
+    /** The Constant COOKIE_AGE_IN_SEC. */
     final static int COOKIE_AGE_IN_SEC = 86_400;
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;

@@ -1,17 +1,14 @@
 package by.bsu.travelagency.command;
 
-import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.UserDAO;
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.dao.VacationDAO;
-import by.bsu.travelagency.entity.User;
+import by.bsu.travelagency.dao.exceptions.DAOException;
 import by.bsu.travelagency.entity.Vacation;
-import by.bsu.travelagency.logic.LoginLogic;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +17,23 @@ import java.util.List;
  */
 public class VacationListCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(VacationListCommand.class);
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         Date nowDate = new Date();
         VacationDAO vacationDAO = new VacationDAO();
-        List<Vacation> vacations = vacationDAO.findAllVacationsAfterNow(new java.sql.Date(nowDate.getTime()));
+        List<Vacation> vacations = null;
+        try {
+            vacations = vacationDAO.findAllVacationsAfterNow(new java.sql.Date(nowDate.getTime()));
+        } catch (DAOException e) {
+            throw new CommandException(e);
+        }
         request.setAttribute("vacations", vacations);
         page = ConfigurationManager.getProperty("path.page.vacation.list");
         return page;

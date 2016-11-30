@@ -1,10 +1,9 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.VacationDAO;
-import by.bsu.travelagency.entity.User;
+import by.bsu.travelagency.dao.exceptions.DAOException;
 import by.bsu.travelagency.entity.UserOrderNumber;
-import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
@@ -17,13 +16,22 @@ import java.util.List;
  */
 public class UserAdminListCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(UserAdminListCommand.class);
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         UserDAO userDAO = new UserDAO();
-        List<UserOrderNumber> users = userDAO.findAllUsersWithOrderCount();
+        List<UserOrderNumber> users = null;
+        try {
+            users = userDAO.findAllUsersWithOrderCount();
+        } catch (DAOException e) {
+            throw new CommandException(e);
+        }
         request.setAttribute("users", users);
         page = ConfigurationManager.getProperty("path.page.admin.edit.list.user");
         return page;

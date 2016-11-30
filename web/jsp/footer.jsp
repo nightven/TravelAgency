@@ -7,3 +7,48 @@
         <div class="copyright">&copy; <fmt:message key="footer.copyright" bundle="${ rb }" /></div>
     </div>
 </footer>
+
+<script src="/js/slidebox.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $("#search-box").slideBox({width: "100%", height: "126px", position: "top"});
+    });
+</script>
+<script>
+    $(function(){
+        $("#tour_field").change(function () {
+            switch ($("#tour_field :selected").val()){
+                case "name":
+                    $("#search_text").css("display", "");
+                    $("#search_text_select").css("display", "none");
+                    $("#search_text").attr("type", "text");
+                    break;
+                case "departure_date":
+                    $("#search_text").css("display", "");
+                    $("#search_text_select").css("display", "none");
+                    $("#search_text").attr("type", "date");
+                    break;
+                case "arrival_date":
+                    $("#search_text").css("display", "");
+                    $("#search_text_select").css("display", "none");
+                    $("#search_text").attr("type", "date");
+                    break;
+                case "price":
+                    $("#search_text").css("display", "");
+                    $("#search_text_select").css("display", "none");
+                    $("#search_text").attr("type", "number");
+                    break;
+                case "transport":
+                    $("#search_text").css("display", "none");
+                    $("#search_text_select").css("display", "");
+                    break;
+                default:
+                    $("#search_text").css("display", "");
+                    $("#search_text_select").css("display", "none");
+                    $("#search_text").attr("type", "text");
+                    break;
+            }
+        })
+    });
+</script>

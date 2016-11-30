@@ -1,8 +1,9 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.command.exceptions.CommandException;
 import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.logic.EditTripLogic;
-import by.bsu.travelagency.logic.EditVacationLogic;
+import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import org.apache.log4j.Logger;
 
@@ -18,23 +19,50 @@ import java.io.IOException;
  */
 public class EditTripCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditTripCommand.class);
 
+    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
+    
+    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
+    
+    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
+    
+    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
+    
+    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
+    
+    /** The Constant PARAM_NAME_ARRIVAL_CITIES. */
     private static final String PARAM_NAME_ARRIVAL_CITIES = "cities";
+    
+    /** The Constant PARAM_NAME_ARRIVAL_ATTRACTIONS. */
     private static final String PARAM_NAME_ARRIVAL_ATTRACTIONS = "attractions";
+    
+    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
+    
+    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
+    
+    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
+    
+    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
+    
+    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
 
 
@@ -69,16 +97,9 @@ public class EditTripCommand implements ActionCommand {
                 String savePath = appPath + SAVE_DIR;
 
                 LOG.debug("Save Path = " + savePath);
-                Part filePart = null;
-                try {
-                    filePart = request.getPart("img");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                }
+                Part filePart = request.getPart("img");
 
-        if (EditTripLogic.checkEditTrip(id, name, summary, departureDate, arrivalDate, cities, attractions, lastMinute, price, transport, services, description, filePart, savePath)) {
+                if (EditTripLogic.checkEditTrip(id, name, summary, departureDate, arrivalDate, cities, attractions, lastMinute, price, transport, services, description, filePart, savePath)) {
             page = ConfigurationManager.getProperty("path.page.admin.panel");
         }
         else {
@@ -87,10 +108,10 @@ public class EditTripCommand implements ActionCommand {
             page = ConfigurationManager.getProperty("path.page.admin.edit.info.trip");
         }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            e.printStackTrace();
+        } catch (IOException | ServletException e) {
+            throw new CommandException("Failed to get parts from request.", e);
+        } catch (BusinessLogicException e) {
+            throw new CommandException(e);
         }
 
         return page;

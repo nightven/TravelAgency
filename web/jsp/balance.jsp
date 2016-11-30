@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags"%>
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="resources.text" var="rb" />
 <html>
@@ -48,9 +49,7 @@
         </c:otherwise>
     </c:choose>
 
-    <div class="before-grid">
-        <hr>
-    </div>
+    <ctg:before-grid />
 
     <div class="container-fluid balance-page">
         <div class="row balance-text-center"><span><fmt:message key="label.balance.user-text" bundle="${rb}" /> <b><c:out value="${ userProfile.name }" /> <c:out value="${ userProfile.surname }" /></b>,</span></div>
@@ -78,15 +77,13 @@
     </div>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
-<script src="/js/jqBootstrapValidation.js"></script>
-<script>
-    $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
-</script>
+
+<%@ include file="/jsp/footer.jsp"%>
+
 </body></html>
 

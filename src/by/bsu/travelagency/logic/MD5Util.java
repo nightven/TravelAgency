@@ -1,5 +1,7 @@
 package by.bsu.travelagency.logic;
 
+import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,7 +11,14 @@ import java.security.NoSuchAlgorithmException;
  */
 public class MD5Util {
 
-    public static String md5Encode(String st) {
+    /**
+     * Md 5 encode.
+     *
+     * @param st the st
+     * @return the string
+     * @throws BusinessLogicException the business logic exception
+     */
+    public static String md5Encode(String st) throws BusinessLogicException {
         MessageDigest messageDigest = null;
         byte[] digest = new byte[0];
 
@@ -19,7 +28,7 @@ public class MD5Util {
             messageDigest.update(st.getBytes());
             digest = messageDigest.digest();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new BusinessLogicException("Failed to MD5 encode.", e);
         }
 
         BigInteger bigInt = new BigInteger(1, digest);

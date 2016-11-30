@@ -36,7 +36,9 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
+
 <%@ include file="/jsp/header.jsp"%>
+
 <section>
     <div class="homepage-banner"></div>
     <span style="text-align: center;"><h1><fmt:message key="action.login" bundle="${ rb }" /></h1></span>
@@ -102,10 +104,14 @@
     <hr>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+
+<%@ include file="/jsp/footer.jsp"%>
+
+
 </body></html>

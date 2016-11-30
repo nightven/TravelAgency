@@ -26,8 +26,6 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <!-- <div class="header-logo"><a href="travel?command=tour_list" class="logo"><img src="images/logo_gray-blue_epamtravel_80px.svg" width="170px" height="48px"></a></div> -->
-                    <!--<div class="header-logo"><a href="travel" class="logo"><img src="/images/logo_gray-blue_epamtravel_80px.svg" width="170px" height="48px"></a></div>-->
                     <div class="header-menu">
                         <div class="nav-menu">
                             <ul class="title-menu">
@@ -35,7 +33,7 @@
                                 <li class="menu-item"><a href="travel?command=vacation_list" class="menu-link"><fmt:message key="menu.item2" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=trip_list" class="menu-link"><fmt:message key="menu.item3" bundle="${ rb }" /></a></li>
                                 <li class="menu-item"><a href="travel?command=shopping_list" class="menu-link"><fmt:message key="menu.item4" bundle="${ rb }" /></a></li>
-                                <li class="menu-item"><a href="travel?command=forward&page=create_user" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>
+                                <%--<li class="menu-item"><a href="travel?command=forward&page=create_user" class="menu-link"><fmt:message key="test" bundle="${ rb }" /></a></li>--%>
                             </ul>
                         </div>
                         <div class="header-utility">
@@ -46,7 +44,7 @@
                                     <li class="localization-item"><a href="travel?command=russian_language" class="localization-link">Русский</a></li>
                                 </ul>
                             </div>
-                            <div class="search"><img class="search-icon" src="images/search.png" alt="Search"></div>
+                            <div class="search"><img class="search-icon slide-button" src="images/search.png" alt="Search"></div>
                         </div>
                         <div class="user">
                             <c:choose>
@@ -82,3 +80,47 @@
     </nav>
 </header>
 
+<div id="search-box">
+    <div class="container-fluid">
+        <form class="search-form" role="form" id="search" method="post" action="travel">
+            <input type="hidden" name="command" value="search" />
+            <div class="row">
+                <div class="form-group col-sm-2 col-sm-offset-2">
+                    <label for="tour_type"><fmt:message key="label.tour-type" bundle="${ rb }" /></label>
+                    <div class="input-group">
+                        <select class="form-control" id="tour_type" name="tour_type">
+                            <option value="vacation"><fmt:message key="label.vacation" bundle="${ rb }" /></option>
+                            <option value="trip"><fmt:message key="label.trip" bundle="${ rb }" /></option>
+                            <option value="shopping"><fmt:message key="label.shopping" bundle="${ rb }" /></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="tour_field"><fmt:message key="label.search-term" bundle="${ rb }" /></label>
+                    <div class="input-group">
+                        <select class="form-control" id="tour_field" name="tour_field">
+                            <option value="name"><fmt:message key="label.name" bundle="${ rb }" /></option>
+                            <option value="departure_date"><fmt:message key="label.vacation.departureDate" bundle="${ rb }" /></option>
+                            <option value="arrival_date"><fmt:message key="label.vacation.arrivalDate" bundle="${ rb }" /></option>
+                            <option value="price"><fmt:message key="label.vacation.price" bundle="${ rb }" /></option>
+                            <option value="transport"><fmt:message key="label.vacation.transport" bundle="${ rb }" /></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="search_text"><fmt:message key="label.search-conditions" bundle="${ rb }" /></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search_text" name="search_text">
+                        <select style="display: none;" class="form-control" id="search_text_select" name="search_text_select">
+                            <option value="PLANE"><fmt:message key="label.transport.plane" bundle="${ rb }" /></option>
+                            <option value="BOAT"><fmt:message key="label.transport.boat" bundle="${ rb }" /></option>
+                            <option value="TRAIN"><fmt:message key="label.transport.train" bundle="${ rb }" /></option>
+                            <option value="BUS"><fmt:message key="label.transport.bus" bundle="${ rb }" /></option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success col-sm-1"><fmt:message key="action.search" bundle="${ rb }" /></button>
+            </div>
+        </form>
+    </div>
+</div>

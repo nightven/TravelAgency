@@ -1,10 +1,10 @@
 package by.bsu.travelagency.logic;
 
 import by.bsu.travelagency.dao.TripDAO;
-import by.bsu.travelagency.dao.VacationDAO;
+import by.bsu.travelagency.dao.exceptions.DAOException;
 import by.bsu.travelagency.entity.Transport;
 import by.bsu.travelagency.entity.Trip;
-import by.bsu.travelagency.entity.Vacation;
+import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Part;
@@ -19,15 +19,38 @@ import java.util.regex.Pattern;
  * Created by Михаил on 2/16/2016.
  */
 public class EditTripLogic {
+    
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditTripLogic.class);
 
+    /** The Constant REGEX_FILE_NAME. */
     final static String REGEX_FILE_NAME = "([0-9])*";
 
 
+    /**
+     * Check edit trip.
+     *
+     * @param enterId the enter id
+     * @param enterName the enter name
+     * @param enterSummary the enter summary
+     * @param enterDepartureDate the enter departure date
+     * @param enterArrivalDate the enter arrival date
+     * @param enterCities the enter cities
+     * @param enterAttractions the enter attractions
+     * @param enterLastMinute the enter last minute
+     * @param enterPrice the enter price
+     * @param enterTransport the enter transport
+     * @param enterServices the enter services
+     * @param enterDescription the enter description
+     * @param img the img
+     * @param savePath the save path
+     * @return true, if successful
+     * @throws BusinessLogicException the business logic exception
+     */
     public static boolean checkEditTrip(String enterId, String enterName, String enterSummary, String enterDepartureDate,
                                             String enterArrivalDate, String enterCities, String enterAttractions, String enterLastMinute,
                                             String enterPrice, String enterTransport, String enterServices, String enterDescription,
-                                            Part img, String savePath) {
+                                            Part img, String savePath) throws BusinessLogicException {
         boolean flag = false;
         if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -38,13 +61,9 @@ public class EditTripLogic {
             trip.setDescription(enterDescription);
             try {
                 trip.setDepartureDate(format.parse(enterDepartureDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
                 trip.setArrivalDate(format.parse(enterArrivalDate));
             } catch (ParseException e) {
-                e.printStackTrace();
+                throw new BusinessLogicException("Failed to parse date (Shopping).", e);
             }
             trip.setPrice(Integer.parseInt(enterPrice));
             trip.setLastMinute(("on".equals(enterLastMinute)));
@@ -54,7 +73,12 @@ public class EditTripLogic {
             trip.setServices(enterServices);
 
             TripDAO tripDAO = new TripDAO();
-            String pathImage = tripDAO.findPathImageTripById(trip.getId());
+            String pathImage = null;
+            try {
+                pathImage = tripDAO.findPathImageTripById(trip.getId());
+            } catch (DAOException e) {
+                throw new BusinessLogicException("Failed to find image path (Trip).", e);
+            }
             Pattern patternFileName = Pattern.compile(REGEX_FILE_NAME);
             Matcher matcherFileName = patternFileName.matcher(pathImage);
             String fileName = null;
@@ -70,21 +94,43 @@ public class EditTripLogic {
             try {
                 img.write(savePath + File.separator + fileName + ".jpg");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new BusinessLogicException("Failed to write to file (Trip).", e);
             }
-            trip.setPathImage("/images/trips/"+ fileName + ".jpg"); // картинка!!!
+            trip.setPathImage("/images/trips/"+ fileName + ".jpg");
 
 
-            if (tripDAO.updateTrip(trip)){
-                flag = true;
+            try {
+                if (tripDAO.update(trip)){
+                    flag = true;
+                }
+            } catch (DAOException e) {
+                throw new BusinessLogicException("Failed to update trip.", e);
             }
         }
             return flag;
         }
 
+    /**
+     * Check edit trip.
+     *
+     * @param enterId the enter id
+     * @param enterName the enter name
+     * @param enterSummary the enter summary
+     * @param enterDepartureDate the enter departure date
+     * @param enterArrivalDate the enter arrival date
+     * @param enterCities the enter cities
+     * @param enterAttractions the enter attractions
+     * @param enterLastMinute the enter last minute
+     * @param enterPrice the enter price
+     * @param enterTransport the enter transport
+     * @param enterServices the enter services
+     * @param enterDescription the enter description
+     * @return true, if successful
+     * @throws BusinessLogicException the business logic exception
+     */
     public static boolean checkEditTrip(String enterId, String enterName, String enterSummary, String enterDepartureDate,
                                             String enterArrivalDate, String enterCities, String enterAttractions, String enterLastMinute,
-                                            String enterPrice, String enterTransport, String enterServices, String enterDescription) {
+                                            String enterPrice, String enterTransport, String enterServices, String enterDescription) throws BusinessLogicException {
         boolean flag = false;
         if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -95,13 +141,9 @@ public class EditTripLogic {
             trip.setDescription(enterDescription);
             try {
                 trip.setDepartureDate(format.parse(enterDepartureDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
                 trip.setArrivalDate(format.parse(enterArrivalDate));
             } catch (ParseException e) {
-                e.printStackTrace();
+                throw new BusinessLogicException("Failed to parse date (Trip).", e);
             }
             trip.setPrice(Integer.parseInt(enterPrice));
             trip.setLastMinute(("on".equals(enterLastMinute)));
@@ -111,15 +153,24 @@ public class EditTripLogic {
             trip.setServices(enterServices);
 
             TripDAO tripDAO = new TripDAO();
-            String pathImage = tripDAO.findPathImageTripById(trip.getId());
+            String pathImage = null;
+            try {
+                pathImage = tripDAO.findPathImageTripById(trip.getId());
+            } catch (DAOException e) {
+                throw new BusinessLogicException("Failed to find image path (Trip).", e);
+            }
 
             LOG.debug("Logic: pathImage: " + pathImage);
 
-            trip.setPathImage(pathImage); // картинка!!!
+            trip.setPathImage(pathImage);
 
 
-            if (tripDAO.updateTrip(trip)){
-                flag = true;
+            try {
+                if (tripDAO.update(trip)){
+                    flag = true;
+                }
+            } catch (DAOException e) {
+                throw new BusinessLogicException("Failed to update trip.", e);
             }
         }
         return flag;

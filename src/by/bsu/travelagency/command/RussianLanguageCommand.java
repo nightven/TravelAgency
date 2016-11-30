@@ -15,13 +15,24 @@ import java.util.Locale;
  */
 public class RussianLanguageCommand implements ActionCommand {
 
+    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(RussianLanguageCommand.class);
 
+    /** The Constant COOKIE_NAME. */
     final static String COOKIE_NAME = "locale";
+    
+    /** The Constant COOKIE_VALUE. */
     final static String COOKIE_VALUE = "ru_RU";
+    
+    /** The Constant LOCALE_VALUE. */
     final static String LOCALE_VALUE = "ru";
+    
+    /** The Constant COOKIE_AGE_IN_SEC. */
     final static int COOKIE_AGE_IN_SEC = 86_400;
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;

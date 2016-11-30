@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Михаил on 2/16/2016.
  */
 public class EmptyCommand implements ActionCommand {
+    
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-/* в случае ошибки или прямого обращения к контроллеру
-* переадресация на страницу ввода логина */
         String page = ConfigurationManager.getProperty("path.page.login");
         return page;
     }

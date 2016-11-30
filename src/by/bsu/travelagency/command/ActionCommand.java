@@ -1,5 +1,7 @@
 package by.bsu.travelagency.command;
 
+import by.bsu.travelagency.command.exceptions.CommandException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,5 +9,14 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Михаил on 2/16/2016.
  */
 public interface ActionCommand {
-    String execute(HttpServletRequest request, HttpServletResponse response);
+    
+    /**
+     * Execute.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the string
+     * @throws CommandException the command exception
+     */
+    String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException;
 }

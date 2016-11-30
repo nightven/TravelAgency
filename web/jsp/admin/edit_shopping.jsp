@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="resources.text" var="rb" />
 <html>
@@ -35,9 +36,7 @@
 <section>
     <div class="container-fluid">
         <span style="text-align: center;"><h1><fmt:message key="title.admin.edit-shopping" bundle="${ rb }" /></h1></span>
-        <div class="before-grid">
-            <hr>
-        </div>
+        <ctg:before-grid />
         <form id="edit-vacation-form" method="post" action="travel" enctype="multipart/form-data" accept-charset="utf-8">
             <input type="hidden" name="command" value="edit_shopping" />
             <input type="hidden" name="id" value="<c:out value="${ shopping.id }" />" />
@@ -189,8 +188,6 @@
     </div>
 </section>
 
-<%@ include file="/jsp/footer.jsp"%>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -222,5 +219,8 @@
         $('#img-preview').attr('src', '<c:out value="${ shopping.pathImage }" />');
     });
 </script>
+
+<%@ include file="/jsp/footer.jsp"%>
+
 </body></html>
 
