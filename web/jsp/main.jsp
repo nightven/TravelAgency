@@ -44,20 +44,20 @@
     <ctg:before-grid />
     <div class="grid">
         <c:forEach var="vacation" items="${vacations}" varStatus="status">
-            <div class="effect-tour">
-                <c:if test="${ vacation.lastMinute }">
-                    <img class="hot-tour-img" src="/images/hot_tour.png" />
-                </c:if>
-                <figure class="effect-milo">
-                    <img src="${vacation.pathImage}" alt="img"/>
-                    <figcaption>
-                        <h2><c:out value="${ vacation.destinationCity }" />, <span><c:out value="${ vacation.destinationCountry }" /></span></h2>
-                        <h3><c:out value="${ vacation.price }" />$</h3>
-                        <p><c:out value="${ vacation.summary }" /></p>
-                        <a href="travel?command=vacation_full&id=<c:out value="${ vacation.id }" />"></a>
-                    </figcaption>
-                </figure>
-            </div>
+                <div class="effect-tour">
+                    <c:if test="${ vacation.lastMinute }">
+                        <img class="hot-tour-img" src="/images/hot_tour.png" />
+                    </c:if>
+                    <figure class="effect-milo">
+                        <img src="${vacation.pathImage}" alt="img"/>
+                        <figcaption>
+                            <h2><c:out value="${ vacation.cities[0].nameCity }" />, <span><c:out value="${ vacation.cities[0].country.nameCountry }" /></span></h2>
+                            <h3><c:out value="${ vacation.price }" />$</h3>
+                            <p><c:out value="${ vacation.summary }" /></p>
+                            <a href="travel?command=vacation_full&id=<c:out value="${ vacation.id }" />"></a>
+                        </figcaption>
+                    </figure>
+                </div>
         </c:forEach>
     </div>
     <div class="after-grid">
@@ -76,7 +76,7 @@
                 <figure class="effect-milo">
                     <img src="${trip.pathImage}" alt="img"/>
                     <figcaption>
-                        <h2><span><c:out value="${ trip.name }" /></span></h2>
+                        <h2><c:out value="${ trip.cities[0].nameCity }" />, <span><c:out value="${ trip.cities[0].country.nameCountry }" /></span></h2>
                         <h3><c:out value="${ trip.price }" />$</h3>
                         <p><c:out value="${ trip.summary }" /></p>
                         <a href="travel?command=trip_full&id=<c:out value="${ trip.id }" />"></a>
@@ -101,7 +101,7 @@
                 <figure class="effect-milo">
                     <img src="${shopping.pathImage}" alt="img"/>
                     <figcaption>
-                        <h2><c:out value="${ shopping.destinationCity }" />, <span><c:out value="${ shopping.destinationCountry }" /></span></h2>
+                        <h2><c:out value="${ shopping.cities[0].nameCity }" />, <span><c:out value="${ shopping.cities[0].country.nameCountry }" /></span></h2>
                         <h3><c:out value="${ shopping.price }" />$</h3>
                         <p><c:out value="${ shopping.summary }" /></p>
                         <a href="travel?command=shopping_full&id=<c:out value="${ shopping.id }" />"></a>

@@ -80,13 +80,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="destination-country"><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-country" name="destination-country" required>
-                </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-city" name="destination-city" required>
+                    <select class="form-control" id="destination-city" name="destination-city">
+                        <c:forEach var="city" items="${cities}">
+                            <option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -111,9 +111,21 @@
                 </div>
             </div>
             <div class="row">
+                <div class="form-group col-sm-4 col-sm-offset-3">
+                    <label for="add-shop-text"><fmt:message key="label.admin.add-shop-text" bundle="${ rb }" /></label>
+                    <input type="text" class="form-control" id="add-shop-text" name="add-shop-text">
+                </div>
+                <div class="form-group col-sm-1">
+                    <button type="button" id="add-shop" class="btn btn-success add-shop-button"><fmt:message key="label.admin.add-shop-button" bundle="${ rb }" /></button>
+                </div>
+                <div class="form-group col-sm-1">
+                    <button type="button" id="delete-shop" class="btn btn-danger add-shop-button"><fmt:message key="label.admin.delete-shop-button" bundle="${ rb }" /></button>
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="shops"><fmt:message key="label.admin.create-tour.shopping.shops" bundle="${ rb }" /></label>
-                    <textarea class="form-control" rows="5" id="shops" name="shops"></textarea>
+                    <textarea class="form-control" rows="5" id="shops" name="shops" readonly></textarea>
                 </div>
             </div>
             <div class="row">
@@ -176,6 +188,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/epamtravel.js"></script>
 <script>
     $('#img').change(function () {
         var input = $(this)[0];
@@ -201,6 +214,35 @@
 
     $('#form').bind('reset', function () {
         $('#img-preview').attr('src', '/images/480x360.png');
+    });
+
+    $('#add-shop').click(function () {
+        var elementOfTextView = document.getElementById('add-shop-text');
+        var elemOfReadOnlyTextView = document.getElementById('shops');
+        if((elemOfReadOnlyTextView.value=="")&&(elementOfTextView.value!="")){
+            elemOfReadOnlyTextView.value=elementOfTextView.value;
+            elementOfTextView.value="";
+        }
+        else if(elementOfTextView.value!=""){
+            elemOfReadOnlyTextView.value=elemOfReadOnlyTextView.value+", "+elementOfTextView.value;
+            elementOfTextView.value="";
+        }
+    });
+
+    $('#delete-shop').click(function () {
+        var elemOfReadOnlyTextView = document.getElementById('shops');
+        var symbol='';
+        for(var i = 0; i<elemOfReadOnlyTextView.value.length; i++){
+            if((elemOfReadOnlyTextView.value[i]==',')&&(elemOfReadOnlyTextView.value[i+1]==' ')){
+                symbol=i;
+            }
+        }
+        if(symbol!=''){
+            elemOfReadOnlyTextView.value=elemOfReadOnlyTextView.value.substr(0,symbol);
+        }
+        else{
+            elemOfReadOnlyTextView.value=elemOfReadOnlyTextView.value="";
+        }
     });
 </script>
 

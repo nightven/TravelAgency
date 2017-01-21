@@ -59,8 +59,8 @@
             <td><c:out value="${ vacation.hotel }" /></td>
             <td><c:out value="${ vacation.departureDate }" /></td>
             <td><c:out value="${ vacation.arrivalDate }" /></td>
-            <td><c:out value="${ vacation.destinationCity }" /></td>
-            <td><c:out value="${ vacation.destinationCountry }" /></td>
+            <td><c:out value="${ vacation.cities[0].nameCity }" /></td>
+            <td><c:out value="${ vacation.cities[0].country.nameCountry }" /></td>
             <td><c:out value="${ vacation.transport }" /></td>
             <td><c:choose><c:when test="${ vacation.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>
             <td><c:out value="${ vacation.pathImage }" /></td>

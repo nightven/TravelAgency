@@ -1,10 +1,10 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.TripDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.Transport;
 import by.bsu.travelagency.entity.Trip;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Part;
@@ -22,7 +22,7 @@ public class CreateTripLogic {
     private final static Logger LOG = Logger.getLogger(CreateTripLogic.class);
 
     /** The Constant TRIP_ID_FOR_INSERT. */
-    final static int TRIP_ID_FOR_INSERT = 0;
+    private final static int TRIP_ID_FOR_INSERT = 0;
 
     /**
      * Check create trip.
@@ -31,7 +31,8 @@ public class CreateTripLogic {
      * @param enterSummary the enter summary
      * @param enterDepartureDate the enter departure date
      * @param enterArrivalDate the enter arrival date
-     * @param enterCities the enter cities
+     * @param enterDestinationCountry the enter destination country
+     * @param enterDestinationCity the enter destination city
      * @param enterAttractions the enter attractions
      * @param enterLastMinute the enter last minute
      * @param enterPrice the enter price
@@ -44,10 +45,11 @@ public class CreateTripLogic {
      * @throws BusinessLogicException the business logic exception
      */
     public static boolean checkCreateTrip(String enterName, String enterSummary, String enterDepartureDate,
-                                              String enterArrivalDate, String enterCities, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
+                                              String enterArrivalDate, String enterDestinationCountry, String enterDestinationCity,
+                                              String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
                                               String enterServices, String enterDescription, Part img, String savePath) throws BusinessLogicException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateDestinationCountry(enterDestinationCountry) && Validator.validateDestinationCity(enterDestinationCity)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Trip trip = new Trip();
             trip.setId(TRIP_ID_FOR_INSERT);
@@ -57,39 +59,34 @@ public class CreateTripLogic {
             try {
                 trip.setDepartureDate(format.parse(enterDepartureDate));
                 trip.setArrivalDate(format.parse(enterArrivalDate));
-            } catch (ParseException e) {
-                throw new BusinessLogicException("Failed to parse date (Trip).", e);
-            }
-            trip.setPrice(Integer.parseInt(enterPrice));
-            trip.setLastMinute(("on".equals(enterLastMinute)));
-            trip.setCities(enterCities);
-            trip.setAttractions(enterAttractions);
-            trip.setTransport(Transport.valueOf(enterTransport.toUpperCase()));
-            trip.setServices(enterServices);
 
-            TripDAO tripDAO = new TripDAO();
-            Long lastId = null;
-            try {
+                trip.setPrice(Integer.parseInt(enterPrice));
+                trip.setLastMinute(("on".equals(enterLastMinute)));
+//                trip.setDestinationCity(enterDestinationCity);
+//                trip.setDestinationCountry(enterDestinationCountry);
+                trip.setAttractions(enterAttractions);
+                trip.setTransport(Transport.valueOf(enterTransport.toUpperCase()));
+                trip.setServices(enterServices);
+
+                JdbcTripDAO tripDAO = new JdbcTripDAO();
+                Long lastId = null;
                 lastId = tripDAO.findLastTripId() + 1L;
-            } catch (DAOException e) {
-                throw new BusinessLogicException("Failed to find last trip id.", e);
-            }
-            try {
+
                 img.write(savePath + File.separator + lastId + ".jpg");
-            } catch (IOException e) {
-                throw new BusinessLogicException("Failed to write to file (Trip).", e);
-            }
-            trip.setPathImage("/images/trips/"+ lastId + ".jpg");
 
+                trip.setPathImage("/images/trips/"+ lastId + ".jpg");
 
-            try {
                 if (tripDAO.create(trip)){
                     flag = true;
                 }
             } catch (DAOException e) {
                 throw new BusinessLogicException("Failed to create trip.", e);
+            } catch (ParseException e) {
+                throw new BusinessLogicException("Failed to parse date (Trip).", e);
+            } catch (IOException e) {
+                throw new BusinessLogicException("Failed to write to file (Trip).", e);
             }
         }
-            return flag;
-        }
+        return flag;
+    }
     }

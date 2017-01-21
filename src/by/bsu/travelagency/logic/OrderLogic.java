@@ -1,11 +1,11 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.OrderDAO;
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcOrderDAO;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.Order;
 import by.bsu.travelagency.entity.TourType;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
@@ -21,7 +21,7 @@ public class OrderLogic {
     private final static Logger LOG = Logger.getLogger(OrderLogic.class);
 
     /** The Constant ORDER_ID_FOR_INSERT. */
-    final static Long ORDER_ID_FOR_INSERT = 0L;
+    private final static Long ORDER_ID_FOR_INSERT = 0L;
 
     /**
      * Check order.
@@ -30,17 +30,15 @@ public class OrderLogic {
      * @param tourId the tour id
      * @param departureDate the departure date
      * @param arrivalDate the arrival date
-     * @param price the price
      * @param enterQuantity the enter quantity
-     * @param discount the discount
      * @param tourType the tour type
      * @param totalPrice the total price
      * @param userBalance the user balance
      * @return true, if successful
      * @throws BusinessLogicException the business logic exception
      */
-    public static boolean checkOrder(Long userId, Long tourId, String departureDate, String arrivalDate, int price, int enterQuantity,
-                                     double discount, String tourType, int totalPrice, int userBalance) throws BusinessLogicException {
+    public static boolean checkOrder(Long userId, Long tourId, String departureDate, String arrivalDate, int enterQuantity,
+                                     String tourType, int totalPrice, int userBalance) throws BusinessLogicException {
         boolean flag = false;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date departureDateFormatted = null;
@@ -59,55 +57,51 @@ public class OrderLogic {
             try {
                 order.setDepartureDate(format.parse(departureDate));
                 order.setArrivalDate(format.parse(arrivalDate));
-            } catch (ParseException e) {
-                throw new BusinessLogicException("Failed to parse date (Order).", e);
-            }
-            order.setPrice(price);
-            order.setQuantity(enterQuantity);
-            order.setDiscount(discount);
-            order.setTourType(TourType.valueOf(tourType.toUpperCase()));
-            order.setTotalPrice(totalPrice);
-
-            UserDAO userDAO = new UserDAO();
-            int newBalance = userBalance-totalPrice;
-
-            OrderDAO orderDAO = new OrderDAO();
-
-            try {
+                order.setQuantity(enterQuantity);
+                order.setTourType(TourType.valueOf(tourType.toUpperCase()));
+                order.setTotalPrice(totalPrice);
+                JdbcUserDAO userDAO = new JdbcUserDAO();
+                int newBalance = userBalance-totalPrice;
+                JdbcOrderDAO orderDAO = new JdbcOrderDAO();
                 if (orderDAO.create(order) && userDAO.updateUserBalance(userId, newBalance)){
                     flag = true;
                 }
             } catch (DAOException e) {
                 throw new BusinessLogicException("Failed to create order or to update user balance (Order).", e);
+            } catch (ParseException e) {
+                throw new BusinessLogicException("Failed to parse date (Order).", e);
             }
         }
-            return flag;
-        }
+        return flag;
+    }
 
     /**
      * Check order delete.
      *
      * @param orderId the order id
      * @param userId the user id
-     * @param departureDate the departure date
-     * @param totalPrice the total price
      * @return true, if successful
      * @throws BusinessLogicException the business logic exception
      */
-    public static boolean checkOrderDelete(Long orderId, Long userId, Date departureDate, int totalPrice) throws BusinessLogicException {
+    public static boolean checkOrderDelete(Long orderId, Long userId) throws BusinessLogicException {
         boolean flag = false;
-        if (Validator.validateOrderDate(departureDate)){
-            OrderDAO orderDAO = new OrderDAO();
-            UserDAO userDAO = new UserDAO();
+        JdbcOrderDAO orderDAO = new JdbcOrderDAO();
+        JdbcUserDAO userDAO = new JdbcUserDAO();
 
-            try {
-                if (orderDAO.delete(orderId) && userDAO.updateUserBalanceAddition(userId, totalPrice)){
-                    flag = true;
+        try {
+            LOG.debug("checkOrderDelete userId = " + orderDAO.findUserIdByOrderId(orderId));
+            if (userId == orderDAO.findUserIdByOrderId(orderId)) {
+                Date departureDate = orderDAO.findDepartureDateById(orderId);
+                int totalPrice = orderDAO.findTotalPriceById(orderId);
+                if (Validator.validateOrderDate(departureDate)) {
+                    if (orderDAO.delete(orderId) && userDAO.updateUserBalanceAddition(userId, totalPrice)) {
+                        flag = true;
+                    }
                 }
-            } catch (DAOException e) {
-                throw new BusinessLogicException("Failed to delete order or to update user balance (Order).", e);
             }
+        } catch (DAOException e) {
+            throw new BusinessLogicException("Failed to delete order or to update user balance (Order).", e);
         }
         return flag;
     }
-    }
+}

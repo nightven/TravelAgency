@@ -24,6 +24,7 @@ public class ForwardCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
         String requestPage = request.getParameter(PARAM_NAME_PAGE);
+        // TODO: 12/10/2016 change switch to HashMap
         switch (requestPage){
             case "login":
                 page = ConfigurationManager.getProperty("path.page.login");
@@ -35,7 +36,7 @@ public class ForwardCommand implements ActionCommand {
                 page = ConfigurationManager.getProperty("path.page.main");
                 break;
             case "vacations":
-                page = ConfigurationManager.getProperty("path.page.vacation.list");
+                page = ConfigurationManager.getProperty("path.page.vacaton.list");
                 break;
             case "trips":
                 page = ConfigurationManager.getProperty("path.page.trip.list");
@@ -55,9 +56,6 @@ public class ForwardCommand implements ActionCommand {
             case "create_shopping":
                 page = ConfigurationManager.getProperty("path.page.admin.create.shopping");
                 break;
-            case "list_vacation":
-                page = ConfigurationManager.getProperty("path.page.admin.edit.list.vacation");
-                break;
             case "orders":
                 page = ConfigurationManager.getProperty("path.page.orders");
                 break;
@@ -66,6 +64,9 @@ public class ForwardCommand implements ActionCommand {
                 break;
             case "create_user":
                 page = ConfigurationManager.getProperty("path.page.admin.create.user");
+                break;
+            case "create_country":
+                page = ConfigurationManager.getProperty("path.page.admin.create.country");
                 break;
             default:
                 page = ConfigurationManager.getProperty("path.page.login");

@@ -17,6 +17,9 @@ public class ActionFactory {
     /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ActionFactory.class);
 
+    /** The Constant PARAM_NAME_COMMAND */
+    private static final String PARAM_NAME_COMMAND = "command";
+
     /**
      * Define command.
      *
@@ -26,7 +29,7 @@ public class ActionFactory {
      */
     public ActionCommand defineCommand(HttpServletRequest request, HttpServletResponse response) {
         ActionCommand current = new EmptyCommand();
-        String action = request.getParameter("command");
+        String action = request.getParameter(PARAM_NAME_COMMAND);
         LOG.debug("Action = " + action);
         if (action == null || action.isEmpty()) {
             return current;

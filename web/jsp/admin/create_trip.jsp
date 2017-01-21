@@ -81,6 +81,16 @@
             </div>
             <div class="row">
                 <div class="form-group col-sm-3 col-sm-offset-3">
+                    <label for="destination-country"><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></label>
+                    <input type="text" class="form-control" id="destination-country" name="destination-country" required>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
+                    <input type="text" class="form-control" id="destination-city" name="destination-city" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-3 col-sm-offset-3">
                     <label for="transport"><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></label>
                     <select class="form-control" id="transport" name="transport">
                         <option value="PLANE"><fmt:message key="label.transport.plane" bundle="${ rb }" /></option>
@@ -95,11 +105,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="cities"><fmt:message key="label.admin.create-tour.trip.cities" bundle="${ rb }" /></label>
-                    <textarea class="form-control" rows="5" id="cities" name="cities"></textarea>
-                </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="attractions"><fmt:message key="label.admin.create-tour.trip.attractions" bundle="${ rb }" /></label>
                     <textarea class="form-control" rows="5" id="attractions" name="attractions"></textarea>
                 </div>
@@ -170,6 +176,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/epamtravel.js"></script>
 <script>
     $('#img').change(function () {
         var input = $(this)[0];

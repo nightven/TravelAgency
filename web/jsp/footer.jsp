@@ -17,6 +17,10 @@
 </script>
 <script>
     $(function(){
+        var d = new Date();
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
         $("#tour_field").change(function () {
             switch ($("#tour_field :selected").val()){
                 case "name":
@@ -28,11 +32,13 @@
                     $("#search_text").css("display", "");
                     $("#search_text_select").css("display", "none");
                     $("#search_text").attr("type", "date");
+                    $("#search_text").attr("min", year + "-" + month + "-" + day);
                     break;
                 case "arrival_date":
                     $("#search_text").css("display", "");
                     $("#search_text_select").css("display", "none");
                     $("#search_text").attr("type", "date");
+                    $("#search_text").attr("min", year + "-" + month + "-" + day);
                     break;
                 case "price":
                     $("#search_text").css("display", "");

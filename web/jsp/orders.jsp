@@ -80,8 +80,8 @@
                                 <fmt:message key="label.order.tour-info" bundle="${ rb }" /></button></a></c:if>
                         </div>
                         <div class="row">
-                            <button type="button" class="btn btn-danger order-buttons" data-toggle="modal" data-target="#order-delete-modal-<c:out value="${ order.orderId }" />">
-                                <fmt:message key="label.order.cancel-tour" bundle="${ rb }" /></button>
+                            <c:if test="${ 'upcoming' == (time) }"><button type="button" class="btn btn-danger order-buttons" data-toggle="modal" data-target="#order-delete-modal-<c:out value="${ order.orderId }" />">
+                                <fmt:message key="label.order.cancel-tour" bundle="${ rb }" /></button></c:if>
                         </div>
                     </div>
                 </div>

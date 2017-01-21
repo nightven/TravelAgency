@@ -16,14 +16,8 @@ public class Order extends Entity {
     /** The tour id. */
     private Long tourId;
     
-    /** The price. */
-    private int price;
-    
     /** The quantity. */
     private int quantity;
-    
-    /** The discount. */
-    private double discount;
     
     /** The total price. */
     private int totalPrice;
@@ -95,24 +89,6 @@ public class Order extends Entity {
     }
 
     /**
-     * Gets the price.
-     *
-     * @return the price
-     */
-    public int getPrice() {
-        return price;
-    }
-
-    /**
-     * Sets the price.
-     *
-     * @param price the new price
-     */
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    /**
      * Gets the quantity.
      *
      * @return the quantity
@@ -128,24 +104,6 @@ public class Order extends Entity {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    /**
-     * Gets the discount.
-     *
-     * @return the discount
-     */
-    public double getDiscount() {
-        return discount;
-    }
-
-    /**
-     * Sets the discount.
-     *
-     * @param discount the new discount
-     */
-    public void setDiscount(double discount) {
-        this.discount = discount;
     }
 
     /**

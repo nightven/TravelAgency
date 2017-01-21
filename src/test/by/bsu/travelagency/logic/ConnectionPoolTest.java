@@ -1,7 +1,7 @@
 package test.by.bsu.travelagency.logic;
 
 import by.bsu.travelagency.pool.ConnectionPool;
-import by.bsu.travelagency.pool.exceptions.ConnectionPoolException;
+import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import org.junit.Assert;
 import org.junit.Test;
 

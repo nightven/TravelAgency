@@ -43,7 +43,8 @@
             <th><fmt:message key="label.admin.create-tour.tour.name" bundle="${ rb }" /></th>
             <th><fmt:message key="label.admin.create-tour.tour.departure-date" bundle="${ rb }" /></th>
             <th><fmt:message key="label.admin.create-tour.tour.arrival-date" bundle="${ rb }" /></th>
-            <th><fmt:message key="label.admin.create-tour.trip.cities" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></th>
+            <th><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></th>
             <th><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></th>
             <th><fmt:message key="label.admin.create-tour.tour.last-minute" bundle="${ rb }" /></th>
             <th><fmt:message key="label.admin.tour-image-path" bundle="${ rb }" /></th>
@@ -56,7 +57,8 @@
             <td><c:out value="${ trip.name }" /></td>
             <td><c:out value="${ trip.departureDate }" /></td>
             <td><c:out value="${ trip.arrivalDate }" /></td>
-            <td><c:out value="${ trip.cities }" /></td>
+            <td><c:out value="${ trip.destinationCity }" /></td>
+            <td><c:out value="${ trip.destinationCountry }" /></td>
             <td><c:out value="${ trip.transport }" /></td>
             <td><c:choose><c:when test="${ trip.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>
             <td><c:out value="${ trip.pathImage }" /></td>

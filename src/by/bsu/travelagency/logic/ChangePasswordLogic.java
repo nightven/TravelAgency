@@ -1,8 +1,8 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,7 +25,7 @@ public class ChangePasswordLogic {
     public static boolean checkPassword(String enterOldPass, String enterNewPass, Long userId) throws BusinessLogicException {
         boolean flag = false;
         if (Validator.validatePassword(enterNewPass)){
-            UserDAO userDAO = new UserDAO();
+            JdbcUserDAO userDAO = new JdbcUserDAO();
             String passwordOld = null;
             try {
                 passwordOld = userDAO.findPasswordByUserId(userId);

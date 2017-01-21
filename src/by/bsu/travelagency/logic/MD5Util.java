@@ -1,6 +1,6 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

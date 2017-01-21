@@ -94,14 +94,25 @@
         </div>
 
         <div class="short-description">
-            <div class="first-column" style="height: 38px;">
+            <div class="first-column" style="height: 70px;">
                 <p><b><fmt:message key="label.trip.departureDate" bundle="${rb}" />:</b> <c:out value="${ trip.departureDate }" /></p>
             </div>
-            <div class="second-column" style="height: 38px;">
+            <div class="second-column" style="height: 70px;">
                 <p><b><fmt:message key="label.trip.arrivalDate" bundle="${rb}" />:</b> <c:out value="${ trip.arrivalDate }" /></p>
             </div>
             <div class="middle-column">
-                <p><b><fmt:message key="label.trip.cities" bundle="${rb}" />:</b> <c:out value="${ trip.cities}" /></p>
+                <p><b><fmt:message key="label.trip.cities" bundle="${rb}" />:</b>
+                    <c:forEach var="city" items="${trip.cities}" varStatus="status">
+                        <c:choose>
+                            <c:when test="${ status.index == lastCity }">
+                                <c:out value="${ city.nameCity }" />(<c:out value="${ city.country.nameCountry }" />)
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${ city.nameCity }" />(<c:out value="${ city.country.nameCountry }" />) -
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </p>
                 <p><b><fmt:message key="label.trip.attractions" bundle="${rb}" />:</b> <c:out value="${ trip.attractions}" /></p>
                 <p><b><fmt:message key="label.trip.transport" bundle="${rb}" />:</b> <c:out value="${ trip.transport.name}" /></p>
             </div>

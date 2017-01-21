@@ -59,7 +59,8 @@
                                         </a></li>
                                         <li class="usermenu-item divider"></li>
                                         <c:if test="${ role==1 }"><li class="usermenu-item"><a href="travel?command=forward&page=admin_panel" class="usermenu-link"><fmt:message key="label.user.menu.administration" bundle="${ rb }" /></a></li></c:if>
-                                        <li class="usermenu-item"><a href="travel?command=order_list" class="usermenu-link"><fmt:message key="label.user.menu.orders" bundle="${ rb }" /></a></li>
+                                        <li class="usermenu-item"><a href="travel?command=order_list_upcoming" class="usermenu-link"><fmt:message key="label.user.menu.orders-upcoming" bundle="${ rb }" /></a></li>
+                                        <li class="usermenu-item"><a href="travel?command=order_list_old" class="usermenu-link"><fmt:message key="label.user.menu.orders-old" bundle="${ rb }" /></a></li>
                                         <li class="usermenu-item"><a href="travel?command=balance" class="usermenu-link"><fmt:message key="label.user.menu.balance" bundle="${ rb }" /></a></li>
                                         <li class="usermenu-item divider"></li>
                                         <li class="usermenu-item"><a href="travel?command=forward&page=change_password" class="usermenu-link"><fmt:message key="label.user.menu.change-pass" bundle="${ rb }" /></a></li>

@@ -1,9 +1,9 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,16 +42,12 @@ public class EditUserLogic {
             user.setDiscount(enterDiscount);
             user.setMoney(enterMoney);
 
-            UserDAO userDAO = new UserDAO();
+            JdbcUserDAO userDAO = new JdbcUserDAO();
             String password = null;
             try {
                 password = userDAO.findPasswordByUserId(user.getId());
-            } catch (DAOException e) {
-                throw new BusinessLogicException("Failed to find password by user id.", e);
-            }
-            user.setPassword(password);
+                user.setPassword(password);
 
-            try {
                 if (userDAO.update(user)){
                     flag = true;
                 }
@@ -92,7 +88,7 @@ public class EditUserLogic {
             user.setDiscount(enterDiscount);
             user.setMoney(enterMoney);
 
-            UserDAO userDAO = new UserDAO();
+            JdbcUserDAO userDAO = new JdbcUserDAO();
             try {
                 if (userDAO.update(user)){
                     flag = true;

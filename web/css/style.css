@@ -556,7 +556,7 @@ figure.effect-milo:hover p {
 .short-description .middle-column{
     clear: both;
     width: 100%;
-    height: 170px;
+    height: 130px;
     margin-top: 50px;
 }
 
@@ -682,9 +682,12 @@ figure.effect-milo:hover p {
 
 .del-button{
     width: 100%;
-    margin: 10px 0;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin: 10px 0 20px;
+}
+
+.add-shop-button{
+    width: 100%!important;
+    margin-top: 25px!important;
 }
 
 .pre-image{

@@ -1,10 +1,10 @@
 package by.bsu.travelagency.controller;
 
 import by.bsu.travelagency.command.ActionCommand;
-import by.bsu.travelagency.command.exceptions.CommandException;
+import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.command.factory.ActionFactory;
 import by.bsu.travelagency.pool.ConnectionPool;
-import by.bsu.travelagency.pool.exceptions.ConnectionPoolException;
+import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.resource.MessageManager;
 import by.bsu.travelagency.resource.ResourceManager;
@@ -144,11 +144,18 @@ public class TravelController extends HttpServlet {
             page = command.execute(request, response);
         } catch (CommandException e) {
             LOG.error(e);
+            // TODO: 1/15/2017 Убрать стактрэйс
             e.printStackTrace();
         }
         if (page != null) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(request, response);
+            LOG.debug("redirect = " + request.getAttribute("redirect"));
+            LOG.debug("referer = " + request.getHeader("referer"));
+            if (request.getAttribute("redirect") != null){
+                response.sendRedirect(request.getAttribute("redirect").toString());
+            } else {
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            }
         } else {
             page = ConfigurationManager.getProperty("path.page.index");
             request.getSession().setAttribute("nullPage",

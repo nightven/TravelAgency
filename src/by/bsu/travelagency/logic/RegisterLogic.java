@@ -1,9 +1,9 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,16 +15,16 @@ public class RegisterLogic {
     private final static Logger LOG = Logger.getLogger(RegisterLogic.class);
 
     /** The Constant USER_ID_FOR_INSERT. */
-    final static int USER_ID_FOR_INSERT = 0;
+    private final static int USER_ID_FOR_INSERT = 0;
     
     /** The Constant USER_DEFAULT_ROLE. */
-    final static int USER_DEFAULT_ROLE = 0;
+    private final static int USER_DEFAULT_ROLE = 0;
     
     /** The Constant USER_DEFAULT_DISCOUNT. */
-    final static double USER_DEFAULT_DISCOUNT = 0;
+    private final static double USER_DEFAULT_DISCOUNT = 0;
     
     /** The Constant USER_DEFAULT_MONEY. */
-    final static int USER_DEFAULT_MONEY = 0;
+    private final static int USER_DEFAULT_MONEY = 0;
 
     /**
      * Check register.
@@ -51,7 +51,7 @@ public class RegisterLogic {
             user.setDiscount(USER_DEFAULT_DISCOUNT);
             user.setMoney(USER_DEFAULT_MONEY);
 
-            UserDAO userDAO = new UserDAO();
+            JdbcUserDAO userDAO = new JdbcUserDAO();
             try {
                 if (userDAO.create(user)){
                     flag = true;

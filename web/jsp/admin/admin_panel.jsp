@@ -42,9 +42,9 @@
             <div class="picture" tibindex="0">
                 <img tabindex="0" class="pict" src="/images/create-icon.png" alt="Sry =(">
                 <ul class="menu">
-                    <a href="travel?command=forward&page=create_vacation" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.vacation" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=create_vacation_page" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.vacation" bundle="${ rb }" /></li></a>
                     <a href="travel?command=forward&page=create_trip" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.trip" bundle="${ rb }" /></li></a>
-                    <a href="travel?command=forward&page=create_shopping" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.shopping" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=create_shopping_page" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.shopping" bundle="${ rb }" /></li></a>
                 </ul>
             </div>
         </div>
@@ -91,6 +91,34 @@
             </div>
         </div>
         <p><b><fmt:message key="label.admin.users" bundle="${ rb }" /></b></p>
+    </div>
+
+    <div class="admin-menu-item">
+        <div class="back">
+            <div class="picture" tibindex="0">
+                <img tabindex="0" class="pict" src="/images/city-icon.png" alt="Sry =(">
+                <ul class="menu">
+                    <a href="travel?command=create_city_page" class="item-link"><li class="item"><fmt:message key="label.admin.users.create" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=city_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.edit" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=city_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.delete" bundle="${ rb }" /></li></a>
+                </ul>
+            </div>
+        </div>
+        <p><b><fmt:message key="label.admin.cities" bundle="${ rb }" /></b></p>
+    </div>
+
+    <div class="admin-menu-item">
+        <div class="back">
+            <div class="picture" tibindex="0">
+                <img tabindex="0" class="pict" src="/images/country-icon.png" alt="Sry =(">
+                <ul class="menu">
+                    <a href="travel?command=forward&page=create_country" class="item-link"><li class="item"><fmt:message key="label.admin.users.create" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=country_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.edit" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=country_delete_admin_list" class="item-link"><li class="item"><fmt:message key="label.admin.users.delete" bundle="${ rb }" /></li></a>
+                </ul>
+            </div>
+        </div>
+        <p><b><fmt:message key="label.admin.countries" bundle="${ rb }" /></b></p>
     </div>
 </section>
 

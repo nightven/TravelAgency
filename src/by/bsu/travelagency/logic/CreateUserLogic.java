@@ -1,9 +1,9 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,7 +15,7 @@ public class CreateUserLogic {
     private final static Logger LOG = Logger.getLogger(CreateUserLogic.class);
 
     /** The Constant USER_ID_FOR_INSERT. */
-    final static int USER_ID_FOR_INSERT = 0;
+    private final static int USER_ID_FOR_INSERT = 0;
 
 
     /**
@@ -46,7 +46,7 @@ public class CreateUserLogic {
             user.setDiscount(enterDiscount);
             user.setMoney(enterMoney);
 
-            UserDAO userDAO = new UserDAO();
+            JdbcUserDAO userDAO = new JdbcUserDAO();
             try {
                 if (userDAO.create(user)){
                     flag = true;

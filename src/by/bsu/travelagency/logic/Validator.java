@@ -15,61 +15,64 @@ public class Validator {
     private final static Logger LOG = Logger.getLogger(Validator.class);
 
     /** The Constant REGEX_LOGIN. */
-    final static String REGEX_LOGIN = "([A-Za-zА-Яа-я0-9_-]){3,16}";
+    private final static String REGEX_LOGIN = "([A-Za-zА-Яа-я0-9_-]){3,16}";
     
     /** The Constant REGEX_PASSWORD. */
-    final static String REGEX_PASSWORD = "([A-Za-zА-Яа-я0-9_-]){8,20}";
+    private final static String REGEX_PASSWORD = "([A-Za-zА-Яа-я0-9_-]){8,20}";
     
     /** The Constant REGEX_EMAIL. */
-    final static String REGEX_EMAIL = "([A-za-z0-9_\\.-]+)@([A-za-z0-9_\\.-]+)\\.([A-za-z\\.]{2,6})";
+    private final static String REGEX_EMAIL = "([A-za-z0-9_\\.-]+)@([A-za-z0-9_\\.-]+)\\.([A-za-z\\.]{2,6})";
     
     /** The Constant REGEX_NAME. */
-    final static String REGEX_NAME = "([A-Za-zА-Яа-я]){2,25}";
+    private final static String REGEX_NAME = "([A-Za-zА-Яа-я]){2,25}";
     
     /** The Constant REGEX_SURNAME. */
-    final static String REGEX_SURNAME = "([A-Za-zА-Яа-я]){2,25}";
+    private final static String REGEX_SURNAME = "([A-Za-zА-Яа-я]){2,25}";
     
     /** The Constant REGEX_NAME_TOUR. */
-    final static String REGEX_NAME_TOUR = "(.){1,45}";
+    private final static String REGEX_NAME_TOUR = "(.){1,45}";
+
+    /** The Constant REGEX_NAME_COUNTRY_AND_CITY. */
+    private final static String REGEX_NAME_TOUR_COUNTRY_AND_CITY = "(.){1,45}";
     
     /** The Constant REGEX_SUMMARY. */
-    final static String REGEX_SUMMARY = "(.){1,255}";
+    private final static String REGEX_SUMMARY = "(.){1,255}";
     
     /** The Constant REGEX_PRICE. */
-    final static String REGEX_PRICE = "([0-9]){1,45}";
+    private final static String REGEX_PRICE = "([0-9]){1,45}";
     
     /** The Constant REGEX_HOTEL. */
-    final static String REGEX_HOTEL = "(.){1,100}";
+    private final static String REGEX_HOTEL = "(.){1,100}";
     
     /** The Constant REGEX_DESTINATION_COUNTRY. */
-    final static String REGEX_DESTINATION_COUNTRY = "(.){1,50}";
+    private final static String REGEX_DESTINATION_COUNTRY = "(.){1,50}";
     
     /** The Constant REGEX_DESTINATION_CITY. */
-    final static String REGEX_DESTINATION_CITY = "(.){1,50}";
+    private final static String REGEX_DESTINATION_CITY = "(.){1,50}";
     
     /** The Constant ORDER_MIN_QUANTITY. */
-    final static int ORDER_MIN_QUANTITY = 1;
+    private final static int ORDER_MIN_QUANTITY = 1;
     
     /** The Constant ORDER_MAX_QUANTITY. */
-    final static int ORDER_MAX_QUANTITY = 100;
+    private final static int ORDER_MAX_QUANTITY = 100;
     
     /** The Constant BALANCE_MIN_MONEY_TO_ADD. */
-    final static int BALANCE_MIN_MONEY_TO_ADD = 1;
+    private final static int BALANCE_MIN_MONEY_TO_ADD = 1;
     
     /** The Constant BALANCE_MAX_MONEY_TO_ADD. */
-    final static int BALANCE_MAX_MONEY_TO_ADD = 10000;
+    private final static int BALANCE_MAX_MONEY_TO_ADD = 10000;
     
     /** The Constant USER_MIN_MONEY_CREATE_USER. */
-    final static int USER_MIN_MONEY_CREATE_USER = 0;
+    private final static int USER_MIN_MONEY_CREATE_USER = 0;
     
     /** The Constant USER_MAX_MONEY_CREATE_USER. */
-    final static int USER_MAX_MONEY_CREATE_USER = 100000;
+    private final static int USER_MAX_MONEY_CREATE_USER = 100000;
     
     /** The Constant USER_MIN_DISCOUNT. */
-    final static int USER_MIN_DISCOUNT = 0;
+    private final static int USER_MIN_DISCOUNT = 0;
     
     /** The Constant USER_MAX_DISCOUNT. */
-    final static int USER_MAX_DISCOUNT = 1;
+    private final static int USER_MAX_DISCOUNT = 1;
 
 
     /**
@@ -169,6 +172,23 @@ public class Validator {
         Matcher mNameVacation = pNameVacation.matcher(enterNameTour);
         LOG.debug("Validate NameTour: " + mNameVacation.matches());
         if (mNameVacation.matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+    /**
+     * Validate country or city name.
+     *
+     * @param enterName the enter name
+     * @return true, if successful
+     */
+    public static boolean validateCountryAndCityName(String enterName) {
+        boolean flag = false;
+        Pattern pName = Pattern.compile(REGEX_NAME_TOUR_COUNTRY_AND_CITY);
+        Matcher mName = pName.matcher(enterName);
+        LOG.debug("Validate country or city name: " + mName.matches());
+        if (mName.matches()){
             flag = true;
         }
         return flag;

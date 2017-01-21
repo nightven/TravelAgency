@@ -81,13 +81,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="destination-country"><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-country" name="destination-country" value="<c:out value="${ vacation.destinationCountry }" />">
-                </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-city" name="destination-city" value="<c:out value="${ vacation.destinationCity }" />">
+                    <select class="form-control" id="destination-city" name="destination-city">
+                        <c:forEach var="city" items="${cities}">
+                            <c:choose>
+                                <c:when test="${ city.idCity == (vacation.cities[0].idCity) }"><option selected value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:when>
+                                <c:otherwise><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -190,6 +193,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/epamtravel.js"></script>
 <script>
     $('#img').change(function () {
         var input = $(this)[0];

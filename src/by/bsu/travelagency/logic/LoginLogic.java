@@ -1,9 +1,9 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.UserDAO;
-import by.bsu.travelagency.dao.exceptions.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
+import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.exceptions.BusinessLogicException;
+import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class LoginLogic {
      */
     public static boolean checkLogin(String enterLogin, String enterPass) throws BusinessLogicException {
         boolean flag = false;
-        UserDAO userDAO = new UserDAO();
+        JdbcUserDAO userDAO = new JdbcUserDAO();
         List<User> users = null;
         try {
             users = userDAO.findAllUsers();

@@ -96,12 +96,12 @@
         <div class="short-description">
             <div class="first-column">
                 <p><b><fmt:message key="label.vacation.departureDate" bundle="${rb}" />:</b> <c:out value="${ vacation.departureDate }" /></p>
-                <p><b><fmt:message key="label.vacation.destinationCity" bundle="${rb}" />:</b> <c:out value="${ vacation.destinationCity }" /></p>
+                <p><b><fmt:message key="label.vacation.destinationCity" bundle="${rb}" />:</b> <c:out value="${ vacation.cities[0].nameCity }" /></p>
                 <p><b><fmt:message key="label.vacation.hotel" bundle="${rb}" />:</b> <c:out value="${ vacation.hotel }" /></p>
             </div>
             <div class="second-column">
                 <p><b><fmt:message key="label.vacation.arrivalDate" bundle="${rb}" />:</b> <c:out value="${ vacation.arrivalDate }" /></p>
-                <p><b><fmt:message key="label.vacation.destinationCounty" bundle="${rb}" />:</b> <c:out value="${ vacation.destinationCountry }" /></p>
+                <p><b><fmt:message key="label.vacation.destinationCounty" bundle="${rb}" />:</b> <c:out value="${ vacation.cities[0].country.nameCountry }" /></p>
                 <p><b><fmt:message key="label.vacation.transport" bundle="${rb}" />:</b> <c:out value="${ vacation.transport.name}" /></p>
             </div>
             <div class="bottom-column">

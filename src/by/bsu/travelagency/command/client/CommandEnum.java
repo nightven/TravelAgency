@@ -1,358 +1,228 @@
 package by.bsu.travelagency.command.client;
 
-import by.bsu.travelagency.command.*;
+import by.bsu.travelagency.command.ActionCommand;
+import by.bsu.travelagency.command.ForwardCommand;
+import by.bsu.travelagency.command.city.*;
+import by.bsu.travelagency.command.country.*;
+import by.bsu.travelagency.command.order.DeleteOrderCommand;
+import by.bsu.travelagency.command.order.OrderOldListCommand;
+import by.bsu.travelagency.command.order.OrderUpcomingListCommand;
+import by.bsu.travelagency.command.shopping.*;
+import by.bsu.travelagency.command.tour.SearchListCommand;
+import by.bsu.travelagency.command.tour.TourListCommand;
+import by.bsu.travelagency.command.trip.*;
+import by.bsu.travelagency.command.user.*;
+import by.bsu.travelagency.command.vacation.*;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public enum CommandEnum {
     
     /** The login. */
-    LOGIN {
-        {
-            this.command = new LoginCommand();
-        }
-    },
+    LOGIN(new LoginCommand()),
     
     /** The logout. */
-    LOGOUT {
-        {
-            this.command = new LogoutCommand();
-        }
-    },
+    LOGOUT(new LogoutCommand()),
     
     /** The register. */
-    REGISTER {
-        {
-            this.command = new RegisterCommand();
-        }
-    },
+    REGISTER(new RegisterCommand()),
     
     /** The english language. */
-    ENGLISH_LANGUAGE {
-        {
-            this.command = new EnglishLanguageCommand();
-        }
-    },
+    ENGLISH_LANGUAGE(new EnglishLanguageCommand()),
     
     /** The russian language. */
-    RUSSIAN_LANGUAGE {
-        {
-            this.command = new RussianLanguageCommand();
-        }
-    },
+    RUSSIAN_LANGUAGE(new RussianLanguageCommand()),
     
     /** The vacation list. */
-    VACATION_LIST {
-        {
-            this.command = new VacationListCommand();
-        }
-    },
+    VACATION_LIST(new VacationListCommand()),
     
     /** The vacation full. */
-    VACATION_FULL {
-        {
-            this.command = new VacationFullCommand();
-        }
-    },
+    VACATION_FULL(new VacationFullCommand()),
     
     /** The trip list. */
-    TRIP_LIST {
-        {
-            this.command = new TripListCommand();
-        }
-    },
+    TRIP_LIST(new TripListCommand()),
     
     /** The trip full. */
-    TRIP_FULL {
-        {
-            this.command = new TripFullCommand();
-        }
-    },
+    TRIP_FULL(new TripFullCommand()),
     
     /** The shopping list. */
-    SHOPPING_LIST {
-        {
-            this.command = new ShoppingListCommand();
-        }
-    },
+    SHOPPING_LIST(new ShoppingListCommand()),
     
     /** The shopping full. */
-    SHOPPING_FULL {
-        {
-            this.command = new ShoppingFullCommand();
-        }
-    },
+    SHOPPING_FULL(new ShoppingFullCommand()),
     
     /** The tour list. */
-    TOUR_LIST {
-        {
-            this.command = new TourListCommand();
-        }
-    },
+    TOUR_LIST(new TourListCommand()),
     
     /** The create vacation. */
-    CREATE_VACATION {
-        {
-            this.command = new CreateVacationCommand();
-        }
-    },
+    CREATE_VACATION(new CreateVacationCommand()),
+
+    /** The create vacation page. */
+    CREATE_VACATION_PAGE(new CreateVacationPageCommand()),
     
     /** The create trip. */
-    CREATE_TRIP {
-        {
-            this.command = new CreateTripCommand();
-        }
-    },
+    CREATE_TRIP(new CreateTripCommand()),
     
     /** The create shopping. */
-    CREATE_SHOPPING {
-        {
-            this.command = new CreateShoppingCommand();
-        }
-    },
+    CREATE_SHOPPING(new CreateShoppingCommand()),
+
+    /** The create shopping page. */
+    CREATE_SHOPPING_PAGE(new CreateShoppingPageCommand()),
+
+    /** The create country. */
+    CREATE_COUNTRY(new CreateCountryCommand()),
+
+    /** The create city. */
+    CREATE_CITY(new CreateCityCommand()),
+
+    /** The create city page. */
+    CREATE_CITY_PAGE(new CreateCityPageCommand()),
     
     /** The vacation admin list. */
-    VACATION_ADMIN_LIST {
-        {
-            this.command = new VacationAdminListCommand();
-        }
-    },
+    VACATION_ADMIN_LIST(new VacationAdminListCommand()),
     
     /** The trip admin list. */
-    TRIP_ADMIN_LIST {
-        {
-            this.command = new TripAdminListCommand();
-        }
-    },
+    TRIP_ADMIN_LIST(new TripAdminListCommand()),
     
     /** The shopping admin list. */
-    SHOPPING_ADMIN_LIST {
-        {
-            this.command = new ShoppingAdminListCommand();
-        }
-    },
+    SHOPPING_ADMIN_LIST(new ShoppingAdminListCommand()),
+
+    /** The country admin list. */
+    COUNTRY_ADMIN_LIST(new CountryAdminListCommand()),
+
+    /** The city admin list. */
+    CITY_ADMIN_LIST(new CityAdminListCommand()),
     
     /** The edit vacation page. */
-    EDIT_VACATION_PAGE {
-        {
-            this.command = new EditVacationPageCommand();
-        }
-    },
+    EDIT_VACATION_PAGE(new EditVacationPageCommand()),
     
     /** The edit vacation. */
-    EDIT_VACATION{
-        {
-            this.command = new EditVacationCommand();
-        }
-    },
+    EDIT_VACATION(new EditVacationCommand()),
     
     /** The edit trip page. */
-    EDIT_TRIP_PAGE {
-        {
-            this.command = new EditTripPageCommand();
-        }
-    },
+    EDIT_TRIP_PAGE(new EditTripPageCommand()),
     
     /** The edit trip. */
-    EDIT_TRIP{
-        {
-            this.command = new EditTripCommand();
-        }
-    },
+    EDIT_TRIP(new EditTripCommand()),
     
     /** The edit shopping page. */
-    EDIT_SHOPPING_PAGE {
-        {
-            this.command = new EditShoppingPageCommand();
-        }
-    },
+    EDIT_SHOPPING_PAGE(new EditShoppingPageCommand()),
     
     /** The edit shopping. */
-    EDIT_SHOPPING{
-        {
-            this.command = new EditShoppingCommand();
-        }
-    },
+    EDIT_SHOPPING(new EditShoppingCommand()),
+
+    /** The edit country. */
+    EDIT_COUNTRY(new EditCountryCommand()),
+
+    /** The edit country page. */
+    EDIT_COUNTRY_PAGE(new EditCountryPageCommand()),
+
+    /** The edit city. */
+    EDIT_CITY(new EditCityCommand()),
+
+    /** The edit city page. */
+    EDIT_CITY_PAGE(new EditCityPageCommand()),
     
     /** The vacation delete admin list. */
-    VACATION_DELETE_ADMIN_LIST{
-        {
-            this.command = new VacationDeleteAdminListCommand();
-        }
-    },
+    VACATION_DELETE_ADMIN_LIST(new VacationDeleteAdminListCommand()),
     
     /** The trip delete admin list. */
-    TRIP_DELETE_ADMIN_LIST{
-        {
-            this.command = new TripDeleteAdminListCommand();
-        }
-    },
+    TRIP_DELETE_ADMIN_LIST(new TripDeleteAdminListCommand()),
     
     /** The shopping delete admin list. */
-    SHOPPING_DELETE_ADMIN_LIST{
-        {
-            this.command = new ShoppingDeleteAdminListCommand();
-        }
-    },
+    SHOPPING_DELETE_ADMIN_LIST(new ShoppingDeleteAdminListCommand()),
+
+    /** The country delete admin list. */
+    COUNTRY_DELETE_ADMIN_LIST(new CountryDeleteAdminListCommand()),
+
+    /** The city delete admin list. */
+    CITY_DELETE_ADMIN_LIST(new CityDeleteAdminListCommand()),
     
     /** The delete vacation. */
-    DELETE_VACATION{
-        {
-            this.command = new DeleteVacationCommand();
-        }
-    },
+    DELETE_VACATION(new DeleteVacationCommand()),
     
     /** The delete trip. */
-    DELETE_TRIP{
-        {
-            this.command = new DeleteTripCommand();
-        }
-    },
+    DELETE_TRIP(new DeleteTripCommand()),
     
     /** The delete shopping. */
-    DELETE_SHOPPING{
-        {
-            this.command = new DeleteShoppingCommand();
-        }
-    },
+    DELETE_SHOPPING(new DeleteShoppingCommand()),
+
+    /** The delete country. */
+    DELETE_COUNTRY(new DeleteCountryCommand()),
+
+    /** The delete city. */
+    DELETE_CITY(new DeleteCityCommand()),
     
     /** The order vacation. */
-    ORDER_VACATION{
-        {
-            this.command = new OrderVacationCommand();
-        }
-    },
+    ORDER_VACATION(new OrderVacationCommand()),
     
     /** The order trip. */
-    ORDER_TRIP{
-        {
-            this.command = new OrderTripCommand();
-        }
-    },
+    ORDER_TRIP(new OrderTripCommand()),
     
     /** The order shopping. */
-    ORDER_SHOPPING{
-        {
-            this.command = new OrderShoppingCommand();
-        }
-    },
+    ORDER_SHOPPING(new OrderShoppingCommand()),
     
-    /** The order list. */
-    ORDER_LIST{
-        {
-            this.command = new OrderListCommand();
-        }
-    },
+    /** The upcoming order list. */
+    ORDER_LIST_UPCOMING(new OrderUpcomingListCommand()),
+
+    /** The old order list. */
+    ORDER_LIST_OLD(new OrderOldListCommand()),
     
     /** The delete order. */
-    DELETE_ORDER{
-        {
-            this.command = new DeleteOrderCommand();
-        }
-    },
+    DELETE_ORDER(new DeleteOrderCommand()),
     
     /** The balance. */
-    BALANCE{
-        {
-            this.command = new BalancePageCommand();
-        }
-    },
+    BALANCE(new BalancePageCommand()),
     
     /** The balance add. */
-    BALANCE_ADD{
-        {
-            this.command = new BalanceAddCommand();
-        }
-    },
+    BALANCE_ADD(new BalanceAddCommand()),
     
     /** The change password. */
-    CHANGE_PASSWORD{
-        {
-            this.command = new ChangePasswordCommand();
-        }
-    },
+    CHANGE_PASSWORD(new ChangePasswordCommand()),
     
     /** The create user. */
-    CREATE_USER{
-        {
-            this.command = new CreateUserCommand();
-        }
-    },
+    CREATE_USER(new CreateUserCommand()),
     
     /** The user admin list. */
-    USER_ADMIN_LIST{
-        {
-            this.command = new UserAdminListCommand();
-        }
-    },
+    USER_ADMIN_LIST(new UserAdminListCommand()),
     
     /** The edit user page. */
-    EDIT_USER_PAGE{
-        {
-            this.command = new EditUserPageCommand();
-        }
-    },
+    EDIT_USER_PAGE(new EditUserPageCommand()),
     
     /** The edit user. */
-    EDIT_USER{
-        {
-            this.command = new EditUserCommand();
-        }
-    },
+    EDIT_USER(new EditUserCommand()),
     
     /** The user delete admin list. */
-    USER_DELETE_ADMIN_LIST{
-        {
-            this.command = new UserDeleteAdminListCommand();
-        }
-    },
+    USER_DELETE_ADMIN_LIST(new UserDeleteAdminListCommand()),
     
     /** The delete user. */
-    DELETE_USER{
-        {
-            this.command = new DeleteUserCommand();
-        }
-    },
+    DELETE_USER(new DeleteUserCommand()),
     
     /** The search. */
-    SEARCH{
-        {
-            this.command = new SearchListCommand();
-        }
-    },
+    SEARCH(new SearchListCommand()),
     
     /** The vacation sort. */
-    VACATION_SORT{
-        {
-            this.command = new VacationSortCommand();
-        }
-    },
+    VACATION_SORT(new VacationSortCommand()),
     
     /** The trip sort. */
-    TRIP_SORT{
-        {
-            this.command = new TripSortCommand();
-        }
-    },
+    TRIP_SORT(new TripSortCommand()),
     
     /** The shopping sort. */
-    SHOPPING_SORT{
-        {
-            this.command = new ShoppingSortCommand();
-        }
-    },
+    SHOPPING_SORT(new ShoppingSortCommand()),
     
     /** The forward. */
-    FORWARD {
-        {
-            this.command = new ForwardCommand();
-        }
-    };
+    FORWARD(new ForwardCommand());
     
     /** The command. */
     ActionCommand command;
-    
+
+    /**
+     * СommandEnum constructor.
+     *
+     * @param command the current command
+     */
+    CommandEnum(ActionCommand command) {
+        this.command = command;
+    }
+
     /**
      * Gets the current command.
      *

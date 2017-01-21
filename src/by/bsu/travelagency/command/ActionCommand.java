@@ -1,6 +1,6 @@
 package by.bsu.travelagency.command;
 
-import by.bsu.travelagency.command.exceptions.CommandException;
+import by.bsu.travelagency.command.exception.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

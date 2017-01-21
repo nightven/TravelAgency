@@ -4,9 +4,6 @@ package by.bsu.travelagency.entity;
  * Created by Михаил on 7/21/2016.
  */
 public class Trip extends Tour {
-
-    /** The cities. */
-    private String cities;
     
     /** The attractions. */
     private String attractions;
@@ -15,24 +12,6 @@ public class Trip extends Tour {
      * Instantiates a new trip.
      */
     public Trip() {
-    }
-
-    /**
-     * Gets the cities.
-     *
-     * @return the cities
-     */
-    public String getCities() {
-        return cities;
-    }
-
-    /**
-     * Sets the cities.
-     *
-     * @param cities the new cities
-     */
-    public void setCities(String cities) {
-        this.cities = cities;
     }
 
     /**

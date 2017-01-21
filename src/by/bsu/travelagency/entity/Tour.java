@@ -1,5 +1,6 @@
 package by.bsu.travelagency.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -24,6 +25,9 @@ public abstract class Tour extends Entity {
     
     /** The arrival date. */
     private Date arrivalDate;
+
+    /** The cities. */
+    private ArrayList<City> cities;
     
     /** The price. */
     private int price;
@@ -155,6 +159,24 @@ public abstract class Tour extends Entity {
     }
 
     /**
+     * Gets cities.
+     *
+     * @return cities
+     */
+    public ArrayList<City> getCities() {
+        return cities;
+    }
+
+    /**
+     * Sets the cities.
+     *
+     * @param cities new cities
+     */
+    public void setCities(ArrayList<City> cities) {
+        this.cities = cities;
+    }
+
+    /**
      * Gets the price.
      *
      * @return the price
@@ -243,4 +265,5 @@ public abstract class Tour extends Entity {
     public void setPathImage(String pathImage) {
         this.pathImage = pathImage;
     }
+
 }

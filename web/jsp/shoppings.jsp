@@ -153,7 +153,7 @@
                         <figure class="effect-milo">
                             <img src="${shopping.pathImage}" alt="img"/>
                             <figcaption>
-                                <h2><c:out value="${ shopping.destinationCity }" />, <span><c:out value="${ shopping.destinationCountry }" /></span></h2>
+                                <h2><c:out value="${ shopping.cities[0].nameCity}" />, <span><c:out value="${ shopping.cities[0].country.nameCountry }" /></span></h2>
                                 <h3><c:out value="${ shopping.price }" />$</h3>
                                 <p><c:out value="${ shopping.summary }" /></p>
                                 <a href="travel?command=shopping_full&id=<c:out value="${ shopping.id }" />"></a>
