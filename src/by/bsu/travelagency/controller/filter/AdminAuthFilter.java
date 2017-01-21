@@ -66,8 +66,11 @@ public class AdminAuthFilter implements Filter {
         commands = new ArrayList<>();
         pages = new ArrayList<>();
         commands.add("create_vacation");
+        commands.add("create_vacation_page");
         commands.add("create_trip");
+        commands.add("create_trip_page");
         commands.add("create_shopping");
+        commands.add("create_shopping_page");
         commands.add("vacation_admin_list");
         commands.add("trip_admin_list");
         commands.add("edit_vacation_page");

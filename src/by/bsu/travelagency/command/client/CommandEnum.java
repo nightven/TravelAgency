@@ -60,6 +60,9 @@ public enum CommandEnum {
     
     /** The create trip. */
     CREATE_TRIP(new CreateTripCommand()),
+
+    /** The create trip page. */
+    CREATE_TRIP_PAGE(new CreateTripPageCommand()),
     
     /** The create shopping. */
     CREATE_SHOPPING(new CreateShoppingCommand()),
@@ -135,7 +138,7 @@ public enum CommandEnum {
 
     /** The city delete admin list. */
     CITY_DELETE_ADMIN_LIST(new CityDeleteAdminListCommand()),
-    
+
     /** The delete vacation. */
     DELETE_VACATION(new DeleteVacationCommand()),
     

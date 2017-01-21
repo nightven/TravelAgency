@@ -40,6 +40,7 @@
         <form id="edit-vacation-form" method="post" action="travel" enctype="multipart/form-data" accept-charset="utf-8">
             <input type="hidden" name="command" value="edit_trip" />
             <input type="hidden" name="id" value="<c:out value="${ trip.id }" />" />
+            <input type="hidden" id="count-cities" name="count-cities" value=<c:out value="${ cities_size }" />>
             <div class="row">
                 <div class="col-sm-3 col-sm-offset-3">
                     <div class="row">
@@ -82,16 +83,6 @@
             </div>
             <div class="row">
                 <div class="form-group col-sm-3 col-sm-offset-3">
-                    <label for="destination-country"><fmt:message key="label.admin.create-tour.tour.destination-country" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-country" name="destination-country" value="<c:out value="${ trip.destinationCountry }" />">
-                </div>
-                <div class="form-group col-sm-3">
-                    <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="destination-city" name="destination-city" value="<c:out value="${ trip.destinationCity }" />">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-3 col-sm-offset-3">
                     <label for="transport"><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></label>
                     <select class="form-control" id="transport" name="transport">
                         <c:choose>
@@ -118,6 +109,29 @@
                         <c:when test="${ trip.lastMinute }"><input checked type="checkbox" class="form-control form-checkbox" id="last-minute" name="last-minute"></c:when>
                         <c:otherwise><input type="checkbox" class="form-control form-checkbox" id="last-minute" name="last-minute"></c:otherwise>
                     </c:choose>
+                </div>
+            </div>
+            <div class="row theFirstCity">
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
+                    <select class="form-control" id="destination-city" name="city1">
+                        <c:forEach var="city" items="${cities}">
+                            <c:choose>
+                                <c:when test="${ city.idCity == (trip.cities[0].idCity) }"><option selected value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:when>
+                                <c:otherwise><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-6 div-for-add-button">
+                        <button type="button" class="btn btn-success city-button" id="add"><fmt:message key="label.admin.add-shop-button" bundle="${ rb }" /></button>
+                    </div>
+                    <div class="col-sm-6 div-for-remove-button">
+                        <button type="button" class="btn btn-danger city-button" id="remove"><fmt:message key="label.admin.delete-shop-button" bundle="${ rb }" /></button>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -218,6 +232,30 @@
 
     $('#form').bind('reset', function () {
         $('#img-preview').attr('src', '<c:out value="${ trip.pathImage }" />');
+    });
+
+    $(document).ready(function(){
+        <c:forEach begin="2" end="${cities_size}" var="i">
+        $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city<c:out value="${ i }" />"><c:forEach var="city" items="${cities}"><c:choose><c:when test="${ city.idCity == (trip.cities[(i-1)].idCity) }"><option selected value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:when><c:otherwise><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:otherwise></c:choose></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
+        </c:forEach>
+
+        $('#add').click(function() {
+            var i = $('#count-cities').val();
+            if(i<10){
+                ++i;
+                $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city'+i+'"><c:forEach var="city" items="${cities}"><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
+                $('#count-cities').val(i);
+            }
+        });
+
+        $('#remove').click(function() {
+            if($('#count-cities').val()>1){
+                var i = $('#count-cities').val();
+                $('.city-element:last').remove();
+                --i;
+                $('#count-cities').val(i);
+            }
+        });
     });
 </script>
 

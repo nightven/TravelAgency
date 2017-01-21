@@ -1,7 +1,8 @@
 package by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
 import by.bsu.travelagency.dao.exception.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
+import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Transport;
 import by.bsu.travelagency.entity.Trip;
 import by.bsu.travelagency.logic.exception.BusinessLogicException;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +37,6 @@ public class EditTripLogic {
      * @param enterSummary the enter summary
      * @param enterDepartureDate the enter departure date
      * @param enterArrivalDate the enter arrival date
-     * @param enterDestinationCountry the enter destination country
-     * @param enterDestinationCity the enter destination city
      * @param enterAttractions the enter attractions
      * @param enterLastMinute the enter last minute
      * @param enterPrice the enter price
@@ -45,15 +45,15 @@ public class EditTripLogic {
      * @param enterDescription the enter description
      * @param img the img
      * @param savePath the save path
+     * @param cities cities
      * @return true, if successful
      * @throws BusinessLogicException the business logic exception
      */
     public static boolean checkEditTrip(String enterId, String enterName, String enterSummary, String enterDepartureDate,
-                                            String enterArrivalDate,  String enterDestinationCountry, String enterDestinationCity,
-                                            String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
-                                            String enterServices, String enterDescription, Part img, String savePath) throws BusinessLogicException {
+                                        String enterArrivalDate, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
+                                        String enterServices, String enterDescription, Part img, String savePath, ArrayList<City> cities) throws BusinessLogicException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateDestinationCountry(enterDestinationCountry) && Validator.validateDestinationCity(enterDestinationCity)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Trip trip = new Trip();
             trip.setId(Integer.parseInt(enterId));
@@ -66,11 +66,10 @@ public class EditTripLogic {
 
                 trip.setPrice(Integer.parseInt(enterPrice));
                 trip.setLastMinute(("on".equals(enterLastMinute)));
-//                trip.setDestinationCity(enterDestinationCity);
-//                trip.setDestinationCountry(enterDestinationCountry);
                 trip.setAttractions(enterAttractions);
                 trip.setTransport(Transport.valueOf(enterTransport.toUpperCase()));
                 trip.setServices(enterServices);
+                trip.setCities(cities);
 
                 JdbcTripDAO tripDAO = new JdbcTripDAO();
                 String pathImage = null;
@@ -115,23 +114,21 @@ public class EditTripLogic {
      * @param enterSummary the enter summary
      * @param enterDepartureDate the enter departure date
      * @param enterArrivalDate the enter arrival date
-     * @param enterDestinationCountry the enter destination country
-     * @param enterDestinationCity the enter destination city
      * @param enterAttractions the enter attractions
      * @param enterLastMinute the enter last minute
      * @param enterPrice the enter price
      * @param enterTransport the enter transport
      * @param enterServices the enter services
      * @param enterDescription the enter description
+     * @param cities cities
      * @return true, if successful
      * @throws BusinessLogicException the business logic exception
      */
     public static boolean checkEditTrip(String enterId, String enterName, String enterSummary, String enterDepartureDate,
-                                            String enterArrivalDate, String enterDestinationCountry, String enterDestinationCity,
-                                            String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
-                                            String enterServices, String enterDescription) throws BusinessLogicException {
+                                            String enterArrivalDate, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
+                                            String enterServices, String enterDescription, ArrayList<City> cities) throws BusinessLogicException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateDestinationCountry(enterDestinationCountry) && Validator.validateDestinationCity(enterDestinationCity)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Trip trip = new Trip();
             trip.setId(Integer.parseInt(enterId));
@@ -143,11 +140,10 @@ public class EditTripLogic {
                 trip.setArrivalDate(format.parse(enterArrivalDate));
                 trip.setPrice(Integer.parseInt(enterPrice));
                 trip.setLastMinute(("on".equals(enterLastMinute)));
-//                trip.setDestinationCity(enterDestinationCity);
-//                trip.setDestinationCountry(enterDestinationCountry);
                 trip.setAttractions(enterAttractions);
                 trip.setTransport(Transport.valueOf(enterTransport.toUpperCase()));
                 trip.setServices(enterServices);
+                trip.setCities(cities);
 
                 JdbcTripDAO tripDAO = new JdbcTripDAO();
                 String pathImage = null;

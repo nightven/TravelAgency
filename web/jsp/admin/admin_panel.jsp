@@ -43,7 +43,7 @@
                 <img tabindex="0" class="pict" src="/images/create-icon.png" alt="Sry =(">
                 <ul class="menu">
                     <a href="travel?command=create_vacation_page" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.vacation" bundle="${ rb }" /></li></a>
-                    <a href="travel?command=forward&page=create_trip" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.trip" bundle="${ rb }" /></li></a>
+                    <a href="travel?command=create_trip_page" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.trip" bundle="${ rb }" /></li></a>
                     <a href="travel?command=create_shopping_page" class="item-link"><li class="item"><fmt:message key="label.admin.create-tour.shopping" bundle="${ rb }" /></li></a>
                 </ul>
             </div>

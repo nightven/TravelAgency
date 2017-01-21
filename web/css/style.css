@@ -685,6 +685,19 @@ figure.effect-milo:hover p {
     margin: 10px 0 20px;
 }
 
+.city-button{
+    width: 100%;
+    margin: 10px 20px 20px 0;
+}
+
+.div-for-add-button{
+    padding-left: 0;
+}
+
+.div-for-remove-button{
+    padding-right: 0;
+}
+
 .add-shop-button{
     width: 100%!important;
     margin-top: 25px!important;

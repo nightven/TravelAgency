@@ -78,9 +78,6 @@ public class JdbcTripDAO implements TripDAO {
     
     /** The Constant SQL_UPDATE_TRIP. */
     private static final String SQL_UPDATE_TRIP = "UPDATE tours SET name=?,summary=?,description=?,departure_date=?,arrival_date=?,price=?,hot_tour=?,attractions=?,id_transport=(SELECT id_transport FROM transport_type WHERE transport_type=?),services=?,path_image=? WHERE id_tour=? AND id_type=2";
-
-    /** The Constant SQL_UPDATE_TRIP_CITY. */
-    private static final String SQL_UPDATE_TRIP_CITY = "UPDATE tours_cities SET id_city=? WHERE id_tour=?";
     
     /** The Constant SQL_DELETE_TRIP. */
     private static final String SQL_DELETE_TRIP = "DELETE FROM tours WHERE id_tour=? AND id_type=2";
@@ -338,7 +335,7 @@ public class JdbcTripDAO implements TripDAO {
     @Override
     public boolean update(Trip trip) throws DAOException {
         boolean flag = false;
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_TRIP)) {
+        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_TRIP); PreparedStatement ps2 = cn.prepareStatement(SQL_INSERT_TRIP_CITY); PreparedStatement ps3 = cn.prepareStatement(SQL_DELETE_TRIP_CITY)) {
             ps.setString(1,trip.getName());
             ps.setString(2,trip.getSummary());
             ps.setString(3,trip.getDescription());
@@ -347,13 +344,19 @@ public class JdbcTripDAO implements TripDAO {
             ps.setLong(6,trip.getPrice());
             ps.setInt(7,(trip.getLastMinute()) ? 1 : 0);
             ps.setString(8,trip.getAttractions());
-//            ps.setString(9,trip.getDestinationCity());
-//            ps.setString(10,trip.getDestinationCountry());
             ps.setString(9,trip.getTransport().toString());
             ps.setString(10,trip.getServices());
             ps.setString(11,trip.getPathImage());
             ps.setLong(12,trip.getId());
             ps.executeUpdate();
+            ps3.setLong(1,trip.getId());
+            ps3.execute();
+            for (int i = 0; i < trip.getCities().size(); i++) {
+                ps2.setLong(1,trip.getId());
+                ps2.setLong(2,trip.getCities().get(i).getIdCity());
+                ps2.setInt(3,i+1);
+                ps2.executeUpdate();
+            }
             flag = true;
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
@@ -433,7 +436,9 @@ public class JdbcTripDAO implements TripDAO {
     @Override
     public boolean delete(Long id) throws DAOException {
         boolean flag = false;
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_DELETE_TRIP)) {
+        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_DELETE_TRIP); PreparedStatement ps2 = cn.prepareStatement(SQL_DELETE_TRIP_CITY)) {
+            ps2.setLong(1,id);
+            ps2.execute();
             ps.setLong(1,id);
             ps.execute();
             flag = true;

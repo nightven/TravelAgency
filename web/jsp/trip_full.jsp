@@ -94,10 +94,10 @@
         </div>
 
         <div class="short-description">
-            <div class="first-column" style="height: 70px;">
+            <div class="first-column" style="height: 40px;">
                 <p><b><fmt:message key="label.trip.departureDate" bundle="${rb}" />:</b> <c:out value="${ trip.departureDate }" /></p>
             </div>
-            <div class="second-column" style="height: 70px;">
+            <div class="second-column" style="height: 40px;">
                 <p><b><fmt:message key="label.trip.arrivalDate" bundle="${rb}" />:</b> <c:out value="${ trip.arrivalDate }" /></p>
             </div>
             <div class="middle-column">

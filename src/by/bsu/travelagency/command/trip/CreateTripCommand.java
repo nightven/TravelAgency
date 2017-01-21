@@ -3,6 +3,9 @@ package by.bsu.travelagency.command.trip;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
+import by.bsu.travelagency.dao.exception.DAOException;
+import by.bsu.travelagency.dao.jdbc.JdbcCityDAO;
+import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.logic.CreateTripLogic;
 import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Михаил on 2/16/2016.
@@ -34,12 +38,6 @@ public class CreateTripCommand implements ActionCommand {
     
     /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
-
-    /** The Constant PARAM_NAME_DESTINATION_COUNTRY. */
-    private static final String PARAM_NAME_DESTINATION_COUNTRY = "destination-country";
-
-    /** The Constant PARAM_NAME_DESTINATION_CITY. */
-    private static final String PARAM_NAME_DESTINATION_CITY = "destination-city";
     
     /** The Constant PARAM_NAME_ARRIVAL_ATTRACTIONS. */
     private static final String PARAM_NAME_ARRIVAL_ATTRACTIONS = "attractions";
@@ -59,6 +57,12 @@ public class CreateTripCommand implements ActionCommand {
     /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
+    /** The Constant PARAM_NAME_COUNT_CITIES. */
+    private static final String PARAM_NAME_COUNT_CITIES = "count-cities";
+
+    /** The Constant PARAM_NAME_CITY. */
+    private static final String PARAM_NAME_CITY = "city";
+
     /* (non-Javadoc)
      * @see by.bsu.travelagency.command.ActionCommand#execute(HttpServletRequest, HttpServletResponse)
      */
@@ -70,8 +74,6 @@ public class CreateTripCommand implements ActionCommand {
         String summary = request.getParameter(PARAM_NAME_SUMMARY);
         String departureDate = request.getParameter(PARAM_NAME_DEPARTURE_DATE);
         String arrivalDate = request.getParameter(PARAM_NAME_ARRIVAL_DATE);
-        String destinationCountry = request.getParameter(PARAM_NAME_DESTINATION_COUNTRY);
-        String destinationCity = request.getParameter(PARAM_NAME_DESTINATION_CITY);
         String attractions = request.getParameter(PARAM_NAME_ARRIVAL_ATTRACTIONS);
         String lastMinute = request.getParameter(PARAM_NAME_LAST_MINUTE);
         LOG.debug("Last minute test: " + request.getParameter(PARAM_NAME_LAST_MINUTE));
@@ -79,6 +81,14 @@ public class CreateTripCommand implements ActionCommand {
         String transport = request.getParameter(PARAM_NAME_TRANSPORT);
         String services = request.getParameter(PARAM_NAME_SERVICES);
         String description = request.getParameter(PARAM_NAME_DESCRIPTION);
+        try {
+        int countCities = Integer.parseInt(request.getParameter(PARAM_NAME_COUNT_CITIES));
+        ArrayList<City> cities = new ArrayList<>();
+        for (int i = 1; i <= countCities; i++) {
+            JdbcCityDAO cityDAO = new JdbcCityDAO();
+            City city = cityDAO.findEntityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
+            cities.add(city);
+        }
 
         String SAVE_DIR = "images" + File.separator + "trips";
         String appPath = request.getServletContext().getRealPath("");
@@ -86,10 +96,9 @@ public class CreateTripCommand implements ActionCommand {
 
         LOG.debug("Save Path = " + savePath);
         Part filePart = null;
-        try {
             filePart = request.getPart("img");
 
-            if (CreateTripLogic.checkCreateTrip(name, summary, departureDate, arrivalDate, destinationCountry, destinationCity, attractions, lastMinute, price, transport, services, description, filePart, savePath)) {
+            if (CreateTripLogic.checkCreateTrip(name, summary, departureDate, arrivalDate, attractions, lastMinute, price, transport, services, description, filePart, savePath, cities)) {
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
             }
             else {
@@ -97,7 +106,7 @@ public class CreateTripCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.createtriperror"));
                 page = ConfigurationManager.getProperty("path.page.admin.create.trip");
             }
-        } catch (BusinessLogicException e) {
+        } catch (BusinessLogicException | DAOException e) {
             throw new CommandException(e);
         } catch (IOException | ServletException e) {
             throw new CommandException("Failed to get parts from request.",e);
