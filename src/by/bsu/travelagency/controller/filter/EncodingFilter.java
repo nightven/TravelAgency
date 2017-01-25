@@ -1,16 +1,12 @@
 package by.bsu.travelagency.controller.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
 /**
  * The Class EncodingFilter.
  */
-@WebFilter(urlPatterns = { "/*" },
-        initParams = {
-                @WebInitParam(name = "encoding", value = "utf-8", description = "Encoding Param") })
+
 public class EncodingFilter implements Filter {
 
     /** The code. */

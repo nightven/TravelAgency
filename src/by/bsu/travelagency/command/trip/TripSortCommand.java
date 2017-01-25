@@ -2,10 +2,10 @@ package by.bsu.travelagency.command.trip;
 
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
-import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.Trip;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.TripServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class TripSortCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -36,11 +33,11 @@ public class TripSortCommand implements ActionCommand {
         String criterion = request.getParameter(PARAM_NAME_CRITERION);
         boolean order = Boolean.parseBoolean(request.getParameter(PARAM_NAME_ORDER));
         Date nowDate = new Date();
-        JdbcTripDAO tripDAO = new JdbcTripDAO();
+        TripServiceImpl tripService = new TripServiceImpl();
         List<Trip> trips = null;
         try {
-            trips = tripDAO.findAllSortTripsAfterNow(new java.sql.Date(nowDate.getTime()), criterion, order);
-        } catch (DAOException e) {
+            trips = tripService.findAllSortTripsAfterNow(new java.sql.Date(nowDate.getTime()), criterion, order);
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         request.setAttribute("sortCriterion", criterion);

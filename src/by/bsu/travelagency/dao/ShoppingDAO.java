@@ -73,7 +73,7 @@ public interface ShoppingDAO extends GenericDAO<Long, Shopping> {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    List<Shopping> findShoppingsByPriceAfterNow(Date nowDate, int price) throws DAOException;
+    List<Shopping> findShoppingsByPriceAfterNow(Date nowDate, double price) throws DAOException;
 
     /**
      * Find shoppings by transport after now.

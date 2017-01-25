@@ -1,4 +1,4 @@
-package by.bsu.travelagency.logic;
+package by.bsu.travelagency.util;
 
 import org.apache.log4j.Logger;
 
@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class Validator {
     
     /** The Constant LOG. */
@@ -40,6 +37,12 @@ public class Validator {
     
     /** The Constant REGEX_PRICE. */
     private final static String REGEX_PRICE = "([0-9]){1,45}";
+
+    /** The Constant PRICE_MIN. */
+    private final static int PRICE_MIN = 1;
+
+    /** The Constant PRICE_MAX. */
+    private final static int PRICE_MAX = 1000000000;
     
     /** The Constant REGEX_HOTEL. */
     private final static String REGEX_HOTEL = "(.){1,100}";
@@ -134,6 +137,7 @@ public class Validator {
      */
     public static boolean validateName(String enterName) {
         boolean flag = false;
+        LOG.debug("Name for validation: " + enterName);
         Pattern pName = Pattern.compile(REGEX_NAME);
         Matcher mName = pName.matcher(enterName);
         LOG.debug("Validate Name: " + mName.matches());
@@ -168,6 +172,7 @@ public class Validator {
      */
     public static boolean validateNameTour(String enterNameTour) {
         boolean flag = false;
+        LOG.debug("Tour Name for validation: " + enterNameTour);
         Pattern pNameVacation = Pattern.compile(REGEX_NAME_TOUR);
         Matcher mNameVacation = pNameVacation.matcher(enterNameTour);
         LOG.debug("Validate NameTour: " + mNameVacation.matches());
@@ -219,12 +224,11 @@ public class Validator {
      */
     public static boolean validatePrice(String enterPrice) {
         boolean flag = false;
-        Pattern pPrice = Pattern.compile(REGEX_PRICE);
-        Matcher mPrice = pPrice.matcher(enterPrice);
-        LOG.debug("Validate Price: " + mPrice.matches());
-        if (mPrice.matches()){
+        double price = Double.parseDouble(enterPrice);
+        if (price >= PRICE_MIN && price <= PRICE_MAX){
             flag = true;
         }
+        LOG.debug("Validate Price: " + flag);
         return flag;
     }
 
@@ -316,7 +320,7 @@ public class Validator {
      * @param money the money
      * @return true, if successful
      */
-    public static boolean validateBalanceToAdd(int money) {
+    public static boolean validateBalanceToAdd(double money) {
         boolean flag = false;
         if (money >= BALANCE_MIN_MONEY_TO_ADD && money <= BALANCE_MAX_MONEY_TO_ADD){
             flag = true;
@@ -331,7 +335,7 @@ public class Validator {
      * @param money the money
      * @return true, if successful
      */
-    public static boolean validateUserCreateMoney(int money) {
+    public static boolean validateUserCreateMoney(double money) {
         boolean flag = false;
         if (money >= USER_MIN_MONEY_CREATE_USER && money <= USER_MAX_MONEY_CREATE_USER){
             flag = true;

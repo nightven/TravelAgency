@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 
-/**
- * Created by Михаил on 04.01.2016.
- */
 @WebServlet(
         urlPatterns = "/travel",
         initParams = @WebInitParam(name = "init_log4j", value = "log4j.xml")
@@ -50,10 +47,10 @@ public class TravelController extends HttpServlet {
     public static MessageManager messageManager = MessageManager.INSTANCE;
     
     /** The Constant LOCALE_RU. */
-    public final static String LOCALE_RU = "ru_RU";
+    private final static String LOCALE_RU = "ru_RU";
     
     /** The Constant LOCALE_RU_VALUE. */
-    public final static String LOCALE_RU_VALUE = "ru";
+    private final static String LOCALE_RU_VALUE = "ru";
 
     /**
      * Inits the.
@@ -144,8 +141,6 @@ public class TravelController extends HttpServlet {
             page = command.execute(request, response);
         } catch (CommandException e) {
             LOG.error(e);
-            // TODO: 1/15/2017 Убрать стактрэйс
-            e.printStackTrace();
         }
         if (page != null) {
             LOG.debug("redirect = " + request.getAttribute("redirect"));

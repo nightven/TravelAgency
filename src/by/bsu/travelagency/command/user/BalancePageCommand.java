@@ -3,19 +3,16 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class BalancePageCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -33,11 +30,11 @@ public class BalancePageCommand implements ActionCommand {
         HttpSession session = request.getSession();
         if (session.getAttribute(PARAM_NAME_ID_USER) != null) {
             Long userId = (Long) session.getAttribute(PARAM_NAME_ID_USER);
-            JdbcUserDAO userDAO = new JdbcUserDAO();
+            UserServiceImpl userService = new UserServiceImpl();
             User user = null;
             try {
-                user = userDAO.findEntityById(userId);
-            } catch (DAOException e) {
+                user = userService.findEntityById(userId);
+            } catch (ServiceException e) {
                 throw new CommandException(e);
             }
             request.setAttribute("userProfile", user);

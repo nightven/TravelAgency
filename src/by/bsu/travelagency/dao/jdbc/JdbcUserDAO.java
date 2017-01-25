@@ -12,9 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcUserDAO implements UserDAO {
 
     /** The Constant LOG. */
@@ -56,6 +53,26 @@ public class JdbcUserDAO implements UserDAO {
     /** The Constant SQL_DELETE_USER. */
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE id_user=?";
 
+    /**
+     * Instantiates a new JdbcUserDAO.
+     */
+    private JdbcUserDAO() {
+    }
+
+    /** Nested class JdbcUserDAOHolder. */
+    private static class JdbcUserDAOHolder {
+        private static final JdbcUserDAO HOLDER_INSTANCE = new JdbcUserDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcUserDAOHolder instance
+     */
+    public static JdbcUserDAO getInstance() {
+        return JdbcUserDAOHolder.HOLDER_INSTANCE;
+    }
 
     /**
      * Find all users.
@@ -159,16 +176,16 @@ public class JdbcUserDAO implements UserDAO {
      * Find money by user id.
      *
      * @param id the id
-     * @return the int
+     * @return the money
      * @throws DAOException the DAO exception
      */
-    public int findMoneyByUserId(Long id) throws DAOException {
-        int money = 0;
+    public double findMoneyByUserId(Long id) throws DAOException {
+        double money = 0;
         try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_SELECT_MONEY_BY_USER_ID)) {
             ps.setLong(1,id);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                money = resultSet.getInt("balance");
+                money = resultSet.getDouble("balance");
             }
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
@@ -238,7 +255,7 @@ public class JdbcUserDAO implements UserDAO {
             ps.setString(5,user.getName());
             ps.setString(6,user.getSurname());
             ps.setDouble(7,user.getDiscount());
-            ps.setInt(8,user.getMoney());
+            ps.setDouble(8,user.getMoney());
             ps.executeUpdate();
             flag = true;
         } catch (ConnectionPoolException e) {
@@ -263,7 +280,7 @@ public class JdbcUserDAO implements UserDAO {
             ps.setString(5,user.getName());
             ps.setString(6,user.getSurname());
             ps.setDouble(7,user.getDiscount());
-            ps.setInt(8,user.getMoney());
+            ps.setDouble(8,user.getMoney());
             ps.setLong(9,user.getId());
             ps.executeUpdate();
             flag = true;
@@ -283,7 +300,7 @@ public class JdbcUserDAO implements UserDAO {
      * @return true, if successful
      * @throws DAOException the DAO exception
      */
-    public boolean updateUserBalance(Long id, int money) throws DAOException {
+    public boolean updateUserBalance(Long id, double money) throws DAOException {
         return updateUserBalanceGeneral(id, money, SQL_UPDATE_USER_BALANCE);
     }
 
@@ -295,7 +312,7 @@ public class JdbcUserDAO implements UserDAO {
      * @return true, if successful
      * @throws DAOException the DAO exception
      */
-    public boolean updateUserBalanceAddition(Long id, int moneyToAdd) throws DAOException {
+    public boolean updateUserBalanceAddition(Long id, double moneyToAdd) throws DAOException {
         return updateUserBalanceGeneral(id, moneyToAdd, SQL_UPDATE_USER_BALANCE_ADDITION);
     }
 
@@ -362,10 +379,10 @@ public class JdbcUserDAO implements UserDAO {
      * @return true, if successful
      * @throws DAOException the DAO exception
      */
-    private boolean updateUserBalanceGeneral(Long id, int money, String query) throws DAOException{
+    private boolean updateUserBalanceGeneral(Long id, double money, String query) throws DAOException{
         boolean flag = false;
         try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-            ps.setInt(1,money);
+            ps.setDouble(1,money);
             ps.setLong(2,id);
             if (ps.executeUpdate() != 0) {
                 flag = true;

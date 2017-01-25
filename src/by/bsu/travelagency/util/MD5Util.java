@@ -1,25 +1,22 @@
-package by.bsu.travelagency.logic;
+package by.bsu.travelagency.util;
 
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
+import by.bsu.travelagency.util.exception.UtilException;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Михаил on 5/22/2016.
- */
 public class MD5Util {
 
     /**
-     * Md 5 encode.
+     * Md5 encode.
      *
      * @param st the st
      * @return the string
-     * @throws BusinessLogicException the business logic exception
+     * @throws UtilException the business util exception
      */
-    public static String md5Encode(String st) throws BusinessLogicException {
-        MessageDigest messageDigest = null;
+    public static String md5Encode(String st) throws UtilException {
+        MessageDigest messageDigest;
         byte[] digest = new byte[0];
 
         try {
@@ -28,7 +25,7 @@ public class MD5Util {
             messageDigest.update(st.getBytes());
             digest = messageDigest.digest();
         } catch (NoSuchAlgorithmException e) {
-            throw new BusinessLogicException("Failed to MD5 encode.", e);
+            throw new UtilException("Failed to MD5 encode.", e);
         }
 
         BigInteger bigInt = new BigInteger(1, digest);

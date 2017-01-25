@@ -3,12 +3,10 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.BalanceLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class BalanceAddCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -45,17 +40,17 @@ public class BalanceAddCommand implements ActionCommand {
         String page = null;
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute(PARAM_NAME_ID_USER);
-        int moneyToAdd = Integer.parseInt(request.getParameter(PARAM_NAME_MONEY));
-        JdbcUserDAO userDAO = new JdbcUserDAO();
+        double moneyToAdd = Double.parseDouble(request.getParameter(PARAM_NAME_MONEY));
+        UserServiceImpl userService = new UserServiceImpl();
         try {
-            if (BalanceLogic.checkBalanceToAdd(userId, moneyToAdd)) {
-                User user = userDAO.findEntityById(userId);
+            if (userService.checkBalanceToAdd(userId, moneyToAdd)) {
+                User user = userService.findEntityById(userId);
                 request.setAttribute("userProfile", user);
                 URL url = new URL(request.getHeader(PARAM_HEADER_REFERER));
                 request.setAttribute("redirect", PARAM_NAME_SERVLET + url.getQuery());
                 page = ConfigurationManager.getProperty("path.page.balance");
             } else {
-                User user = userDAO.findEntityById(userId);
+                User user = userService.findEntityById(userId);
                 request.setAttribute("userProfile", user);
                 URL url = new URL(request.getHeader(PARAM_HEADER_REFERER));
                 request.setAttribute("redirect", PARAM_NAME_SERVLET + url.getQuery());
@@ -63,7 +58,7 @@ public class BalanceAddCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.balanceadderror"));
                 page = ConfigurationManager.getProperty("path.page.balance");
             }
-        } catch (MalformedURLException | BusinessLogicException | DAOException e) {
+        } catch (MalformedURLException | ServiceException e) {
             throw new CommandException(e);
         }
 

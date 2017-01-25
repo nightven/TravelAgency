@@ -14,9 +14,6 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcShoppingDAO implements ShoppingDAO {
 
     /** The Constant LOG. */
@@ -87,6 +84,27 @@ public class JdbcShoppingDAO implements ShoppingDAO {
 
     /** The Constant SQL_DELETE_SHOPPING_CITY. */
     private static final String SQL_DELETE_SHOPPING_CITY = "DELETE FROM tours_cities WHERE id_tour=?";
+
+    /**
+     * Instantiates a new JdbcShoppingDAO.
+     */
+    private JdbcShoppingDAO() {
+    }
+
+    /** Nested class JdbcShoppingDAOHolder. */
+    private static class JdbcShoppingDAOHolder {
+        private static final JdbcShoppingDAO HOLDER_INSTANCE = new JdbcShoppingDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcShoppingDAOHolder instance
+     */
+    public static JdbcShoppingDAO getInstance() {
+        return JdbcShoppingDAOHolder.HOLDER_INSTANCE;
+    }
 
     /**
      * Find all shoppings.
@@ -208,11 +226,11 @@ public class JdbcShoppingDAO implements ShoppingDAO {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    public List<Shopping> findShoppingsByPriceAfterNow(Date nowDate, int price) throws DAOException {
+    public List<Shopping> findShoppingsByPriceAfterNow(Date nowDate, double price) throws DAOException {
         List<Shopping> shoppings = new ArrayList<>();
         try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_SELECT_SHOPPINGS_BY_PRICE_AFTER_NOW)) {
             ps.setDate(1,nowDate);
-            ps.setInt(2,price);
+            ps.setDouble(2,price);
             ResultSet resultSet =
                     ps.executeQuery();
             generalGetListShoppings(resultSet, shoppings);
@@ -306,7 +324,7 @@ public class JdbcShoppingDAO implements ShoppingDAO {
             ps.setString(3,shopping.getDescription());
             ps.setDate(4,new java.sql.Date(shopping.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(shopping.getArrivalDate().getTime()));
-            ps.setLong(6,shopping.getPrice());
+            ps.setDouble(6,shopping.getPrice());
             ps.setInt(7,(shopping.getLastMinute()) ? 1 : 0);
             ps.setString(8,shopping.getShops());
             ps.setString(9,shopping.getTransport().toString());
@@ -342,7 +360,7 @@ public class JdbcShoppingDAO implements ShoppingDAO {
             ps.setString(3,shopping.getDescription());
             ps.setDate(4,new java.sql.Date(shopping.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(shopping.getArrivalDate().getTime()));
-            ps.setLong(6,shopping.getPrice());
+            ps.setDouble(6,shopping.getPrice());
             ps.setInt(7,(shopping.getLastMinute()) ? 1 : 0);
             ps.setString(8,shopping.getShops());
             ps.setString(9,shopping.getTransport().toString());
@@ -389,7 +407,7 @@ public class JdbcShoppingDAO implements ShoppingDAO {
                 shopping.setDescription(resultSet.getString("description"));
                 shopping.setDepartureDate(resultSet.getDate("departure_date"));
                 shopping.setArrivalDate(resultSet.getDate("arrival_date"));
-                shopping.setPrice(resultSet.getInt("price"));
+                shopping.setPrice(resultSet.getDouble("price"));
                 shopping.setLastMinute(resultSet.getBoolean("hot_tour"));
                 shopping.setShops(resultSet.getString("shops"));
                 ArrayList<City> cities = new ArrayList<City>();
@@ -461,7 +479,7 @@ public class JdbcShoppingDAO implements ShoppingDAO {
                     shopping.setDescription(resultSet.getString("description"));
                     shopping.setDepartureDate(resultSet.getDate("departure_date"));
                     shopping.setArrivalDate(resultSet.getDate("arrival_date"));
-                    shopping.setPrice(resultSet.getInt("price"));
+                    shopping.setPrice(resultSet.getDouble("price"));
                     shopping.setLastMinute(resultSet.getBoolean("hot_tour"));
                     shopping.setShops(resultSet.getString("shops"));
                     ArrayList<City> cities = new ArrayList<City>();

@@ -2,14 +2,14 @@ package by.bsu.travelagency.command.tour;
 
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
-import by.bsu.travelagency.dao.jdbc.JdbcShoppingDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcVacationDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.Shopping;
 import by.bsu.travelagency.entity.Trip;
 import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
+import by.bsu.travelagency.service.impl.TripServiceImpl;
+import by.bsu.travelagency.service.impl.VacationServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class SearchListCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -77,16 +74,17 @@ public class SearchListCommand implements ActionCommand {
         String searchText = request.getParameter(PARAM_NAME_SEARCH_TEXT);
         String searchTextSelect = request.getParameter(PARAM_NAME_SEARCH_TEXT_SELECT);
 
+        // TODO: 1/25/2017 Может быть что-нибудь с этими свичами сделать?
         switch (tourType){
             case TOUR_TYPE_VACATION:
-                JdbcVacationDAO vacationDAO = new JdbcVacationDAO();
-                List<Vacation> vacations = new ArrayList<Vacation>();
+                VacationServiceImpl vacationService = new VacationServiceImpl();
+                List<Vacation> vacations;
 
                 switch (tourField){
                     case TOUR_FIELD_NAME:
                         try {
-                            vacations = vacationDAO.findVacationsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
-                        } catch (DAOException e) {
+                            vacations = vacationService.findVacationsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("vacations", vacations);
@@ -96,12 +94,12 @@ public class SearchListCommand implements ActionCommand {
                         Date departureDate = null;
                         try {
                             departureDate = format.parse(searchText);
-                            vacations = vacationDAO.findVacationsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
+                            vacations = vacationService.findVacationsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
                             request.setAttribute("vacations", vacations);
                             page = ConfigurationManager.getProperty("path.page.vacation.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
@@ -109,20 +107,20 @@ public class SearchListCommand implements ActionCommand {
                         Date arrivalDate = null;
                         try {
                             arrivalDate = format.parse(searchText);
-                            vacations = vacationDAO.findVacationsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
+                            vacations = vacationService.findVacationsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
                             request.setAttribute("vacations", vacations);
                             page = ConfigurationManager.getProperty("path.page.vacation.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
                     case TOUR_FIELD_PRICE:
                         int price = Integer.parseInt(searchText);
                         try {
-                            vacations = vacationDAO.findVacationsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
-                        } catch (DAOException e) {
+                            vacations = vacationService.findVacationsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("vacations", vacations);
@@ -130,8 +128,8 @@ public class SearchListCommand implements ActionCommand {
                         break;
                     case TOUR_FIELD_TRANSPORT:
                         try {
-                            vacations = vacationDAO.findVacationsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
-                        } catch (DAOException e) {
+                            vacations = vacationService.findVacationsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("vacations", vacations);
@@ -140,14 +138,14 @@ public class SearchListCommand implements ActionCommand {
                 }
                 break;
             case TOUR_TYPE_TRIP:
-                JdbcTripDAO tripDAO = new JdbcTripDAO();
+                TripServiceImpl tripService = new TripServiceImpl();
                 List<Trip> trips = new ArrayList<Trip>();
 
                 switch (tourField){
                     case TOUR_FIELD_NAME:
                         try {
-                            trips = tripDAO.findTripsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
-                        } catch (DAOException e) {
+                            trips = tripService.findTripsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("trips", trips);
@@ -157,12 +155,12 @@ public class SearchListCommand implements ActionCommand {
                         Date departureDate = null;
                         try {
                             departureDate = format.parse(searchText);
-                            trips = tripDAO.findTripsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
+                            trips = tripService.findTripsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
                             request.setAttribute("trips", trips);
                             page = ConfigurationManager.getProperty("path.page.trip.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
@@ -170,20 +168,20 @@ public class SearchListCommand implements ActionCommand {
                         Date arrivalDate = null;
                         try {
                             arrivalDate = format.parse(searchText);
-                            trips = tripDAO.findTripsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
+                            trips = tripService.findTripsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
                             request.setAttribute("trips", trips);
                             page = ConfigurationManager.getProperty("path.page.trip.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
                     case TOUR_FIELD_PRICE:
                         int price = Integer.parseInt(searchText);
                         try {
-                            trips = tripDAO.findTripsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
-                        } catch (DAOException e) {
+                            trips = tripService.findTripsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("trips", trips);
@@ -191,8 +189,8 @@ public class SearchListCommand implements ActionCommand {
                         break;
                     case TOUR_FIELD_TRANSPORT:
                         try {
-                            trips = tripDAO.findTripsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
-                        } catch (DAOException e) {
+                            trips = tripService.findTripsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("trips", trips);
@@ -201,14 +199,14 @@ public class SearchListCommand implements ActionCommand {
                 }
                 break;
             case TOUR_TYPE_SHOPPING:
-                JdbcShoppingDAO shoppingDAO = new JdbcShoppingDAO();
+                ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
                 List<Shopping> shoppings = new ArrayList<Shopping>();
 
                 switch (tourField){
                     case TOUR_FIELD_NAME:
                         try {
-                            shoppings = shoppingDAO.findShoppingsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
-                        } catch (DAOException e) {
+                            shoppings = shoppingService.findShoppingsByNameAfterNow(new java.sql.Date(nowDate.getTime()), searchText);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("shoppings", shoppings);
@@ -218,12 +216,12 @@ public class SearchListCommand implements ActionCommand {
                         Date departureDate = null;
                         try {
                             departureDate = format.parse(searchText);
-                            shoppings = shoppingDAO.findShoppingsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
+                            shoppings = shoppingService.findShoppingsByDepartureDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(departureDate.getTime()));
                             request.setAttribute("shoppings", shoppings);
                             page = ConfigurationManager.getProperty("path.page.shopping.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
@@ -231,20 +229,20 @@ public class SearchListCommand implements ActionCommand {
                         Date arrivalDate = null;
                         try {
                             arrivalDate = format.parse(searchText);
-                            shoppings = shoppingDAO.findShoppingsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
+                            shoppings = shoppingService.findShoppingsByArrivalDateAfterNow(new java.sql.Date(nowDate.getTime()), new java.sql.Date(arrivalDate.getTime()));
                             request.setAttribute("shoppings", shoppings);
                             page = ConfigurationManager.getProperty("path.page.shopping.list");
                         } catch (ParseException e) {
                             throw new CommandException("Failed to parse date.", e);
-                        } catch (DAOException e) {
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         break;
                     case TOUR_FIELD_PRICE:
                         int price = Integer.parseInt(searchText);
                         try {
-                            shoppings = shoppingDAO.findShoppingsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
-                        } catch (DAOException e) {
+                            shoppings = shoppingService.findShoppingsByPriceAfterNow(new java.sql.Date(nowDate.getTime()), price);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("shoppings", shoppings);
@@ -252,8 +250,8 @@ public class SearchListCommand implements ActionCommand {
                         break;
                     case TOUR_FIELD_TRANSPORT:
                         try {
-                            shoppings = shoppingDAO.findShoppingsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
-                        } catch (DAOException e) {
+                            shoppings = shoppingService.findShoppingsByTransportAfterNow(new java.sql.Date(nowDate.getTime()), searchTextSelect);
+                        } catch (ServiceException e) {
                             throw new CommandException(e);
                         }
                         request.setAttribute("shoppings", shoppings);

@@ -3,9 +3,9 @@ package by.bsu.travelagency.command.shopping;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.CreateShoppingLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,9 +15,6 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class CreateShoppingCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -85,7 +82,9 @@ public class CreateShoppingCommand implements ActionCommand {
         try {
             filePart = request.getPart("img");
 
-            if (CreateShoppingLogic.checkCreateShopping(name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description, filePart, savePath)) {
+            ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
+
+            if (shoppingService.checkCreateShopping(name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description, filePart, savePath)) {
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
             }
             else {
@@ -93,7 +92,7 @@ public class CreateShoppingCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.createshoppingerror"));
                 page = ConfigurationManager.getProperty("path.page.admin.create.shopping");
             }
-        } catch (BusinessLogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         } catch (IOException | ServletException e) {
             throw new CommandException("Failed to get parts from request.",e);

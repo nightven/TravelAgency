@@ -1,11 +1,10 @@
 package by.bsu.travelagency.entity;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class Vacation extends Tour {
 
-    /** The hotel. */
+    /**
+     * The hotel.
+     */
     private String hotel;
 
     /**

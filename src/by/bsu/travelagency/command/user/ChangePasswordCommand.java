@@ -3,18 +3,15 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.ChangePasswordLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class ChangePasswordCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -40,9 +37,9 @@ public class ChangePasswordCommand implements ActionCommand {
             Long userId = (Long) session.getAttribute(PARAM_NAME_ID_USER);
             String passwordOld = request.getParameter(PARAM_NAME_PASSWORD_OLD);
             String passwordNew = request.getParameter(PARAM_NAME_PASSWORD_NEW);
-
+            UserServiceImpl userService = new UserServiceImpl();
             try {
-                if (ChangePasswordLogic.checkPassword(passwordOld, passwordNew, userId)) {
+                if (userService.checkPassword(passwordOld, passwordNew, userId)) {
                     request.setAttribute("changePasswordSuccessMessage", TravelController.messageManager.getProperty("message.changepasswordsuccess"));
                     page = ConfigurationManager.getProperty("path.page.change.password");
                 }
@@ -50,7 +47,7 @@ public class ChangePasswordCommand implements ActionCommand {
                     request.setAttribute("errorChangePasswordMessage", TravelController.messageManager.getProperty("message.changepassworderror"));
                     page = ConfigurationManager.getProperty("path.page.change.password");
                 }
-            } catch (BusinessLogicException e) {
+            } catch (ServiceException e) {
                 throw new CommandException(e);
             }
         } else {

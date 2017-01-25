@@ -12,9 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcCityDAO implements CityDAO {
 
     /** The Constant LOG. */
@@ -34,6 +31,27 @@ public class JdbcCityDAO implements CityDAO {
 
     /** The Constant SQL_DELETE_CITY. */
     private static final String SQL_DELETE_CITY = "DELETE FROM cities WHERE id_city=?";
+
+    /**
+     * Instantiates a new JdbcCityDAO.
+     */
+    private JdbcCityDAO() {
+    }
+
+    /** Nested class JdbcCityDAOHolder. */
+    private static class JdbcCityDAOHolder {
+        private static final JdbcCityDAO HOLDER_INSTANCE = new JdbcCityDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcCityDAOHolder instance
+     */
+    public static JdbcCityDAO getInstance() {
+        return JdbcCityDAOHolder.HOLDER_INSTANCE;
+    }
 
     /**
      * Find all cities.
@@ -165,28 +183,4 @@ public class JdbcCityDAO implements CityDAO {
             cities.add(city);
         }
     }
-// TODO: 1/16/2017 delete this method if not used
-/*    *//**
-     * General find all user orders by user id and date.
-     *
-     * @param userId the user id
-     * @param nowDate the today's date
-     * @return the list
-     * @throws DAOException the DAO exception
-     *//*
-    private List<OrderTourInfo> generalFindAllUserOrdersByDate(Long userId, Date nowDate, String query) throws DAOException {
-        List<OrderTourInfo> orderTourInfos = new ArrayList<>();
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-            ps.setLong(1,userId);
-            ps.setDate(2,nowDate);
-            ResultSet resultSet =
-                    ps.executeQuery();
-            createOrderTourInfos(resultSet, orderTourInfos);
-        } catch (ConnectionPoolException e) {
-            throw new DAOException(e);
-        } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
-        }
-        return orderTourInfos;
-    }*/
 }

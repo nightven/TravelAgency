@@ -124,7 +124,7 @@
             <div class="row">
                 <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="price"><fmt:message key="label.admin.create-tour.tour.price" bundle="${ rb }" /></label>
-                    <input type="number" class="form-control" id="price" name="price" required>
+                    <input type="number" min="0" max="100000" step="0.1" class="form-control" id="price" name="price" required>
                 </div>
             </div>
             <div class="row">

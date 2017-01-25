@@ -109,7 +109,7 @@
             <div class="row">
                 <div class="form-group col-sm-3 col-sm-offset-3">
                     <label for="price"><fmt:message key="label.admin.create-tour.tour.price" bundle="${ rb }" /></label>
-                    <input type="number" class="form-control" id="price" name="price" value="<c:out value="${ vacation.price }" />">
+                    <input type="number" min="0" max="100000" step="0.1" class="form-control" id="price" name="price" value="<c:out value="${ vacation.price }" />">
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="transport"><fmt:message key="label.admin.create-tour.tour.transport" bundle="${ rb }" /></label>

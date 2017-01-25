@@ -3,9 +3,9 @@ package by.bsu.travelagency.command.shopping;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.EditShoppingLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,9 +15,6 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class EditShoppingCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -80,10 +77,11 @@ public class EditShoppingCommand implements ActionCommand {
         String transport = request.getParameter(PARAM_NAME_TRANSPORT);
         String services = request.getParameter(PARAM_NAME_SERVICES);
         String description = request.getParameter(PARAM_NAME_DESCRIPTION);
+        ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
 
         try {
             if ("application/octet-stream".equals(request.getPart("img").getContentType())){
-                if (EditShoppingLogic.checkEditShopping(id ,name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description)) {
+                if (shoppingService.checkEditShopping(id ,name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description)) {
                     page = ConfigurationManager.getProperty("path.page.admin.panel");
                 }
                 else {
@@ -100,7 +98,7 @@ public class EditShoppingCommand implements ActionCommand {
                 LOG.debug("Save Path = " + savePath);
                 Part filePart = request.getPart("img");
 
-                if (EditShoppingLogic.checkEditShopping(id ,name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description, filePart, savePath)) {
+                if (shoppingService.checkEditShopping(id ,name, summary, departureDate, arrivalDate, destinationCityId, shops, lastMinute, price, transport, services, description, filePart, savePath)) {
                     page = ConfigurationManager.getProperty("path.page.admin.panel");
                 }
                 else {
@@ -111,7 +109,7 @@ public class EditShoppingCommand implements ActionCommand {
             }
         } catch (IOException | ServletException e) {
             throw new CommandException("Failed to get parts from request.", e);
-        } catch (BusinessLogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
 

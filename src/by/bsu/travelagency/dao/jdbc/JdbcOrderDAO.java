@@ -13,9 +13,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcOrderDAO implements OrderDAO {
 
     /** The Constant LOG. */
@@ -44,6 +41,27 @@ public class JdbcOrderDAO implements OrderDAO {
 
     /** The Constant SQL_SELECT_USER_ID_BY_ORDER_ID. */
     private static final String SQL_SELECT_USER_ID_BY_ORDER_ID = "SELECT id_user FROM orders WHERE id_order=?";
+
+    /**
+     * Instantiates a new JdbcOrderDAO.
+     */
+    private JdbcOrderDAO() {
+    }
+
+    /** Nested class JdbcOrderDAOHolder. */
+    private static class JdbcOrderDAOHolder {
+        private static final JdbcOrderDAO HOLDER_INSTANCE = new JdbcOrderDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcOrderDAOHolder instance
+     */
+    public static JdbcOrderDAO getInstance() {
+        return JdbcOrderDAOHolder.HOLDER_INSTANCE;
+    }
 
 
     /**
@@ -172,7 +190,7 @@ public class JdbcOrderDAO implements OrderDAO {
             ps.setLong(1,order.getUserId());
             ps.setLong(2,order.getTourId());
             ps.setInt(3,order.getQuantity());
-            ps.setInt(4,order.getTotalPrice());
+            ps.setDouble(4,order.getTotalPrice());
             ps.setDate(5,new java.sql.Date(order.getOrderDate().getTime()));
             ps.setDate(6,new java.sql.Date(order.getDepartureDate().getTime()));
             ps.setDate(7,new java.sql.Date(order.getArrivalDate().getTime()));

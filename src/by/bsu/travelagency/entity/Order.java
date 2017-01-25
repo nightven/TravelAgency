@@ -2,9 +2,6 @@ package by.bsu.travelagency.entity;
 
 import java.util.Date;
 
-/**
- * Created by Михаил on 8/10/2016.
- */
 public class Order extends Entity {
 
     /** The order id. */
@@ -20,7 +17,7 @@ public class Order extends Entity {
     private int quantity;
     
     /** The total price. */
-    private int totalPrice;
+    private double totalPrice;
     
     /** The order date. */
     private Date orderDate;
@@ -111,7 +108,7 @@ public class Order extends Entity {
      *
      * @return the total price
      */
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
@@ -120,7 +117,7 @@ public class Order extends Entity {
      *
      * @param totalPrice the new total price
      */
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

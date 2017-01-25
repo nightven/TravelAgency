@@ -14,9 +14,6 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcVacationDAO implements VacationDAO {
 
     /** The Constant LOG. */
@@ -88,6 +85,27 @@ public class JdbcVacationDAO implements VacationDAO {
 
     /** The Constant SQL_DELETE_VACATION_CITY. */
     private static final String SQL_DELETE_VACATION_CITY = "DELETE FROM tours_cities WHERE id_tour=?";
+
+    /**
+     * Instantiates a new JdbcVacationDAO.
+     */
+    private JdbcVacationDAO() {
+    }
+
+    /** Nested class JdbcVacationDAOHolder. */
+    private static class JdbcVacationDAOHolder {
+        private static final JdbcVacationDAO HOLDER_INSTANCE = new JdbcVacationDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcVacationDAOHolder instance
+     */
+    public static JdbcVacationDAO getInstance() {
+        return JdbcVacationDAOHolder.HOLDER_INSTANCE;
+    }
 
     /**
      * Find all vacations.
@@ -209,11 +227,11 @@ public class JdbcVacationDAO implements VacationDAO {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    public List<Vacation> findVacationsByPriceAfterNow(Date nowDate, int price) throws DAOException {
+    public List<Vacation> findVacationsByPriceAfterNow(Date nowDate, double price) throws DAOException {
         List<Vacation> vacations = new ArrayList<>();
         try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_SELECT_VACATIONS_BY_PRICE_AFTER_NOW)) {
             ps.setDate(1,nowDate);
-            ps.setInt(2,price);
+            ps.setDouble(2,price);
             ResultSet resultSet =
                     ps.executeQuery();
            generalGetListVacations(resultSet, vacations);
@@ -307,7 +325,7 @@ public class JdbcVacationDAO implements VacationDAO {
             ps.setString(3,vacation.getDescription());
             ps.setDate(4,new java.sql.Date(vacation.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(vacation.getArrivalDate().getTime()));
-            ps.setLong(6,vacation.getPrice());
+            ps.setDouble(6,vacation.getPrice());
             ps.setInt(7,(vacation.getLastMinute()) ? 1 : 0);
             ps.setString(8,vacation.getHotel());
             ps.setString(9,vacation.getTransport().toString());
@@ -343,7 +361,7 @@ public class JdbcVacationDAO implements VacationDAO {
             ps.setString(3,vacation.getDescription());
             ps.setDate(4,new java.sql.Date(vacation.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(vacation.getArrivalDate().getTime()));
-            ps.setLong(6,vacation.getPrice());
+            ps.setDouble(6,vacation.getPrice());
             ps.setInt(7,(vacation.getLastMinute()) ? 1 : 0);
             ps.setString(8,vacation.getHotel());
             ps.setString(9,vacation.getTransport().toString());
@@ -390,10 +408,10 @@ public class JdbcVacationDAO implements VacationDAO {
                 vacation.setDescription(resultSet.getString("description"));
                 vacation.setDepartureDate(resultSet.getDate("departure_date"));
                 vacation.setArrivalDate(resultSet.getDate("arrival_date"));
-                vacation.setPrice(resultSet.getInt("price"));
+                vacation.setPrice(resultSet.getDouble("price"));
                 vacation.setLastMinute(resultSet.getBoolean("hot_tour"));
                 vacation.setHotel(resultSet.getString("hotel"));
-                ArrayList<City> cities = new ArrayList<City>();
+                ArrayList<City> cities = new ArrayList<>();
                 City city = new City();
                 city.setIdCity(resultSet.getLong("id_city"));
                 city.setNameCity(resultSet.getString("destination_city"));
@@ -462,10 +480,10 @@ public class JdbcVacationDAO implements VacationDAO {
                     vacation.setDescription(resultSet.getString("description"));
                     vacation.setDepartureDate(resultSet.getDate("departure_date"));
                     vacation.setArrivalDate(resultSet.getDate("arrival_date"));
-                    vacation.setPrice(resultSet.getInt("price"));
+                    vacation.setPrice(resultSet.getDouble("price"));
                     vacation.setLastMinute(resultSet.getBoolean("hot_tour"));
                     vacation.setHotel(resultSet.getString("hotel"));
-                    ArrayList<City> cities = new ArrayList<City>();
+                    ArrayList<City> cities = new ArrayList<>();
                     City city = new City();
                     city.setIdCity(resultSet.getLong("id_city"));
                     city.setNameCity(resultSet.getString("destination_city"));

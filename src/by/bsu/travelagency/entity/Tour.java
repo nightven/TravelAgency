@@ -3,9 +3,6 @@ package by.bsu.travelagency.entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public abstract class Tour extends Entity {
 
     /** The id. */
@@ -30,7 +27,7 @@ public abstract class Tour extends Entity {
     private ArrayList<City> cities;
     
     /** The price. */
-    private int price;
+    private double price;
     
     /** The last minute. */
     private boolean lastMinute;
@@ -181,7 +178,7 @@ public abstract class Tour extends Entity {
      *
      * @return the price
      */
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -190,7 +187,7 @@ public abstract class Tour extends Entity {
      *
      * @param price the new price
      */
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

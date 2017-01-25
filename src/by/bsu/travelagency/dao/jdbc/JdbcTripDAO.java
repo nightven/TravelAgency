@@ -14,9 +14,6 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcTripDAO implements TripDAO {
 
     /** The Constant LOG. */
@@ -84,6 +81,27 @@ public class JdbcTripDAO implements TripDAO {
 
     /** The Constant SQL_DELETE_TRIP_CITY. */
     private static final String SQL_DELETE_TRIP_CITY = "DELETE FROM tours_cities WHERE id_tour=?";
+
+    /**
+     * Instantiates a new JdbcTripDAO.
+     */
+    private JdbcTripDAO() {
+    }
+
+    /** Nested class JdbcTripDAOHolder. */
+    private static class JdbcTripDAOHolder {
+        private static final JdbcTripDAO HOLDER_INSTANCE = new JdbcTripDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcTripDAOHolder instance
+     */
+    public static JdbcTripDAO getInstance() {
+        return JdbcTripDAOHolder.HOLDER_INSTANCE;
+    }
 
     /**
      * Find all trips.
@@ -204,11 +222,11 @@ public class JdbcTripDAO implements TripDAO {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    public List<Trip> findTripsByPriceAfterNow(Date nowDate, int price) throws DAOException {
+    public List<Trip> findTripsByPriceAfterNow(Date nowDate, double price) throws DAOException {
         List<Trip> trips = new ArrayList<>();
         try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_SELECT_TRIPS_BY_PRICE_AFTER_NOW)) {
             ps.setDate(1,nowDate);
-            ps.setInt(2,price);
+            ps.setDouble(2,price);
             ResultSet resultSet =
                     ps.executeQuery();
             generalGetListTrips(resultSet, trips);
@@ -302,7 +320,7 @@ public class JdbcTripDAO implements TripDAO {
             ps.setString(3,trip.getDescription());
             ps.setDate(4,new java.sql.Date(trip.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(trip.getArrivalDate().getTime()));
-            ps.setLong(6,trip.getPrice());
+            ps.setDouble(6,trip.getPrice());
             ps.setInt(7,(trip.getLastMinute()) ? 1 : 0);
             ps.setString(8,trip.getAttractions());
             ps.setString(9,trip.getTransport().toString());
@@ -341,7 +359,7 @@ public class JdbcTripDAO implements TripDAO {
             ps.setString(3,trip.getDescription());
             ps.setDate(4,new java.sql.Date(trip.getDepartureDate().getTime()));
             ps.setDate(5,new java.sql.Date(trip.getArrivalDate().getTime()));
-            ps.setLong(6,trip.getPrice());
+            ps.setDouble(6,trip.getPrice());
             ps.setInt(7,(trip.getLastMinute()) ? 1 : 0);
             ps.setString(8,trip.getAttractions());
             ps.setString(9,trip.getTransport().toString());
@@ -394,7 +412,7 @@ public class JdbcTripDAO implements TripDAO {
                     trip.setDescription(resultSet.getString("description"));
                     trip.setDepartureDate(resultSet.getDate("departure_date"));
                     trip.setArrivalDate(resultSet.getDate("arrival_date"));
-                    trip.setPrice(resultSet.getInt("price"));
+                    trip.setPrice(resultSet.getDouble("price"));
                     trip.setLastMinute(resultSet.getBoolean("hot_tour"));
                     trip.setAttractions(resultSet.getString("attractions"));
                     trip.setTransport(Transport.valueOf(resultSet.getString("transport")));
@@ -477,7 +495,7 @@ public class JdbcTripDAO implements TripDAO {
                     trip.setDescription(resultSet.getString("description"));
                     trip.setDepartureDate(resultSet.getDate("departure_date"));
                     trip.setArrivalDate(resultSet.getDate("arrival_date"));
-                    trip.setPrice(resultSet.getInt("price"));
+                    trip.setPrice(resultSet.getDouble("price"));
                     trip.setLastMinute(resultSet.getBoolean("hot_tour"));
                     trip.setAttractions(resultSet.getString("attractions"));
                     trip.setTransport(Transport.valueOf(resultSet.getString("transport")));

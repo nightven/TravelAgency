@@ -3,9 +3,9 @@ package by.bsu.travelagency.command.vacation;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.CreateVacationLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.VacationServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,9 +15,6 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class CreateVacationCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -79,13 +76,14 @@ public class CreateVacationCommand implements ActionCommand {
         String SAVE_DIR = "images" + File.separator + "vacations";
         String appPath = request.getServletContext().getRealPath("");
         String savePath = appPath + SAVE_DIR;
+        VacationServiceImpl vacationService = new VacationServiceImpl();
 
         LOG.debug("Save Path = " + savePath);
         Part filePart = null;
         try {
             filePart = request.getPart("img");
 
-            if (CreateVacationLogic.checkCreateVacation(name, summary, departureDate, arrivalDate, destinationCityId, hotel, lastMinute, price, transport, services, description, filePart, savePath)) {
+            if (vacationService.checkCreateVacation(name, summary, departureDate, arrivalDate, destinationCityId, hotel, lastMinute, price, transport, services, description, filePart, savePath)) {
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
             }
             else {
@@ -93,7 +91,7 @@ public class CreateVacationCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.createvacationerror"));
                 page = ConfigurationManager.getProperty("path.page.admin.create.vacation");
             }
-        } catch (BusinessLogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         } catch (IOException | ServletException e) {
             throw new CommandException("Failed to get parts from request.",e);

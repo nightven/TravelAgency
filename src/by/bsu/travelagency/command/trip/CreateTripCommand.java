@@ -3,12 +3,10 @@ package by.bsu.travelagency.command.trip;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.exception.DAOException;
-import by.bsu.travelagency.dao.jdbc.JdbcCityDAO;
 import by.bsu.travelagency.entity.City;
-import by.bsu.travelagency.logic.CreateTripLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.TripServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -19,9 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class CreateTripCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -81,12 +76,12 @@ public class CreateTripCommand implements ActionCommand {
         String transport = request.getParameter(PARAM_NAME_TRANSPORT);
         String services = request.getParameter(PARAM_NAME_SERVICES);
         String description = request.getParameter(PARAM_NAME_DESCRIPTION);
+        TripServiceImpl tripService = new TripServiceImpl();
         try {
         int countCities = Integer.parseInt(request.getParameter(PARAM_NAME_COUNT_CITIES));
         ArrayList<City> cities = new ArrayList<>();
         for (int i = 1; i <= countCities; i++) {
-            JdbcCityDAO cityDAO = new JdbcCityDAO();
-            City city = cityDAO.findEntityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
+            City city = tripService.findCityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
             cities.add(city);
         }
 
@@ -98,7 +93,7 @@ public class CreateTripCommand implements ActionCommand {
         Part filePart = null;
             filePart = request.getPart("img");
 
-            if (CreateTripLogic.checkCreateTrip(name, summary, departureDate, arrivalDate, attractions, lastMinute, price, transport, services, description, filePart, savePath, cities)) {
+            if (tripService.checkCreateTrip(name, summary, departureDate, arrivalDate, attractions, lastMinute, price, transport, services, description, filePart, savePath, cities)) {
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
             }
             else {
@@ -106,7 +101,7 @@ public class CreateTripCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.createtriperror"));
                 page = ConfigurationManager.getProperty("path.page.admin.create.trip");
             }
-        } catch (BusinessLogicException | DAOException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         } catch (IOException | ServletException e) {
             throw new CommandException("Failed to get parts from request.",e);

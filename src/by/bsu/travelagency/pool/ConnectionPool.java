@@ -1,9 +1,5 @@
 package by.bsu.travelagency.pool;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
-
 import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import org.apache.log4j.Logger;
@@ -99,6 +95,7 @@ public class ConnectionPool {
      */
     private void makeConnection(final int POOL_SIZE) throws IOException, ClassNotFoundException, SQLException {
         Properties properties = new Properties();
+        // TODO: 1/25/2017 Нормально ли такое подключение конфигурации бд?
         properties.load(getClass().getClassLoader().getResourceAsStream("/resources/database.properties"));
         connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
         Class.forName("com.mysql.jdbc.Driver");
@@ -149,7 +146,7 @@ public class ConnectionPool {
          *
          * @throws SQLException the SQL exception
          */
-        public void closeConnection() throws SQLException {
+        private void closeConnection() throws SQLException {
             connection.close();
         }
 

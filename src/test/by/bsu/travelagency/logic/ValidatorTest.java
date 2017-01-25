@@ -1,15 +1,12 @@
 package test.by.bsu.travelagency.logic;
 
-import by.bsu.travelagency.logic.Validator;
+import by.bsu.travelagency.util.Validator;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Михаил on 9/10/2016.
- */
 public class ValidatorTest {
 
     /**

@@ -2,18 +2,15 @@ package by.bsu.travelagency.command.country;
 
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
-import by.bsu.travelagency.dao.exception.DAOException;
-import by.bsu.travelagency.dao.jdbc.JdbcCountryDAO;
 import by.bsu.travelagency.entity.Country;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.CountryServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class EditCountryPageCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -29,11 +26,11 @@ public class EditCountryPageCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         Long id = Long.parseLong(request.getParameter(PARAM_NAME_ID));
-        JdbcCountryDAO countryDAO = new JdbcCountryDAO();
+        CountryServiceImpl countryService = new CountryServiceImpl();
         Country country = null;
         try {
-            country = countryDAO.findEntityById(id);
-        } catch (DAOException e) {
+            country = countryService.findEntityById(id);
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         if (id == country.getIdCountry()) {

@@ -3,17 +3,14 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.RegisterLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class RegisterCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -45,8 +42,10 @@ public class RegisterCommand implements ActionCommand {
         String email = request.getParameter(PARAM_NAME_EMAIL);
         String name = request.getParameter(PARAM_NAME_NAME);
         String surname = request.getParameter(PARAM_NAME_SURNAME);
+        LOG.debug("Encoding (Register): " + request.getCharacterEncoding());
+        UserServiceImpl userService = new UserServiceImpl();
         try {
-            if (RegisterLogic.checkRegister(login, pass, email, name, surname)) {
+            if (userService.checkRegister(login, pass, email, name, surname)) {
                 page = ConfigurationManager.getProperty("path.page.login");
             }
             else {
@@ -54,7 +53,7 @@ public class RegisterCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.registererror"));
                 page = ConfigurationManager.getProperty("path.page.register");
             }
-        } catch (BusinessLogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         return page;

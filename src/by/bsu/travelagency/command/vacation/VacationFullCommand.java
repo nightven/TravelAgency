@@ -2,20 +2,16 @@ package by.bsu.travelagency.command.vacation;
 
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcVacationDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
 import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.VacationServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class VacationFullCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -35,30 +31,23 @@ public class VacationFullCommand implements ActionCommand {
         String page = null;
         Long id = Long.parseLong(request.getParameter(PARAM_NAME_ID));
         Long iduser = (Long) request.getSession().getAttribute(PARAM_NAME_ID_USER);
-        JdbcVacationDAO vacationDAO = new JdbcVacationDAO();
-        Vacation vacation = null;
+        VacationServiceImpl vacationService = new VacationServiceImpl();
         try {
-            vacation = vacationDAO.findEntityById(id);
-        } catch (DAOException e) {
-            throw new CommandException(e);
-        }
-        if (id == vacation.getId()) {
-            request.setAttribute("vacation", vacation);
-            LOG.debug("iduser = " + iduser);
-            if (iduser != null) {
-                JdbcUserDAO userDAO = new JdbcUserDAO();
-                User user = null;
-                try {
-                    user = userDAO.findEntityById(iduser);
-                } catch (DAOException e) {
-                    throw new CommandException(e);
+            Vacation vacation = vacationService.findEntityById(id);
+            if (id == vacation.getId()) {
+                request.setAttribute("vacation", vacation);
+                LOG.debug("iduser = " + iduser);
+                if (iduser != null) {
+                    User user = vacationService.findUserById(iduser);
+                    LOG.debug("User name: " + user.getName());
+                    request.setAttribute("userProfile", user);
                 }
-                LOG.debug("User name: " + user.getName());
-                request.setAttribute("userProfile", user);
+                page = ConfigurationManager.getProperty("path.page.vacation.full");
+            } else {
+                page = ConfigurationManager.getProperty("path.page.main");
             }
-            page = ConfigurationManager.getProperty("path.page.vacation.full");
-        } else {
-            page = ConfigurationManager.getProperty("path.page.main");
+        } catch (ServiceException e) {
+            throw new CommandException(e);
         }
         return page;
     }

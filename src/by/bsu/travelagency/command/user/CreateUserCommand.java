@@ -3,17 +3,14 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.logic.CreateUserLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class CreateUserCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -57,11 +54,11 @@ public class CreateUserCommand implements ActionCommand {
         String surname = request.getParameter(PARAM_NAME_SURNAME);
         int role = Integer.parseInt(request.getParameter(PARAM_NAME_ROLE));
         double discount = Double.parseDouble(request.getParameter(PARAM_NAME_DISCOUNT));
-        int money = Integer.parseInt(request.getParameter(PARAM_NAME_MONEY));
-
+        double money = Double.parseDouble(request.getParameter(PARAM_NAME_MONEY));
+        UserServiceImpl userService = new UserServiceImpl();
 
         try {
-            if (CreateUserLogic.checkCreateUser(login, pass, email, name, surname, role, discount, money)) {
+            if (userService.checkCreateUser(login, pass, email, name, surname, role, discount, money)) {
                 page = ConfigurationManager.getProperty("path.page.admin.panel");
             }
             else {
@@ -69,7 +66,7 @@ public class CreateUserCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.createusererror"));
                 page = ConfigurationManager.getProperty("path.page.admin.create.user");
             }
-        } catch (BusinessLogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
 

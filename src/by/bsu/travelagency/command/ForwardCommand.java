@@ -6,9 +6,6 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class ForwardCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -24,7 +21,6 @@ public class ForwardCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
         String requestPage = request.getParameter(PARAM_NAME_PAGE);
-        // TODO: 12/10/2016 change switch to HashMap
         switch (requestPage){
             case "login":
                 page = ConfigurationManager.getProperty("path.page.login");

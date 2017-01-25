@@ -11,9 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/24/2016.
- */
 public class JdbcCountryDAO implements CountryDAO {
 
     /** The Constant LOG. */
@@ -39,6 +36,27 @@ public class JdbcCountryDAO implements CountryDAO {
 
     /** The Constant SQL_DELETE_COUNTRY. */
     private static final String SQL_DELETE_COUNTRY = "DELETE FROM countries WHERE id_country=?";
+
+    /**
+     * Instantiates a new JdbcCountryDAO.
+     */
+    private JdbcCountryDAO() {
+    }
+
+    /** Nested class JdbcCountryDAOHolder. */
+    private static class JdbcCountryDAOHolder {
+        private static final JdbcCountryDAO HOLDER_INSTANCE = new JdbcCountryDAO();
+    }
+
+
+    /**
+     * Gets the instance.
+     *
+     * @return the JdbcCountryDAOHolder instance
+     */
+    public static JdbcCountryDAO getInstance() {
+        return JdbcCountryDAOHolder.HOLDER_INSTANCE;
+    }
 
 
     /**

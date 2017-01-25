@@ -2,17 +2,14 @@ package by.bsu.travelagency.command.shopping;
 
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
-import by.bsu.travelagency.dao.jdbc.JdbcShoppingDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class DeleteShoppingCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -28,10 +25,10 @@ public class DeleteShoppingCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         Long id = Long.parseLong(request.getParameter(PARAM_NAME_ID));
-        JdbcShoppingDAO shoppingDAO = new JdbcShoppingDAO();
+        ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
         try {
-            shoppingDAO.delete(id);
-        } catch (DAOException e) {
+            shoppingService.delete(id);
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         page = ConfigurationManager.getProperty("path.page.admin.panel");

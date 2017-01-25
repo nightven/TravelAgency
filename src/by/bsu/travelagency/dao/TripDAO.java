@@ -73,7 +73,7 @@ public interface TripDAO extends GenericDAO<Long, Trip> {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    List<Trip> findTripsByPriceAfterNow(Date nowDate, int price) throws DAOException;
+    List<Trip> findTripsByPriceAfterNow(Date nowDate, double price) throws DAOException;
 
     /**
      * Find trips by transport after now.

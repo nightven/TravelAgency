@@ -73,7 +73,7 @@ public interface VacationDAO extends GenericDAO<Long, Vacation> {
      * @return the list
      * @throws DAOException the DAO exception
      */
-    List<Vacation> findVacationsByPriceAfterNow(Date nowDate, int price) throws DAOException;
+    List<Vacation> findVacationsByPriceAfterNow(Date nowDate, double price) throws DAOException;
 
     /**
      * Find vacations by transport after now.

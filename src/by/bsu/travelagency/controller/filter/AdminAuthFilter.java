@@ -3,7 +3,6 @@ package by.bsu.travelagency.controller.filter;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 /**
  * The Class AdminAuthFilter.
  */
-@WebFilter("/*")
+
 public class AdminAuthFilter implements Filter {
 
     /**

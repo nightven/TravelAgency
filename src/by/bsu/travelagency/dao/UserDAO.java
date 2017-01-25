@@ -36,10 +36,10 @@ public interface UserDAO extends GenericDAO<Long, User> {
      * Find money by user id.
      *
      * @param id the id
-     * @return the int
+     * @return the money
      * @throws DAOException the DAO exception
      */
-    int findMoneyByUserId(Long id) throws DAOException;
+    double findMoneyByUserId(Long id) throws DAOException;
 
     /**
      * Find password by user id.
@@ -80,7 +80,7 @@ public interface UserDAO extends GenericDAO<Long, User> {
      * @return true, if successful
      * @throws DAOException the DAO exception
      */
-    boolean updateUserBalance(Long id, int money) throws DAOException;
+    boolean updateUserBalance(Long id, double money) throws DAOException;
 
     /**
      * Update user balance addition.
@@ -90,7 +90,7 @@ public interface UserDAO extends GenericDAO<Long, User> {
      * @return true, if successful
      * @throws DAOException the DAO exception
      */
-    boolean updateUserBalanceAddition(Long id, int moneyToAdd) throws DAOException;
+    boolean updateUserBalanceAddition(Long id, double moneyToAdd) throws DAOException;
 
     /* (non-Javadoc)
      * @see by.bsu.travelagency.dao.GenericDAO#findEntityById(java.lang.Object)

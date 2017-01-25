@@ -3,10 +3,10 @@ package by.bsu.travelagency.command.order;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.jdbc.JdbcOrderDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.OrderTourInfo;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.OrderServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class OrderUpcomingListCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -36,11 +33,11 @@ public class OrderUpcomingListCommand implements ActionCommand {
         HttpSession session = request.getSession();
         if (session.getAttribute(PARAM_NAME_ID_USER) != null) {
             Long userId = (Long) session.getAttribute(PARAM_NAME_ID_USER);
-            JdbcOrderDAO orderDAO = new JdbcOrderDAO();
+            OrderServiceImpl orderService = new OrderServiceImpl();
             List<OrderTourInfo> orderTourInfos = null;
             try {
-                orderTourInfos = orderDAO.findAllUserOrdersByUserIdAfterNow(userId, new java.sql.Date(nowDate.getTime()));
-            } catch (DAOException e) {
+                orderTourInfos = orderService.findAllUserOrdersByUserIdAfterNow(userId, new java.sql.Date(nowDate.getTime()));
+            } catch (ServiceException e) {
                 throw new CommandException(e);
             }
             request.setAttribute("orders", orderTourInfos);

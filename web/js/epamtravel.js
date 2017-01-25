@@ -1,16 +1,28 @@
-document.addEventListener('DOMContentLoaded', function(){
-    var d = new Date();
-    var day = d.getDate();
-    var month = d.getMonth() + 1;
-    var year = d.getFullYear();
+$(document).ready(function() {
+
+    var x = new Date();
+    var d = {
+        day: x.getDate() + 1,
+        month: (x.getMonth() + 1),
+        year: x.getFullYear()
+    };
+    var D = {};
+    for (var n in d) {
+        D[n] = (parseInt(d[n], 10) < 10 ) ? ('0'+d[n]) : (d[n]);
+    }
+    var z = D.year + '-' + D.month + '-' + D.day;
+
     var departure_date = document.getElementById('departure-date')
-    var arrival_date = document.getElementById('arrival-date')
-    departure_date.min = year + "-" + month + "-" + day;
-    arrival_date.min = year + "-" + month + "-" + day;
+    $('#departure-date').attr({
+        'min' : z
+    });
+    $('#arrival-date').attr({
+        'min' : z
+    });
 
     departure_date.addEventListener('change', function () {
-        arrival_date.min = departure_date.value;
+        $('#arrival-date').attr({
+            'min' : $('#departure-date').val()
+        });
     })
-
-
 });

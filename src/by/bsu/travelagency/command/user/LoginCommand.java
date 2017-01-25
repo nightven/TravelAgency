@@ -3,21 +3,16 @@ package by.bsu.travelagency.command.user;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
-import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.logic.LoginLogic;
-import by.bsu.travelagency.logic.exception.BusinessLogicException;
 import by.bsu.travelagency.resource.ConfigurationManager;
+import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by Михаил on 2/16/2016.
- */
 public class LoginCommand implements ActionCommand {
 
     /** The Constant LOG. */
@@ -37,10 +32,10 @@ public class LoginCommand implements ActionCommand {
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
+        UserServiceImpl userService = new UserServiceImpl();
         try {
-            if (LoginLogic.checkLogin(login, pass)) {
-                JdbcUserDAO userDAO = new JdbcUserDAO();
-                User user = userDAO.findUserByName(login);
+            if (userService.checkLogin(login, pass)) {
+                User user = userService.findUserByName(login);
                 HttpSession session = request.getSession(true);
                 if (session.getAttribute("user") == null) {
                     session.setAttribute("user", user.getLogin());
@@ -57,7 +52,7 @@ public class LoginCommand implements ActionCommand {
                         TravelController.messageManager.getProperty("message.loginerror"));
                 page = ConfigurationManager.getProperty("path.page.login");
             }
-        } catch (BusinessLogicException | DAOException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
 
