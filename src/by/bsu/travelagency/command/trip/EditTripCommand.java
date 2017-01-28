@@ -4,8 +4,10 @@ import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.entity.City;
+import by.bsu.travelagency.entity.Trip;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.CityServiceImpl;
 import by.bsu.travelagency.service.impl.TripServiceImpl;
 import org.apache.log4j.Logger;
 
@@ -16,49 +18,36 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EditTripCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditTripCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
     
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
     
-    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_ATTRACTIONS. */
     private static final String PARAM_NAME_ARRIVAL_ATTRACTIONS = "attractions";
     
-    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
     
-    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
     
-    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
-    /** The Constant PARAM_NAME_COUNT_CITIES. */
     private static final String PARAM_NAME_COUNT_CITIES = "count-cities";
 
-    /** The Constant PARAM_NAME_CITY. */
     private static final String PARAM_NAME_CITY = "city";
 
     /* (non-Javadoc)
@@ -67,8 +56,6 @@ public class EditTripCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
-
-
         String id = request.getParameter(PARAM_NAME_ID);
         String name = request.getParameter(PARAM_NAME_NAME);
         String summary = request.getParameter(PARAM_NAME_SUMMARY);
@@ -82,13 +69,14 @@ public class EditTripCommand implements ActionCommand {
         String services = request.getParameter(PARAM_NAME_SERVICES);
         String description = request.getParameter(PARAM_NAME_DESCRIPTION);
         TripServiceImpl tripService = new TripServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
         try {
             int countCities = Integer.parseInt(request.getParameter(PARAM_NAME_COUNT_CITIES));
             LOG.debug("countCities = " + countCities);
             ArrayList<City> cities = new ArrayList<>();
             for (int i = 1; i <= countCities; i++) {
-                City city = tripService.findCityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
-                LOG.debug("City to add - " + city.getNameCity());
+                City city = cityService.findEntityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
+                LOG.debug("City to add - " + city.getName());
                 cities.add(city);
             }
 
@@ -99,7 +87,7 @@ public class EditTripCommand implements ActionCommand {
                 else {
                     request.setAttribute("errorEditTripPassMessage",
                             TravelController.messageManager.getProperty("message.edittriperror"));
-                    page = ConfigurationManager.getProperty("path.page.admin.edit.info.trip");
+                    page = createEditTripPage(request, Long.parseLong(id));
                 }
             }
             else {
@@ -116,7 +104,7 @@ public class EditTripCommand implements ActionCommand {
                 else {
                     request.setAttribute("errorEditTripPassMessage",
                             TravelController.messageManager.getProperty("message.edittriperror"));
-                    page = ConfigurationManager.getProperty("path.page.admin.edit.info.trip");
+                    page = createEditTripPage(request, Long.parseLong(id));
                 }
             }
         } catch (IOException | ServletException e) {
@@ -125,6 +113,29 @@ public class EditTripCommand implements ActionCommand {
             throw new CommandException(e);
         }
 
+        return page;
+    }
+
+    private String createEditTripPage(HttpServletRequest request, Long id) throws CommandException {
+        String page = null;
+        TripServiceImpl tripService = new TripServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
+        Trip trip = null;
+        List<City> cities = null;
+        try {
+            trip = tripService.findEntityById(id);
+            cities = cityService.findAllCities();
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
+        if (id == trip.getId()) {
+            request.setAttribute("trip", trip);
+            request.setAttribute("cities", cities);
+            request.setAttribute("cities_size", trip.getCities().size());
+            page = ConfigurationManager.getProperty("path.page.admin.edit.info.trip");
+        } else {
+            page = ConfigurationManager.getProperty("path.page.admin.panel");
+        }
         return page;
     }
 

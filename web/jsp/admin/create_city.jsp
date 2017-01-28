@@ -50,7 +50,7 @@
                     <label for="country"><fmt:message key="label.admin.cities.country" bundle="${ rb }" /></label>
                     <select class="form-control" id="country" name="country">
                         <c:forEach var="country" items="${countries}">
-                            <option value=<c:out value="${ country.idCountry }" />><c:out value="${ country.nameCountry }" /></option>
+                            <option value=<c:out value="${ country.id }" />><c:out value="${ country.nameCountry }" /></option>
                         </c:forEach>
                     </select>
                 </div>

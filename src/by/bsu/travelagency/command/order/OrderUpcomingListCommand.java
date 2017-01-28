@@ -17,10 +17,8 @@ import java.util.List;
 
 public class OrderUpcomingListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(OrderUpcomingListCommand.class);
     
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
 
     /* (non-Javadoc)

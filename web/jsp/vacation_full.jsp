@@ -96,7 +96,7 @@
         <div class="short-description">
             <div class="first-column">
                 <p><b><fmt:message key="label.vacation.departureDate" bundle="${rb}" />:</b> <c:out value="${ vacation.departureDate }" /></p>
-                <p><b><fmt:message key="label.vacation.destinationCity" bundle="${rb}" />:</b> <c:out value="${ vacation.cities[0].nameCity }" /></p>
+                <p><b><fmt:message key="label.vacation.destinationCity" bundle="${rb}" />:</b> <c:out value="${ vacation.cities[0].name }" /></p>
                 <p><b><fmt:message key="label.vacation.hotel" bundle="${rb}" />:</b> <c:out value="${ vacation.hotel }" /></p>
             </div>
             <div class="second-column">

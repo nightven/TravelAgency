@@ -7,6 +7,7 @@ import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
 import by.bsu.travelagency.service.impl.OrderServiceImpl;
 import by.bsu.travelagency.service.impl.TripServiceImpl;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,31 +15,22 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OrderTripCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(OrderTripCommand.class);
 
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
     
-    /** The Constant PARAM_NAME_ID_TOUR. */
     private static final String PARAM_NAME_ID_TOUR = "idtour";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure_date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival_date";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_QUANTITY. */
     private static final String PARAM_NAME_QUANTITY = "quantity";
     
-    /** The Constant PARAM_NAME_DISCOUNT. */
     private static final String PARAM_NAME_DISCOUNT = "discount";
     
-    /** The Constant PARAM_NAME_TOUR_TYPE. */
     private static final String PARAM_NAME_TOUR_TYPE = "tour_type";
 
     /* (non-Javadoc)
@@ -58,12 +50,13 @@ public class OrderTripCommand implements ActionCommand {
         String tourType = request.getParameter(PARAM_NAME_TOUR_TYPE);
         double totalPrice = Math.ceil(price*quantity*(1-discount));
         TripServiceImpl tripService = new TripServiceImpl();
+        UserServiceImpl userService = new UserServiceImpl();
         try {
             request.setAttribute("trip", tripService.findEntityById(tourId));
             if (userId != null) {
-                request.setAttribute("userProfile", tripService.findUserById(userId));
+                request.setAttribute("userProfile", userService.findEntityById(userId));
             }
-            double balance = tripService.findMoneyByUserId(userId);
+            double balance = userService.findMoneyByUserId(userId);
 
             if (balance >= totalPrice) {
                 OrderServiceImpl orderService = new OrderServiceImpl();

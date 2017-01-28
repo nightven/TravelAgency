@@ -15,13 +15,10 @@ import java.util.List;
 
 public class ShoppingSortCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ShoppingSortCommand.class);
 
-    /** The Constant PARAM_NAME_CRITERION. */
     private static final String PARAM_NAME_CRITERION = "criterion";
     
-    /** The Constant PARAM_NAME_ORDER. */
     private static final String PARAM_NAME_ORDER = "order";
 
     /* (non-Javadoc)

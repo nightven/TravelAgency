@@ -86,8 +86,8 @@
                     <select class="form-control" id="destination-city" name="destination-city">
                         <c:forEach var="city" items="${cities}">
                             <c:choose>
-                                <c:when test="${ city.idCity == (shopping.cities[0].idCity) }"><option selected value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:when>
-                                <c:otherwise><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:otherwise>
+                                <c:when test="${ city.id == (shopping.cities[0].id) }"><option selected value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:when>
+                                <c:otherwise><option value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </select>

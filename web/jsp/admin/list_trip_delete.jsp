@@ -57,7 +57,7 @@
             <td><c:out value="${ trip.name }" /></td>
             <td><c:out value="${ trip.departureDate }" /></td>
             <td><c:out value="${ trip.arrivalDate }" /></td>
-            <td><c:out value="${ trip.cities[0].nameCity }" /></td>
+            <td><c:out value="${ trip.cities[0].name }" /></td>
             <td><c:out value="${ trip.cities[0].country.nameCountry }" /></td>
             <td><c:out value="${ trip.transport }" /></td>
             <td><c:choose><c:when test="${ trip.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>

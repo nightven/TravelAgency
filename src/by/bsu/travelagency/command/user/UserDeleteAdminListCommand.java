@@ -14,7 +14,6 @@ import java.util.List;
 
 public class UserDeleteAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(UserDeleteAdminListCommand.class);
 
     /* (non-Javadoc)

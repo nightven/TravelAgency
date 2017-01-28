@@ -1,10 +1,10 @@
 package by.bsu.travelagency.dao.jdbc;
 
-import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.dao.CityDAO;
 import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Country;
+import by.bsu.travelagency.pool.ConnectionPool;
 import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import org.apache.log4j.Logger;
 
@@ -14,23 +14,27 @@ import java.util.List;
 
 public class JdbcCityDAO implements CityDAO {
 
-    /** The Constant LOG. */
     private static final Logger LOG = Logger.getLogger(JdbcCityDAO.class);
 
-    /** The Constant SQL_SELECT_ALL_CITIES. */
-    private static final String SQL_SELECT_ALL_CITIES = "SELECT id_city,cities.name AS name_city,id_country,countries.name AS name_country FROM cities JOIN countries USING (id_country) ORDER BY cities.name";
+    private static final String SQL_SELECT_ALL_CITIES = "SELECT id_city,cities.name AS name_city,id_country,countries.name " +
+            "AS name_country FROM cities JOIN countries USING (id_country) ORDER BY cities.name";
 
-    /** The Constant SQL_SELECT_CITY_BY_ID. */
-    private static final String SQL_SELECT_CITY_BY_ID = "SELECT id_city,cities.name AS name_city,id_country,countries.name AS name_country FROM cities JOIN countries USING (id_country) WHERE id_city=?";
+    private static final String SQL_SELECT_CITY_BY_ID = "SELECT id_city,cities.name AS name_city,id_country,countries.name " +
+            "AS name_country FROM cities JOIN countries USING (id_country) WHERE id_city=?";
 
-    /** The Constant SQL_INSERT_CITY. */
     private static final String SQL_INSERT_CITY = "INSERT INTO cities(name,id_country) VALUES(?,?)";
 
-    /** The Constant SQL_UPDATE_CITY. */
     private static final String SQL_UPDATE_CITY = "UPDATE cities SET name=?,id_country=? WHERE id_city=?";
 
-    /** The Constant SQL_DELETE_CITY. */
     private static final String SQL_DELETE_CITY = "DELETE FROM cities WHERE id_city=?";
+
+    private static final String PARAM_ID_CITY = "id_city";
+
+    private static final String PARAM_NAME_CITY = "name_city";
+
+    private static final String PARAM_ID_COUNTRY = "id_country";
+
+    private static final String PARAM_NAME_COUNTRY = "name_country";
 
     /**
      * Instantiates a new JdbcCityDAO.
@@ -38,7 +42,9 @@ public class JdbcCityDAO implements CityDAO {
     private JdbcCityDAO() {
     }
 
-    /** Nested class JdbcCityDAOHolder. */
+    /**
+     * Nested class JdbcCityDAOHolder.
+     */
     private static class JdbcCityDAOHolder {
         private static final JdbcCityDAO HOLDER_INSTANCE = new JdbcCityDAO();
     }
@@ -61,13 +67,13 @@ public class JdbcCityDAO implements CityDAO {
      */
     public List<City> findAllCities() throws DAOException {
         List<City> cities = new ArrayList<>();
-        try (Connection cn = TravelController.connectionPool.getConnection(); Statement st = cn.createStatement()) {
+        try (Connection cn = ConnectionPool.getInstance().getConnection(); Statement st = cn.createStatement()) {
             ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_CITIES);
             createCites(resultSet, cities);
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
         } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
+            throw new DAOException("SQL exception (request or table failed): " + e, e);
         }
         return cities;
     }
@@ -77,19 +83,16 @@ public class JdbcCityDAO implements CityDAO {
      */
     @Override
     public boolean create(City city) throws DAOException {
-        boolean flag = false;
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_INSERT_CITY)) {
-            ps.setString(1,city.getNameCity());
-            ps.setLong(2,city.getCountry().getIdCountry());
-            if (ps.executeUpdate() != 0){
-                flag = true;
-            }
+        try (Connection cn = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = cn.prepareStatement(SQL_INSERT_CITY)) {
+            ps.setString(1, city.getName());
+            ps.setLong(2, city.getCountry().getId());
+            return (ps.executeUpdate() != 0);
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
         } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
+            throw new DAOException("SQL exception (request or table failed): " + e, e);
         }
-        return flag;
     }
 
     /* (non-Javadoc)
@@ -98,21 +101,22 @@ public class JdbcCityDAO implements CityDAO {
     @Override
     public City findEntityById(Long id) throws DAOException {
         City city = new City();
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_SELECT_CITY_BY_ID)) {
-            ps.setLong(1,id);
+        try (Connection cn = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = cn.prepareStatement(SQL_SELECT_CITY_BY_ID)) {
+            ps.setLong(1, id);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                city.setIdCity(resultSet.getLong("id_city"));
-                city.setNameCity(resultSet.getString("name_city"));
+                city.setId(resultSet.getLong(PARAM_ID_CITY));
+                city.setName(resultSet.getString(PARAM_NAME_CITY));
                 Country country = new Country();
-                country.setIdCountry(resultSet.getLong("id_country"));
-                country.setNameCountry(resultSet.getString("name_country"));
+                country.setId(resultSet.getLong(PARAM_ID_COUNTRY));
+                country.setNameCountry(resultSet.getString(PARAM_NAME_COUNTRY));
                 city.setCountry(country);
             }
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
         } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
+            throw new DAOException("SQL exception (request or table failed): " + e, e);
         }
         return city;
     }
@@ -122,26 +126,15 @@ public class JdbcCityDAO implements CityDAO {
      */
     @Override
     public boolean delete(Long id) throws DAOException {
-        boolean flag = false;
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_DELETE_CITY)) {
-            ps.setLong(1,id);
-            if (ps.executeUpdate() != 0){
-                flag = true;
-            }
+        try (Connection cn = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = cn.prepareStatement(SQL_DELETE_CITY)) {
+            ps.setLong(1, id);
+            return (ps.executeUpdate() != 0);
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
         } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
+            throw new DAOException("SQL exception (request or table failed): " + e, e);
         }
-        return flag;
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    public boolean delete(City entity) {
-        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -149,36 +142,34 @@ public class JdbcCityDAO implements CityDAO {
      */
     @Override
     public boolean update(City city) throws DAOException {
-        boolean flag = false;
-        try (Connection cn = TravelController.connectionPool.getConnection(); PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_CITY)) {
-            ps.setString(1,city.getNameCity());
-            ps.setLong(2,city.getCountry().getIdCountry());
-            ps.setLong(3,city.getIdCity());
-            ps.executeUpdate();
-            flag = true;
+        try (Connection cn = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_CITY)) {
+            ps.setString(1, city.getName());
+            ps.setLong(2, city.getCountry().getId());
+            ps.setLong(3, city.getId());
+            return (ps.executeUpdate() != 0);
         } catch (ConnectionPoolException e) {
             throw new DAOException(e);
         } catch (SQLException e) {
-            throw new DAOException("SQL exception (request or table failed): " + e,e);
+            throw new DAOException("SQL exception (request or table failed): " + e, e);
         }
-        return flag;
     }
 
     /**
      * Creates the city.
      *
      * @param resultSet the result set
-     * @param cities the cities
+     * @param cities    the cities
      * @throws SQLException the SQL exception
      */
-    private void createCites (ResultSet resultSet, List<City> cities) throws SQLException {
+    private void createCites(ResultSet resultSet, List<City> cities) throws SQLException {
         while (resultSet.next()) {
             City city = new City();
-            city.setIdCity(resultSet.getLong("id_city"));
-            city.setNameCity(resultSet.getString("name_city"));
+            city.setId(resultSet.getLong(PARAM_ID_CITY));
+            city.setName(resultSet.getString(PARAM_NAME_CITY));
             Country country = new Country();
-            country.setIdCountry(resultSet.getLong("id_country"));
-            country.setNameCountry(resultSet.getString("name_country"));
+            country.setId(resultSet.getLong(PARAM_ID_COUNTRY));
+            country.setNameCountry(resultSet.getString(PARAM_NAME_COUNTRY));
             city.setCountry(country);
             cities.add(city);
         }

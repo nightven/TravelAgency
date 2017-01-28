@@ -19,25 +19,18 @@ import java.util.Locale;
  */
 public class RussianLanguageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(RussianLanguageCommand.class);
 
-    /** The Constant COOKIE_NAME. */
     private final static String COOKIE_NAME = "locale";
     
-    /** The Constant COOKIE_VALUE. */
     private final static String COOKIE_VALUE = "ru_RU";
     
-    /** The Constant LOCALE_VALUE. */
     private final static String LOCALE_VALUE = "ru";
     
-    /** The Constant COOKIE_AGE_IN_SEC. */
     private final static int COOKIE_AGE_IN_SEC = 86_400;
 
-    /** The Constant PARAM_HEADER_REFERER. */
     private static final String PARAM_HEADER_REFERER = "referer";
 
-    /** The Constant PARAM_NAME_SERVLET. */
     private static final String PARAM_NAME_SERVLET = "travel?";
 
     /* (non-Javadoc)

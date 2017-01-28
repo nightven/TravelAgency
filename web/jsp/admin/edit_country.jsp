@@ -39,7 +39,7 @@
         <ctg:before-grid />
         <form id="edit-user-form" method="post" action="travel" accept-charset="utf-8">
             <input type="hidden" name="command" value="edit_country" />
-            <input type="hidden" name="id" value="<c:out value="${ country.idCountry }" />" />
+            <input type="hidden" name="id" value="<c:out value="${ country.id }" />" />
 
             <div class="row">
                 <div class="form-group col-sm-6 col-sm-offset-3">

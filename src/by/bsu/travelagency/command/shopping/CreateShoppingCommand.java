@@ -17,40 +17,28 @@ import java.io.IOException;
 
 public class CreateShoppingCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateShoppingCommand.class);
 
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
     
-    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
     
-    /** The Constant PARAM_NAME_DESTINATION_CITY. */
     private static final String PARAM_NAME_DESTINATION_CITY = "destination-city";
     
-    /** The Constant PARAM_NAME_SHOPS. */
     private static final String PARAM_NAME_SHOPS = "shops";
     
-    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
     
-    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
     
-    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
     /* (non-Javadoc)

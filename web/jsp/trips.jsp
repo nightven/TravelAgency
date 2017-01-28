@@ -153,7 +153,7 @@
                         <figure class="effect-milo">
                             <img src="${trip.pathImage}" alt="img"/>
                             <figcaption>
-                                <h2><c:out value="${ trip.cities[0].nameCity }" />, <span><c:out value="${ trip.cities[0].country.nameCountry }" /></span></h2>
+                                <h2><c:out value="${ trip.cities[0].name }" />, <span><c:out value="${ trip.cities[0].country.nameCountry }" /></span></h2>
                                 <h3><c:out value="${ trip.price }" />$</h3>
                                 <p><c:out value="${ trip.summary }" /></p>
                                 <a href="travel?command=trip_full&id=<c:out value="${ trip.id }" />"></a>

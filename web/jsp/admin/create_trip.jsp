@@ -100,7 +100,7 @@
                     <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
                     <select class="form-control" id="destination-city" name="city1">
                         <c:forEach var="city" items="${cities}">
-                            <option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option>
+                            <option value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -220,14 +220,14 @@
             $('#count-cities').val('1');
         }
         for (var i = 2; i <= $('#count-cities').val(); i++) {
-            $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city'+i+'"><c:forEach var="city" items="${cities}"><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
+            $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city'+i+'"><c:forEach var="city" items="${cities}"><option value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
         };
 
         $('#add').click(function() {
             var i = $('#count-cities').val();
             if(i<10){
                 ++i;
-                $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city'+i+'"><c:forEach var="city" items="${cities}"><option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
+                $('<div class="form-group col-sm-6 col-sm-offset-3 city-element"><label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label><select class="form-control" id="destination-city" name="city'+i+'"><c:forEach var="city" items="${cities}"><option value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option></c:forEach></select></div>').fadeIn('slow').appendTo('.theFirstCity');
                 $('#count-cities').val(i);
             }
         });

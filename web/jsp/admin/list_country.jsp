@@ -45,8 +45,8 @@
         </thead>
         <tbody class="admin-table-list">
         <c:forEach var="country" items="${countries}">
-        <tr onclick="window.location.href='travel?command=edit_country_page&id=<c:out value="${ country.idCountry }" />'; return false">
-            <td><c:out value="${ country.idCountry }" /></td>
+        <tr onclick="window.location.href='travel?command=edit_country_page&id=<c:out value="${ country.id }" />'; return false">
+            <td><c:out value="${ country.id }" /></td>
             <td><c:out value="${ country.nameCountry }" /></td>
         </tr>
         </c:forEach>

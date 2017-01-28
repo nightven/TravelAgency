@@ -1,7 +1,5 @@
 package by.bsu.travelagency.service;
 
-import by.bsu.travelagency.entity.City;
-import by.bsu.travelagency.entity.User;
 import by.bsu.travelagency.entity.Vacation;
 import by.bsu.travelagency.service.exception.ServiceException;
 
@@ -9,7 +7,6 @@ import javax.servlet.http.Part;
 import java.sql.Date;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface VacationService.
  */
@@ -38,14 +35,6 @@ public interface VacationService {
                                 String enterArrivalDate, String enterDestinationCityId,
                                 String enterHotel, String enterLastMinute, String enterPrice, String enterTransport,
                                 String enterServices, String enterDescription, Part img, String savePath) throws ServiceException;
-
-    /**
-     * Find all cities.
-     *
-     * @return the list
-     * @throws ServiceException the service exception
-     */
-    List<City> findAllCities() throws ServiceException;
 
     /**
      * Delete.
@@ -112,24 +101,6 @@ public interface VacationService {
      * @throws ServiceException the service exception
      */
     Vacation findEntityById(Long id) throws ServiceException;
-
-    /**
-     * Find user by id.
-     *
-     * @param id the id
-     * @return the user
-     * @throws ServiceException the service exception
-     */
-    User findUserById(Long id) throws ServiceException;
-
-    /**
-     * Find money by user id.
-     *
-     * @param id the id
-     * @return the double
-     * @throws ServiceException the service exception
-     */
-    double findMoneyByUserId(Long id) throws ServiceException;
 
     /**
      * Find all vacations after now.

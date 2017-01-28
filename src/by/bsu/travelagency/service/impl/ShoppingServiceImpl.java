@@ -3,14 +3,12 @@ package by.bsu.travelagency.service.impl;
 import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.dao.jdbc.JdbcCityDAO;
 import by.bsu.travelagency.dao.jdbc.JdbcShoppingDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Shopping;
 import by.bsu.travelagency.entity.Transport;
-import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.util.Validator;
 import by.bsu.travelagency.service.ShoppingService;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.util.Validator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Part;
@@ -24,19 +22,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ShoppingServiceImpl.
  */
 public class ShoppingServiceImpl implements ShoppingService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ShoppingServiceImpl.class);
 
-    /** The Constant SHOPPING_ID_FOR_INSERT. */
     private final static int SHOPPING_ID_FOR_INSERT = 0;
 
-    /** The Constant REGEX_FILE_NAME. */
     private final static String REGEX_FILE_NAME = "([0-9])*";
 
     /* (non-Javadoc)
@@ -93,18 +87,6 @@ public class ShoppingServiceImpl implements ShoppingService {
     }
 
     /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.ShoppingService#findAllCities()
-     */
-    @Override
-    public List<City> findAllCities() throws ServiceException {
-        try {
-            return JdbcCityDAO.getInstance().findAllCities();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
      * @see by.bsu.travelagency.service.ShoppingService#delete(java.lang.Long)
      */
     @Override
@@ -124,7 +106,7 @@ public class ShoppingServiceImpl implements ShoppingService {
                                             String enterShops, String enterLastMinute, String enterPrice, String enterTransport,
                                             String enterServices, String enterDescription, Part img, String savePath) throws ServiceException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateString(enterDepartureDate) && Validator.validateString(enterArrivalDate)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Shopping shopping = new Shopping();
             shopping.setId(Integer.parseInt(enterId));
@@ -186,7 +168,7 @@ public class ShoppingServiceImpl implements ShoppingService {
                                             String enterShops, String enterLastMinute, String enterPrice, String enterTransport,
                                             String enterServices, String enterDescription) throws ServiceException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateString(enterDepartureDate) && Validator.validateString(enterArrivalDate)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Shopping shopping = new Shopping();
             shopping.setId(Integer.parseInt(enterId));
@@ -236,30 +218,6 @@ public class ShoppingServiceImpl implements ShoppingService {
     public Shopping findEntityById(Long id) throws ServiceException {
         try {
             return JdbcShoppingDAO.getInstance().findEntityById(id);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.ShoppingService#findUserById(java.lang.Long)
-     */
-    @Override
-    public User findUserById(Long id) throws ServiceException {
-        try {
-            return JdbcUserDAO.getInstance().findEntityById(id);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.ShoppingService#findMoneyByUserId(java.lang.Long)
-     */
-    @Override
-    public double findMoneyByUserId(Long id) throws ServiceException {
-        try {
-            return JdbcUserDAO.getInstance().findMoneyByUserId(id);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

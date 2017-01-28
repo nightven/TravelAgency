@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteVacationCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(DeleteVacationCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
 
     /* (non-Javadoc)

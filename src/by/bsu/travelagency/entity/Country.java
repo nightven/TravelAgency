@@ -3,7 +3,7 @@ package by.bsu.travelagency.entity;
 public class Country extends Entity {
 
     /** The country ID. */
-    private long idCountry;
+    private long id;
 
     /** The country name. */
     private String nameCountry;
@@ -19,17 +19,17 @@ public class Country extends Entity {
      *
      * @return the country ID
      */
-    public long getIdCountry() {
-        return idCountry;
+    public long getId() {
+        return id;
     }
 
     /**
      * Sets the country id.
      *
-     * @param idCountry the new country id
+     * @param id the new country id
      */
-    public void setIdCountry(long idCountry) {
-        this.idCountry = idCountry;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**

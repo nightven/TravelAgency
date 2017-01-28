@@ -17,19 +17,14 @@ import java.net.URL;
 
 public class BalanceAddCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(BalanceAddCommand.class);
 
-    /** The Constant PARAM_NAME_MONEY. */
     private static final String PARAM_NAME_MONEY = "money";
     
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
 
-    /** The Constant PARAM_HEADER_REFERER. */
     private static final String PARAM_HEADER_REFERER = "referer";
 
-    /** The Constant PARAM_NAME_SERVLET. */
     private static final String PARAM_NAME_SERVLET = "travel?";
 
     /* (non-Javadoc)

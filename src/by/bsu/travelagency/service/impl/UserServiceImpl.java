@@ -13,25 +13,19 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserServiceImpl.
  */
 public class UserServiceImpl implements UserService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
-    /** The Constant USER_ID_FOR_INSERT. */
     private final static int USER_ID_FOR_INSERT = 0;
 
-    /** The Constant USER_DEFAULT_ROLE. */
     private final static int USER_DEFAULT_ROLE = 0;
-    
-    /** The Constant USER_DEFAULT_DISCOUNT. */
+
     private final static double USER_DEFAULT_DISCOUNT = 0;
 
-    /** The Constant USER_DEFAULT_MONEY. */
     private final static int USER_DEFAULT_MONEY = 0;
 
     /* (non-Javadoc)
@@ -247,6 +241,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.bsu.travelagency.service.UserService#findMoneyByUserId(java.lang.Long)
+     */
+    @Override
+    public double findMoneyByUserId(Long id) throws ServiceException {
+        try {
+            return JdbcUserDAO.getInstance().findMoneyByUserId(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     /**
      * General create user.
      *
@@ -263,21 +269,23 @@ public class UserServiceImpl implements UserService {
      */
     private boolean generalCreateUser(String enterLogin, String enterPass, String enterEmail, String enterName, String enterSurname, int enterRole, double enterDiscount, double enterMoney) throws ServiceException{
             boolean flag = false;
+            JdbcUserDAO userDAO = JdbcUserDAO.getInstance();
             try {
-                User user = new User();
-                user.setId(USER_ID_FOR_INSERT);
-                user.setLogin(enterLogin);
-                user.setPassword(MD5Util.md5Encode(enterPass));
-                user.setRole(enterRole);
-                user.setEmail(enterEmail);
-                user.setName(enterName);
-                user.setSurname(enterSurname);
-                user.setDiscount(enterDiscount);
-                user.setMoney(enterMoney);
+                if (userDAO.findUserByName(enterLogin).getId() == 0) {
+                    User user = new User();
+                    user.setId(USER_ID_FOR_INSERT);
+                    user.setLogin(enterLogin);
+                    user.setPassword(MD5Util.md5Encode(enterPass));
+                    user.setRole(enterRole);
+                    user.setEmail(enterEmail);
+                    user.setName(enterName);
+                    user.setSurname(enterSurname);
+                    user.setDiscount(enterDiscount);
+                    user.setMoney(enterMoney);
 
-                JdbcUserDAO userDAO = JdbcUserDAO.getInstance();
-                if (userDAO.create(user)){
-                    flag = true;
+                    if (userDAO.create(user)) {
+                        flag = true;
+                    }
                 }
             } catch (DAOException e) {
                 throw new ServiceException("Failed to create user (Register).", e);

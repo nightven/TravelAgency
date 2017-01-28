@@ -14,7 +14,6 @@ import java.util.List;
 
 public class CityDeleteAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CityDeleteAdminListCommand.class);
 
     /* (non-Javadoc)

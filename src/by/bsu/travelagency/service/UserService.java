@@ -6,7 +6,6 @@ import by.bsu.travelagency.service.exception.ServiceException;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface UserService.
  */
@@ -130,5 +129,14 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     List<UserOrderNumber> findAllUsersWithOrderCount() throws ServiceException;
+
+    /**
+     * Find money by user id.
+     *
+     * @param id the id
+     * @return the double
+     * @throws ServiceException the service exception
+     */
+    double findMoneyByUserId(Long id) throws ServiceException;
 
 }

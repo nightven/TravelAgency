@@ -3,8 +3,11 @@ package by.bsu.travelagency.command.shopping;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.controller.TravelController;
+import by.bsu.travelagency.entity.City;
+import by.bsu.travelagency.entity.Shopping;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.CityServiceImpl;
 import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
 import org.apache.log4j.Logger;
 
@@ -14,46 +17,34 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class EditShoppingCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditShoppingCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
     
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
     
-    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
 
-    /** The Constant PARAM_NAME_DESTINATION_CITY. */
     private static final String PARAM_NAME_DESTINATION_CITY = "destination-city";
     
-    /** The Constant PARAM_NAME_SHOPS. */
     private static final String PARAM_NAME_SHOPS = "shops";
     
-    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
     
-    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
     
-    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
     /* (non-Javadoc)
@@ -87,7 +78,7 @@ public class EditShoppingCommand implements ActionCommand {
                 else {
                     request.setAttribute("errorEditShoppingPassMessage",
                             TravelController.messageManager.getProperty("message.editshoppingerror"));
-                    page = ConfigurationManager.getProperty("path.page.admin.edit.info.shopping");
+                    page = createEditShoppingPage(request, Long.parseLong(id));
                 }
             }
             else {
@@ -104,7 +95,7 @@ public class EditShoppingCommand implements ActionCommand {
                 else {
                     request.setAttribute("errorEditShoppingPassMessage",
                             TravelController.messageManager.getProperty("message.editshoppingerror"));
-                    page = ConfigurationManager.getProperty("path.page.admin.edit.info.shopping");
+                    page = createEditShoppingPage(request, Long.parseLong(id));
                 }
             }
         } catch (IOException | ServletException e) {
@@ -113,6 +104,28 @@ public class EditShoppingCommand implements ActionCommand {
             throw new CommandException(e);
         }
 
+        return page;
+    }
+
+    private String createEditShoppingPage(HttpServletRequest request, Long id) throws CommandException {
+        String page = null;
+        ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
+        Shopping shopping = null;
+        List<City> cities = null;
+        try {
+            shopping = shoppingService.findEntityById(id);
+            cities = cityService.findAllCities();
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
+        if (id == shopping.getId()) {
+            request.setAttribute("shopping", shopping);
+            request.setAttribute("cities", cities);
+            page = ConfigurationManager.getProperty("path.page.admin.edit.info.shopping");
+        } else {
+            page = ConfigurationManager.getProperty("path.page.admin.panel");
+        }
         return page;
     }
 

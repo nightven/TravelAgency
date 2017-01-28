@@ -57,7 +57,7 @@
             <td><c:out value="${ shopping.name }" /></td>
             <td><c:out value="${ shopping.departureDate }" /></td>
             <td><c:out value="${ shopping.arrivalDate }" /></td>
-            <td><c:out value="${ shopping.cities[0].nameCity }" /></td>
+            <td><c:out value="${ shopping.cities[0].name }" /></td>
             <td><c:out value="${ shopping.cities[0].country.nameCountry }" /></td>
             <td><c:out value="${ shopping.transport }" /></td>
             <td><c:choose><c:when test="${ shopping.lastMinute }">&#10004;</c:when><c:otherwise>&#10008;</c:otherwise></c:choose></td>

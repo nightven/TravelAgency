@@ -15,7 +15,6 @@ import java.util.List;
 
 public class VacationListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(VacationListCommand.class);
 
     /* (non-Javadoc)

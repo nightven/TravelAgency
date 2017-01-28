@@ -1,16 +1,13 @@
 package by.bsu.travelagency.service.impl;
 
 import by.bsu.travelagency.dao.exception.DAOException;
-import by.bsu.travelagency.dao.jdbc.JdbcCityDAO;
 import by.bsu.travelagency.dao.jdbc.JdbcTripDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcUserDAO;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Transport;
 import by.bsu.travelagency.entity.Trip;
-import by.bsu.travelagency.entity.User;
-import by.bsu.travelagency.util.Validator;
 import by.bsu.travelagency.service.TripService;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.util.Validator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Part;
@@ -24,19 +21,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TripServiceImpl.
  */
 public class TripServiceImpl implements TripService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(TripServiceImpl.class);
 
-    /** The Constant TRIP_ID_FOR_INSERT. */
     private final static int TRIP_ID_FOR_INSERT = 0;
 
-    /** The Constant REGEX_FILE_NAME. */
     private final static String REGEX_FILE_NAME = "([0-9])*";
 
     /* (non-Javadoc)
@@ -86,30 +79,6 @@ public class TripServiceImpl implements TripService {
     }
 
     /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.TripService#findAllCities()
-     */
-    @Override
-    public List<City> findAllCities() throws ServiceException {
-        try {
-            return JdbcCityDAO.getInstance().findAllCities();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.TripService#findCityById(java.lang.Long)
-     */
-    @Override
-    public City findCityById(Long id) throws ServiceException {
-        try {
-            return JdbcCityDAO.getInstance().findEntityById(id);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
      * @see by.bsu.travelagency.service.TripService#delete(java.lang.Long)
      */
     @Override
@@ -128,7 +97,7 @@ public class TripServiceImpl implements TripService {
                                         String enterArrivalDate, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
                                         String enterServices, String enterDescription, Part img, String savePath, ArrayList<City> cities) throws ServiceException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateString(enterDepartureDate) && Validator.validateString(enterArrivalDate)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Trip trip = new Trip();
             trip.setId(Integer.parseInt(enterId));
@@ -186,7 +155,7 @@ public class TripServiceImpl implements TripService {
                                         String enterArrivalDate, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
                                         String enterServices, String enterDescription, ArrayList<City> cities) throws ServiceException {
         boolean flag = false;
-        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice)){
+        if (Validator.validateNameTour(enterName) && Validator.validateSummary(enterSummary) && Validator.validatePrice(enterPrice) && Validator.validateString(enterDepartureDate) && Validator.validateString(enterArrivalDate)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Trip trip = new Trip();
             trip.setId(Integer.parseInt(enterId));
@@ -229,30 +198,6 @@ public class TripServiceImpl implements TripService {
     public Trip findEntityById(Long id) throws ServiceException {
         try {
             return JdbcTripDAO.getInstance().findEntityById(id);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.TripService#findUserById(java.lang.Long)
-     */
-    @Override
-    public User findUserById(Long id) throws ServiceException {
-        try {
-            return JdbcUserDAO.getInstance().findEntityById(id);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.TripService#findMoneyByUserId(java.lang.Long)
-     */
-    @Override
-    public double findMoneyByUserId(Long id) throws ServiceException {
-        try {
-            return JdbcUserDAO.getInstance().findMoneyByUserId(id);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

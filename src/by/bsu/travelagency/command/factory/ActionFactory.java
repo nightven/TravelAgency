@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ActionFactory {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ActionFactory.class);
 
-    /** The Constant PARAM_NAME_COMMAND */
     private static final String PARAM_NAME_COMMAND = "command";
 
     /**

@@ -15,10 +15,8 @@ import javax.servlet.http.HttpSession;
 
 public class BalancePageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(BalancePageCommand.class);
 
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
 
     /* (non-Javadoc)

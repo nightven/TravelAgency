@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ShoppingAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ShoppingAdminListCommand.class);
 
     /* (non-Javadoc)

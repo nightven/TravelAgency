@@ -12,12 +12,19 @@ $(document).ready(function() {
     }
     var z = D.year + '-' + D.month + '-' + D.day;
 
-    var departure_date = document.getElementById('departure-date')
+    var departure_date = document.getElementById('departure-date');
     $('#departure-date').attr({
         'min' : z
     });
     $('#arrival-date').attr({
         'min' : z
+    });
+
+    $('#departure-date').attr({
+        'max' : '2100-01-01'
+    });
+    $('#arrival-date').attr({
+        'max' : '2100-01-01'
     });
 
     departure_date.addEventListener('change', function () {

@@ -14,7 +14,6 @@ import java.util.List;
 
 public class CityAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CityAdminListCommand.class);
 
     /* (non-Javadoc)

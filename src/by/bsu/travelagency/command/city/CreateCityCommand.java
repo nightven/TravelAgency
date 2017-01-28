@@ -13,13 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CreateCityCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateCityCommand.class);
 
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
 
-    /** The Constant PARAM_NAME_COUNTRY. */
     private static final String PARAM_NAME_COUNTRY = "country";
 
     /* (non-Javadoc)

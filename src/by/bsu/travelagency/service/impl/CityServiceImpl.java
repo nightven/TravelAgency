@@ -2,26 +2,22 @@ package by.bsu.travelagency.service.impl;
 
 import by.bsu.travelagency.dao.exception.DAOException;
 import by.bsu.travelagency.dao.jdbc.JdbcCityDAO;
-import by.bsu.travelagency.dao.jdbc.JdbcCountryDAO;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Country;
-import by.bsu.travelagency.util.Validator;
 import by.bsu.travelagency.service.CityService;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.util.Validator;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CityServiceImpl.
  */
 public class CityServiceImpl implements CityService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CityServiceImpl.class);
 
-    /** The Constant CITY_ID_FOR_INSERT. */
     private final static int CITY_ID_FOR_INSERT = 0;
 
     /* (non-Javadoc)
@@ -45,10 +41,10 @@ public class CityServiceImpl implements CityService {
         if (Validator.validateCountryAndCityName(enterName)){
             try {
                 City city = new City();
-                city.setIdCity(CITY_ID_FOR_INSERT);
-                city.setNameCity(enterName);
+                city.setId(CITY_ID_FOR_INSERT);
+                city.setName(enterName);
                 Country country = new Country();
-                country.setIdCountry(Long.parseLong(enterCountryId));
+                country.setId(Long.parseLong(enterCountryId));
                 city.setCountry(country);
 
                 if (JdbcCityDAO.getInstance().create(city)){
@@ -70,10 +66,10 @@ public class CityServiceImpl implements CityService {
         if (Validator.validateCountryAndCityName(enterName)){
             try {
                 City city = new City();
-                city.setIdCity(Long.parseLong(enterId));
-                city.setNameCity(enterName);
+                city.setId(Long.parseLong(enterId));
+                city.setName(enterName);
                 Country country = new Country();
-                country.setIdCountry(Long.parseLong(enterCountryId));
+                country.setId(Long.parseLong(enterCountryId));
                 city.setCountry(country);
 
                 if (JdbcCityDAO.getInstance().update(city)){
@@ -109,17 +105,4 @@ public class CityServiceImpl implements CityService {
             throw new ServiceException(e);
         }
     }
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.service.CityService#findAllCountries()
-     */
-    @Override
-    public List<Country> findAllCountries() throws ServiceException {
-        try {
-            return JdbcCountryDAO.getInstance().findAllCountries();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
 }

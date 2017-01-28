@@ -5,7 +5,6 @@ import by.bsu.travelagency.service.exception.ServiceException;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface CountryService.
  */

@@ -6,7 +6,6 @@ import by.bsu.travelagency.service.exception.ServiceException;
 import java.sql.Date;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface OrderService.
  */

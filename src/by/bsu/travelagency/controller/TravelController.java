@@ -3,8 +3,6 @@ package by.bsu.travelagency.controller;
 import by.bsu.travelagency.command.ActionCommand;
 import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.command.factory.ActionFactory;
-import by.bsu.travelagency.pool.ConnectionPool;
-import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.resource.MessageManager;
 import by.bsu.travelagency.resource.ResourceManager;
@@ -34,11 +32,7 @@ import java.util.Locale;
 )
 public class TravelController extends HttpServlet {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(TravelController.class);
-    
-    /** The connection pool. */
-    public static ConnectionPool connectionPool;
     
     /** The resource manager. */
     public static ResourceManager resourceManager = ResourceManager.INSTANCE;
@@ -46,10 +40,8 @@ public class TravelController extends HttpServlet {
     /** The message manager. */
     public static MessageManager messageManager = MessageManager.INSTANCE;
     
-    /** The Constant LOCALE_RU. */
     private final static String LOCALE_RU = "ru_RU";
     
-    /** The Constant LOCALE_RU_VALUE. */
     private final static String LOCALE_RU_VALUE = "ru";
 
     /**
@@ -64,11 +56,6 @@ public class TravelController extends HttpServlet {
         if (filename != null) {
             new DOMConfigurator().doConfigure(prefix + filename, LogManager.getLoggerRepository());
         }
-        try {
-            connectionPool = new ConnectionPool(20);
-        } catch (ConnectionPoolException e) {
-            LOG.error(e.getMessage());
-        }
     }
 
     /**
@@ -76,12 +63,7 @@ public class TravelController extends HttpServlet {
      */
     @Override
     public void destroy() {
-        try {
-            connectionPool.closeAllConnections();
-            super.destroy();
-        } catch (ConnectionPoolException e) {
-            LOG.error(e.getMessage());
-        }
+        super.destroy();
     }
 
     /**

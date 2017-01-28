@@ -84,7 +84,7 @@
                     <label for="destination-city"><fmt:message key="label.admin.create-tour.tour.destination-city" bundle="${ rb }" /></label>
                     <select class="form-control" id="destination-city" name="destination-city">
                         <c:forEach var="city" items="${cities}">
-                            <option value=<c:out value="${ city.idCity }" />><c:out value="${ city.nameCity }" /> (<c:out value="${ city.country.nameCountry }" />)</option>
+                            <option value=<c:out value="${ city.id }" />><c:out value="${ city.name }" /> (<c:out value="${ city.country.nameCountry }" />)</option>
                         </c:forEach>
                     </select>
                 </div>

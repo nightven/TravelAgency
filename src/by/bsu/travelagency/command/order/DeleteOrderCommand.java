@@ -17,22 +17,16 @@ import java.util.List;
 
 public class DeleteOrderCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(DeleteOrderCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
     
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
 
-    /** The Constant ATTR_NAME_ORDERS. */
     private static final String ATTR_NAME_ORDERS = "orders";
 
-    /** The Constant ATTR_NAME_TIME. */
     private static final String ATTR_NAME_TIME = "time";
 
-    /** The Constant ATTR_NAME_UPCOMING. */
     private static final String ATTR_NAME_UPCOMING = "upcoming";
 
     /* (non-Javadoc)

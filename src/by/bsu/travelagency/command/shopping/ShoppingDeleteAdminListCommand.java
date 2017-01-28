@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ShoppingDeleteAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ShoppingDeleteAdminListCommand.class);
 
     /* (non-Javadoc)

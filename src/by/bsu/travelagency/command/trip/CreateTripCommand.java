@@ -6,6 +6,7 @@ import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.CityServiceImpl;
 import by.bsu.travelagency.service.impl.TripServiceImpl;
 import org.apache.log4j.Logger;
 
@@ -19,43 +20,30 @@ import java.util.ArrayList;
 
 public class CreateTripCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateTripCommand.class);
 
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
     
-    /** The Constant PARAM_NAME_SUMMARY. */
     private static final String PARAM_NAME_SUMMARY = "summary";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival-date";
     
-    /** The Constant PARAM_NAME_ARRIVAL_ATTRACTIONS. */
     private static final String PARAM_NAME_ARRIVAL_ATTRACTIONS = "attractions";
     
-    /** The Constant PARAM_NAME_LAST_MINUTE. */
     private static final String PARAM_NAME_LAST_MINUTE = "last-minute";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_TRANSPORT. */
     private static final String PARAM_NAME_TRANSPORT = "transport";
     
-    /** The Constant PARAM_NAME_SERVICES. */
     private static final String PARAM_NAME_SERVICES = "services";
     
-    /** The Constant PARAM_NAME_DESCRIPTION. */
     private static final String PARAM_NAME_DESCRIPTION = "description";
 
-    /** The Constant PARAM_NAME_COUNT_CITIES. */
     private static final String PARAM_NAME_COUNT_CITIES = "count-cities";
 
-    /** The Constant PARAM_NAME_CITY. */
     private static final String PARAM_NAME_CITY = "city";
 
     /* (non-Javadoc)
@@ -77,11 +65,12 @@ public class CreateTripCommand implements ActionCommand {
         String services = request.getParameter(PARAM_NAME_SERVICES);
         String description = request.getParameter(PARAM_NAME_DESCRIPTION);
         TripServiceImpl tripService = new TripServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
         try {
         int countCities = Integer.parseInt(request.getParameter(PARAM_NAME_COUNT_CITIES));
         ArrayList<City> cities = new ArrayList<>();
         for (int i = 1; i <= countCities; i++) {
-            City city = tripService.findCityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
+            City city = cityService.findEntityById(Long.parseLong(request.getParameter(PARAM_NAME_CITY+i)));
             cities.add(city);
         }
 

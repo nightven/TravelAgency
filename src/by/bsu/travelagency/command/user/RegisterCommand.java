@@ -13,22 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(RegisterCommand.class);
 
-    /** The Constant PARAM_NAME_LOGIN. */
     private static final String PARAM_NAME_LOGIN = "login";
     
-    /** The Constant PARAM_NAME_PASSWORD. */
     private static final String PARAM_NAME_PASSWORD = "password";
     
-    /** The Constant PARAM_NAME_EMAIL. */
     private static final String PARAM_NAME_EMAIL = "email";
     
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
     
-    /** The Constant PARAM_NAME_SURNAME. */
     private static final String PARAM_NAME_SURNAME = "surname";
     
     /* (non-Javadoc)

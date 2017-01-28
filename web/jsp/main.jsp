@@ -51,7 +51,7 @@
                     <figure class="effect-milo">
                         <img src="${vacation.pathImage}" alt="img"/>
                         <figcaption>
-                            <h2><c:out value="${ vacation.cities[0].nameCity }" />, <span><c:out value="${ vacation.cities[0].country.nameCountry }" /></span></h2>
+                            <h2><c:out value="${ vacation.cities[0].name }" />, <span><c:out value="${ vacation.cities[0].country.nameCountry }" /></span></h2>
                             <h3><c:out value="${ vacation.price }" />$</h3>
                             <p><c:out value="${ vacation.summary }" /></p>
                             <a href="travel?command=vacation_full&id=<c:out value="${ vacation.id }" />"></a>
@@ -76,7 +76,7 @@
                 <figure class="effect-milo">
                     <img src="${trip.pathImage}" alt="img"/>
                     <figcaption>
-                        <h2><c:out value="${ trip.cities[0].nameCity }" />, <span><c:out value="${ trip.cities[0].country.nameCountry }" /></span></h2>
+                        <h2><c:out value="${ trip.cities[0].name }" />, <span><c:out value="${ trip.cities[0].country.nameCountry }" /></span></h2>
                         <h3><c:out value="${ trip.price }" />$</h3>
                         <p><c:out value="${ trip.summary }" /></p>
                         <a href="travel?command=trip_full&id=<c:out value="${ trip.id }" />"></a>
@@ -101,7 +101,7 @@
                 <figure class="effect-milo">
                     <img src="${shopping.pathImage}" alt="img"/>
                     <figcaption>
-                        <h2><c:out value="${ shopping.cities[0].nameCity }" />, <span><c:out value="${ shopping.cities[0].country.nameCountry }" /></span></h2>
+                        <h2><c:out value="${ shopping.cities[0].name }" />, <span><c:out value="${ shopping.cities[0].country.nameCountry }" /></span></h2>
                         <h3><c:out value="${ shopping.price }" />$</h3>
                         <p><c:out value="${ shopping.summary }" /></p>
                         <a href="travel?command=shopping_full&id=<c:out value="${ shopping.id }" />"></a>

@@ -13,10 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class EditCountryPageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditCountryPageCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
 
     /* (non-Javadoc)
@@ -33,7 +31,7 @@ public class EditCountryPageCommand implements ActionCommand {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        if (id == country.getIdCountry()) {
+        if (id == country.getId()) {
             request.setAttribute("country", country);
             page = ConfigurationManager.getProperty("path.page.admin.edit.info.country");
         } else {

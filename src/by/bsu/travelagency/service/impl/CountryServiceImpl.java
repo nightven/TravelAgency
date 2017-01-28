@@ -10,16 +10,13 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CountryServiceImpl.
  */
 public class CountryServiceImpl implements CountryService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CountryServiceImpl.class);
 
-    /** The Constant COUNTRY_ID_FOR_INSERT. */
     private final static int COUNTRY_ID_FOR_INSERT = 0;
 
     /* (non-Javadoc)
@@ -43,7 +40,7 @@ public class CountryServiceImpl implements CountryService {
         if (Validator.validateCountryAndCityName(enterName)){
             try {
                 Country country = new Country();
-                country.setIdCountry(COUNTRY_ID_FOR_INSERT);
+                country.setId(COUNTRY_ID_FOR_INSERT);
                 country.setNameCountry(enterName);
 
                 if (JdbcCountryDAO.getInstance().create(country)){
@@ -65,7 +62,7 @@ public class CountryServiceImpl implements CountryService {
         if (Validator.validateCountryAndCityName(enterName)){
             try {
                 Country country = new Country();
-                country.setIdCountry(Long.parseLong(enterId));
+                country.setId(Long.parseLong(enterId));
                 country.setNameCountry(enterName);
 
                 if (JdbcCountryDAO.getInstance().update(country)){

@@ -5,7 +5,7 @@ import by.bsu.travelagency.command.exception.CommandException;
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
-import by.bsu.travelagency.service.impl.TripServiceImpl;
+import by.bsu.travelagency.service.impl.CityServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,6 @@ import java.util.List;
 
 public class CreateTripPageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateTripPageCommand.class);
 
     /* (non-Javadoc)
@@ -23,10 +22,10 @@ public class CreateTripPageCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
-        TripServiceImpl tripService = new TripServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
         List<City> cities = null;
         try {
-            cities = tripService.findAllCities();
+            cities = cityService.findAllCities();
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

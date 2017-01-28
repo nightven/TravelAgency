@@ -14,7 +14,6 @@ import java.util.List;
 
 public class UserAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(UserAdminListCommand.class);
 
     /* (non-Javadoc)

@@ -14,16 +14,12 @@ import javax.servlet.http.HttpSession;
 
 public class ChangePasswordCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ChangePasswordCommand.class);
 
-    /** The Constant PARAM_NAME_PASSWORD_OLD. */
     private static final String PARAM_NAME_PASSWORD_OLD = "password_old";
     
-    /** The Constant PARAM_NAME_PASSWORD_NEW. */
     private static final String PARAM_NAME_PASSWORD_NEW = "password_new";
     
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
 
     /* (non-Javadoc)

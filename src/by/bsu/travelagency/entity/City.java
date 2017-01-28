@@ -3,10 +3,10 @@ package by.bsu.travelagency.entity;
 public class City extends Entity {
 
     /** The city ID. */
-    private long idCity;
+    private long id;
 
     /** The city name. */
-    private String nameCity;
+    private String name;
 
     /** The city's country. */
     private Country country;
@@ -22,17 +22,17 @@ public class City extends Entity {
      *
      * @return the city ID
      */
-    public long getIdCity() {
-        return idCity;
+    public long getId() {
+        return id;
     }
 
     /**
      * Sets the city ID.
      *
-     * @param idCity the new city ID
+     * @param id the new city ID
      */
-    public void setIdCity(long idCity) {
-        this.idCity = idCity;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -40,17 +40,17 @@ public class City extends Entity {
      *
      * @return the city name
      */
-    public String getNameCity() {
-        return nameCity;
+    public String getName() {
+        return name;
     }
 
     /**
      * Sets the city name.
      *
-     * @param nameCity the new city name
+     * @param name the new city name
      */
-    public void setNameCity(String nameCity) {
-        this.nameCity = nameCity;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

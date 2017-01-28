@@ -39,12 +39,12 @@
         <ctg:before-grid />
         <form id="edit-user-form" method="post" action="travel" accept-charset="utf-8">
             <input type="hidden" name="command" value="edit_city" />
-            <input type="hidden" name="id" value="<c:out value="${ city.idCity }" />" />
+            <input type="hidden" name="id" value="<c:out value="${ city.id }" />" />
 
             <div class="row">
                 <div class="form-group col-sm-6 col-sm-offset-3">
                     <label for="name"><fmt:message key="label.admin.create-tour.tour.name" bundle="${ rb }" /></label>
-                    <input type="text" class="form-control" id="name" name="name" max="45" value="<c:out value="${ city.nameCity }" />" required>
+                    <input type="text" class="form-control" id="name" name="name" max="45" value="<c:out value="${ city.name }" />" required>
                 </div>
             </div>
             <div class="row">
@@ -53,8 +53,8 @@
                     <select class="form-control" id="country" name="country">
                         <c:forEach var="country" items="${countries}">
                             <c:choose>
-                                <c:when test="${ country.idCountry == (city.country.idCountry) }"><option selected value=<c:out value="${ country.idCountry }" />><c:out value="${ country.nameCountry }" /></option></c:when>
-                                <c:otherwise><option value=<c:out value="${ country.idCountry }" />><c:out value="${ country.nameCountry }" /></option></c:otherwise>
+                                <c:when test="${ country.id == (city.country.id) }"><option selected value=<c:out value="${ country.id }" />><c:out value="${ country.nameCountry }" /></option></c:when>
+                                <c:otherwise><option value=<c:out value="${ country.id }" />><c:out value="${ country.nameCountry }" /></option></c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </select>

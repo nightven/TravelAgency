@@ -7,13 +7,6 @@ import java.sql.Date;
 import java.util.List;
 
 public interface VacationDAO extends GenericDAO<Long, Vacation> {
-    /**
-     * Find all vacations.
-     *
-     * @return the list
-     * @throws DAOException the DAO exception
-     */
-    List<Vacation> findAllVacations() throws DAOException;
 
     /**
      * Find all vacations after now.
@@ -102,18 +95,6 @@ public interface VacationDAO extends GenericDAO<Long, Vacation> {
      */
     String findPathImageVacationById(Long id) throws DAOException;
 
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#create(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean create(Vacation vacation) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#update(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean update(Vacation vacation) throws DAOException;
-
     /**
      * Select last vacations.
      *
@@ -122,23 +103,5 @@ public interface VacationDAO extends GenericDAO<Long, Vacation> {
      * @throws DAOException the DAO exception
      */
     List<Vacation> selectLastVacations(Date nowDate) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#findEntityById(java.lang.Object)
-     */
-    @Override
-    Vacation findEntityById(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(java.lang.Object)
-     */
-    @Override
-    boolean delete(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean delete(Vacation entity);
 
 }

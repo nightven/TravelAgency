@@ -1,6 +1,5 @@
 package by.bsu.travelagency.pool;
 
-import by.bsu.travelagency.controller.TravelController;
 import by.bsu.travelagency.pool.exception.ConnectionPoolException;
 import org.apache.log4j.Logger;
 
@@ -26,15 +25,23 @@ public class ConnectionPool {
      */
     private ArrayBlockingQueue<ProxyConnection> connectionQueue;
 
+    private static final String KEY_RESOURCE_PATH = "/resources/database.properties";
+
+    private static final String KEY_DRIVER_NAME = "driver-name";
+
+    private static final String KEY_CONNECTION_STRING = "connection-string";
+
+    private static final int POOL_SIZE = 20;
+
     /**
      * Instantiates a new connection pool.
      *
-     * @param POOL_SIZE the pool size
+     * @param poolSize the pool size
      * @throws ConnectionPoolException the connection pool exception
      */
-    public ConnectionPool(final int POOL_SIZE) throws ConnectionPoolException {
+    private ConnectionPool(final int poolSize) throws ConnectionPoolException {
         try {
-           makeConnection(POOL_SIZE);
+           makeConnection(poolSize);
         } catch (ClassNotFoundException e) {
             throw new ConnectionPoolException("Failed to register driver.", e);
         } catch (IOException e) {
@@ -42,6 +49,26 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new ConnectionPoolException("Failed to get connection.", e);
         }
+    }
+
+    /**
+     * Nested class ConnectionPoolHolder.
+     */
+    private static class ConnectionPoolHolder {
+        private static ConnectionPool HOLDER_INSTANCE;
+    }
+
+    public static void init(final int poolSize) throws ConnectionPoolException {
+        ConnectionPoolHolder.HOLDER_INSTANCE = new ConnectionPool(poolSize);
+    }
+
+    /**
+     * Gets the instance.
+     *
+     * @return the ConnectionPoolHolder instance
+     */
+    public static ConnectionPool getInstance() {
+        return ConnectionPoolHolder.HOLDER_INSTANCE;
     }
 
     /**
@@ -72,15 +99,15 @@ public class ConnectionPool {
      *
      * @throws ConnectionPoolException the connection pool exception
      */
-    public void closeAllConnections() throws ConnectionPoolException {
+    public void destroy() throws ConnectionPoolException {
         int count = 0;
         for (ProxyConnection connection : connectionQueue) {
             try {
                 connection.closeConnection();
+                count++;
             } catch (SQLException e) {
                 throw new ConnectionPoolException("Failed to close connection.", e);
             }
-            count++;
         }
         LOG.info("Connections in the amount of " + count + " pieces successfully closed.");
     }
@@ -95,12 +122,11 @@ public class ConnectionPool {
      */
     private void makeConnection(final int POOL_SIZE) throws IOException, ClassNotFoundException, SQLException {
         Properties properties = new Properties();
-        // TODO: 1/25/2017 Нормально ли такое подключение конфигурации бд?
-        properties.load(getClass().getClassLoader().getResourceAsStream("/resources/database.properties"));
+        properties.load(getClass().getClassLoader().getResourceAsStream(KEY_RESOURCE_PATH));
         connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName(properties.getProperty(KEY_DRIVER_NAME));
         for (int i = 0; i < POOL_SIZE; i++) {
-            ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(properties.getProperty("connection-string"), properties));
+            ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(properties.getProperty(KEY_CONNECTION_STRING), properties));
             connectionQueue.offer(connection);
         }
     }
@@ -155,7 +181,7 @@ public class ConnectionPool {
          */
         @Override
         public void close() throws SQLException {
-            TravelController.connectionPool.closeConnection(this);
+            ConnectionPool.this.closeConnection(this);
         }
 
         /* (non-Javadoc)

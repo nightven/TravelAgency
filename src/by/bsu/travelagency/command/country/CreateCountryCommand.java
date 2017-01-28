@@ -13,10 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CreateCountryCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CreateCountryCommand.class);
 
-    /** The Constant PARAM_NAME_NAME. */
     private static final String PARAM_NAME_NAME = "name";
 
     /* (non-Javadoc)

@@ -19,22 +19,16 @@ import java.util.Locale;
  */
 public class EnglishLanguageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EnglishLanguageCommand.class);
 
-    /** The Constant COOKIE_NAME. */
     private final static String COOKIE_NAME = "locale";
     
-    /** The Constant COOKIE_VALUE. */
     private final static String COOKIE_VALUE = "en_US";
     
-    /** The Constant COOKIE_AGE_IN_SEC. */
     private final static int COOKIE_AGE_IN_SEC = 86_400;
 
-    /** The Constant PARAM_HEADER_REFERER. */
     private static final String PARAM_HEADER_REFERER = "referer";
 
-    /** The Constant PARAM_NAME_SERVLET. */
     private static final String PARAM_NAME_SERVLET = "travel?";
 
     /* (non-Javadoc)

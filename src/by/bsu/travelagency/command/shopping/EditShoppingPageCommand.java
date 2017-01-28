@@ -6,6 +6,7 @@ import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Shopping;
 import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
+import by.bsu.travelagency.service.impl.CityServiceImpl;
 import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
 import org.apache.log4j.Logger;
 
@@ -15,10 +16,8 @@ import java.util.List;
 
 public class EditShoppingPageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditShoppingPageCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
 
     /* (non-Javadoc)
@@ -29,11 +28,12 @@ public class EditShoppingPageCommand implements ActionCommand {
         String page = null;
         Long id = Long.parseLong(request.getParameter(PARAM_NAME_ID));
         ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
+        CityServiceImpl cityService = new CityServiceImpl();
         Shopping shopping = null;
         List<City> cities = null;
         try {
             shopping = shoppingService.findEntityById(id);
-            cities = shoppingService.findAllCities();
+            cities = cityService.findAllCities();
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

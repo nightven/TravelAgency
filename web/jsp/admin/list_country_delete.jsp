@@ -45,10 +45,10 @@
         </thead>
         <tbody class="admin-table-list">
         <c:forEach var="country" items="${countries}">
-        <tr data-toggle="modal" data-target="#delete-modal-<c:out value="${ country.idCountry }" />">
-            <td><c:out value="${ country.idCountry }" /></td>
+        <tr data-toggle="modal" data-target="#delete-modal-<c:out value="${ country.id }" />">
+            <td><c:out value="${ country.id }" /></td>
             <td><c:out value="${ country.nameCountry }" /></td>
-            <div class="modal fade" id="delete-modal-<c:out value="${ country.idCountry }" />" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
+            <div class="modal fade" id="delete-modal-<c:out value="${ country.id }" />" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -56,11 +56,11 @@
                             <h4 class="modal-title" id="delete-modal-label"><fmt:message key="title.admin.delete-country" bundle="${ rb }" /></h4>
                         </div>
                         <div class="modal-body">
-                            <fmt:message key="label.admin.modal-delete-text-country" bundle="${ rb }" /> "<c:out value="${ country.nameCountry }" />" (ID: <c:out value="${ country.idCountry }" />)?
+                            <fmt:message key="label.admin.modal-delete-text-country" bundle="${ rb }" /> "<c:out value="${ country.nameCountry }" />" (ID: <c:out value="${ country.id }" />)?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="label.admin.modal-cancel" bundle="${ rb }" /></button>
-                            <a href="travel?command=delete_country&id=<c:out value="${ country.idCountry }" />"><button type="button" class="btn btn-danger"><fmt:message key="label.admin.modal-delete" bundle="${ rb }" /></button></a>
+                            <a href="travel?command=delete_country&id=<c:out value="${ country.id }" />"><button type="button" class="btn btn-danger"><fmt:message key="label.admin.modal-delete" bundle="${ rb }" /></button></a>
                         </div>
                     </div>
                 </div>

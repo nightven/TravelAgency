@@ -105,10 +105,10 @@
                     <c:forEach var="city" items="${trip.cities}" varStatus="status">
                         <c:choose>
                             <c:when test="${ status.index == lastCity }">
-                                <c:out value="${ city.nameCity }" />(<c:out value="${ city.country.nameCountry }" />)
+                                <c:out value="${ city.name }" />(<c:out value="${ city.country.nameCountry }" />)
                             </c:when>
                             <c:otherwise>
-                                <c:out value="${ city.nameCity }" />(<c:out value="${ city.country.nameCountry }" />) -
+                                <c:out value="${ city.name }" />(<c:out value="${ city.country.nameCountry }" />) -
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

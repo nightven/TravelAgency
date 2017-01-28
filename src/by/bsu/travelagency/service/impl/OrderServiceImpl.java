@@ -16,16 +16,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OrderServiceImpl.
  */
 public class OrderServiceImpl implements OrderService {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(OrderServiceImpl.class);
 
-    /** The Constant ORDER_ID_FOR_INSERT. */
     private final static Long ORDER_ID_FOR_INSERT = 0L;
 
     /* (non-Javadoc)

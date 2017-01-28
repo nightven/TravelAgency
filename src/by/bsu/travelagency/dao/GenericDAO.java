@@ -34,15 +34,6 @@ public interface GenericDAO<K, T extends Entity> {
     boolean delete(K id) throws DAOException;
     
     /**
-     * Delete.
-     *
-     * @param entity the entity
-     * @return true, if successful
-     * @throws DAOException the DAO exception
-     */
-    boolean delete(T entity) throws DAOException;
-    
-    /**
      * Creates the.
      *
      * @param entity the entity

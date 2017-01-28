@@ -15,13 +15,10 @@ import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(LoginCommand.class);
 
-    /** The Constant PARAM_NAME_LOGIN. */
     private static final String PARAM_NAME_LOGIN = "login";
     
-    /** The Constant PARAM_NAME_PASSWORD. */
     private static final String PARAM_NAME_PASSWORD = "password";
     
     /* (non-Javadoc)

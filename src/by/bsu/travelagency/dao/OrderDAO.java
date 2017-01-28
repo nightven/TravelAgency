@@ -63,34 +63,4 @@ public interface OrderDAO extends GenericDAO<Long, Order> {
      * @throws DAOException the DAO exception
      */
     long findUserIdByOrderId(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#create(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean create(Order order) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#findEntityById(java.lang.Object)
-     */
-    @Override
-    Order findEntityById(Long id);
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(java.lang.Object)
-     */
-    @Override
-    boolean delete(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean delete(Order entity);
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#update(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean update(Order entity);
 }

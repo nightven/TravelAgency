@@ -2,7 +2,6 @@ package by.bsu.travelagency.service;
 
 import by.bsu.travelagency.entity.City;
 import by.bsu.travelagency.entity.Trip;
-import by.bsu.travelagency.entity.User;
 import by.bsu.travelagency.service.exception.ServiceException;
 
 import javax.servlet.http.Part;
@@ -10,7 +9,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TripService.
  */
@@ -38,23 +36,6 @@ public interface TripService {
     boolean checkCreateTrip(String enterName, String enterSummary, String enterDepartureDate,
                             String enterArrivalDate, String enterAttractions, String enterLastMinute, String enterPrice, String enterTransport,
                             String enterServices, String enterDescription, Part img, String savePath, ArrayList<City> cities) throws ServiceException;
-
-    /**
-     * Find all cities.
-     *
-     * @return the list
-     * @throws ServiceException the service exception
-     */
-    List<City> findAllCities() throws ServiceException;
-
-    /**
-     * Find city by id.
-     *
-     * @param id the id
-     * @return the city
-     * @throws ServiceException the service exception
-     */
-    City findCityById(Long id) throws ServiceException;
 
     /**
      * Delete.
@@ -119,24 +100,6 @@ public interface TripService {
      * @throws ServiceException the service exception
      */
     Trip findEntityById(Long id) throws ServiceException;
-
-    /**
-     * Find user by id.
-     *
-     * @param id the id
-     * @return the user
-     * @throws ServiceException the service exception
-     */
-    User findUserById(Long id) throws ServiceException;
-
-    /**
-     * Find money by user id.
-     *
-     * @param id the id
-     * @return the double
-     * @throws ServiceException the service exception
-     */
-    double findMoneyByUserId(Long id) throws ServiceException;
 
     /**
      * Find all trips after now.

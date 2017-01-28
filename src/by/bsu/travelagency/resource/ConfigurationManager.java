@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
  */
 public class ConfigurationManager {
     
-    /** The Constant resourceBundle. */
     private final static ResourceBundle resourceBundle = ResourceBundle.getBundle("resources.config");
     
     /**

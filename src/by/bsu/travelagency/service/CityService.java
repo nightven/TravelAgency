@@ -1,12 +1,11 @@
 package by.bsu.travelagency.service;
 
 import by.bsu.travelagency.entity.City;
-import by.bsu.travelagency.entity.Country;
 import by.bsu.travelagency.service.exception.ServiceException;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+/**
 /**
  * The Interface CityService.
  */
@@ -58,13 +57,5 @@ public interface CityService {
      * @throws ServiceException the service exception
      */
     City findEntityById(Long id) throws ServiceException;
-
-    /**
-     * Find all countries.
-     *
-     * @return the list
-     * @throws ServiceException the service exception
-     */
-    List<Country> findAllCountries() throws ServiceException;
 
 }

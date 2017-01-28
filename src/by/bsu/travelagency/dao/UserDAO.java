@@ -60,18 +60,6 @@ public interface UserDAO extends GenericDAO<Long, User> {
      */
     boolean updatePasswordByUserId(Long id, String password) throws DAOException;
 
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#create(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean create(User user) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#update(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean update(User user) throws DAOException;
-
     /**
      * Update user balance.
      *
@@ -91,23 +79,5 @@ public interface UserDAO extends GenericDAO<Long, User> {
      * @throws DAOException the DAO exception
      */
     boolean updateUserBalanceAddition(Long id, double moneyToAdd) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#findEntityById(java.lang.Object)
-     */
-    @Override
-    User findEntityById(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(java.lang.Object)
-     */
-    @Override
-    boolean delete(Long id) throws DAOException;
-
-    /* (non-Javadoc)
-     * @see by.bsu.travelagency.dao.GenericDAO#delete(by.bsu.travelagency.entity.Entity)
-     */
-    @Override
-    boolean delete(User entity);
 
 }

@@ -13,10 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class EditUserPageCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(EditUserPageCommand.class);
 
-    /** The Constant PARAM_NAME_ID. */
     private static final String PARAM_NAME_ID = "id";
 
     /* (non-Javadoc)

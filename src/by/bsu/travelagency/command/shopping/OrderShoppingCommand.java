@@ -7,6 +7,7 @@ import by.bsu.travelagency.resource.ConfigurationManager;
 import by.bsu.travelagency.service.exception.ServiceException;
 import by.bsu.travelagency.service.impl.OrderServiceImpl;
 import by.bsu.travelagency.service.impl.ShoppingServiceImpl;
+import by.bsu.travelagency.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,31 +15,22 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OrderShoppingCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(OrderShoppingCommand.class);
 
-    /** The Constant PARAM_NAME_ID_USER. */
     private static final String PARAM_NAME_ID_USER = "iduser";
     
-    /** The Constant PARAM_NAME_ID_TOUR. */
     private static final String PARAM_NAME_ID_TOUR = "idtour";
     
-    /** The Constant PARAM_NAME_DEPARTURE_DATE. */
     private static final String PARAM_NAME_DEPARTURE_DATE = "departure_date";
-    
-    /** The Constant PARAM_NAME_ARRIVAL_DATE. */
+
     private static final String PARAM_NAME_ARRIVAL_DATE = "arrival_date";
     
-    /** The Constant PARAM_NAME_PRICE. */
     private static final String PARAM_NAME_PRICE = "price";
     
-    /** The Constant PARAM_NAME_QUANTITY. */
     private static final String PARAM_NAME_QUANTITY = "quantity";
     
-    /** The Constant PARAM_NAME_DISCOUNT. */
     private static final String PARAM_NAME_DISCOUNT = "discount";
     
-    /** The Constant PARAM_NAME_TOUR_TYPE. */
     private static final String PARAM_NAME_TOUR_TYPE = "tour_type";
 
     /* (non-Javadoc)
@@ -60,9 +52,10 @@ public class OrderShoppingCommand implements ActionCommand {
 
         try {
             ShoppingServiceImpl shoppingService = new ShoppingServiceImpl();
-            double balance = shoppingService.findMoneyByUserId(userId);
+            UserServiceImpl userService = new UserServiceImpl();
+            double balance = userService.findMoneyByUserId(userId);
             if (userId != null) {
-                request.setAttribute("userProfile", shoppingService.findUserById(userId));
+                request.setAttribute("userProfile", userService.findEntityById(userId));
             }
             request.setAttribute("shopping", shoppingService.findEntityById(tourId));
             if (balance >= totalPrice) {

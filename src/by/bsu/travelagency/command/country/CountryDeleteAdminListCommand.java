@@ -14,7 +14,6 @@ import java.util.List;
 
 public class CountryDeleteAdminListCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(CountryDeleteAdminListCommand.class);
 
     /* (non-Javadoc)

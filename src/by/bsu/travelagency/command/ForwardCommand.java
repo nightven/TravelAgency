@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ForwardCommand implements ActionCommand {
 
-    /** The Constant LOG. */
     private final static Logger LOG = Logger.getLogger(ForwardCommand.class);
 
-    /** The Constant PARAM_NAME_PAGE. */
     private static final String PARAM_NAME_PAGE = "page";
 
     /* (non-Javadoc)

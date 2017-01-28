@@ -1,6 +1,5 @@
 package by.bsu.travelagency.service.exception;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ServiceException.
  */
